@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- footerFragment 선언 -->
+<div th:fragment="footerFragment">
+  <footer class="bg-dark text-light py-4">
+    <div class="container">
+      <div class="row">
+        <!-- 로고 및 소개 -->
+        <div class="col-md-4 mb-3">
+          <h5>풀잎당</h5>
+          <p class="small">
+            풀잎당은 비건 커뮤니티를 위한 공간입니다. 환경과 건강을 생각하는 사람들과 함께하세요.
+          </p>
+        </div>
+        <!-- 링크 섹션 -->
+        <div class="col-md-4 mb-3">
+          <h5>빠른 링크</h5>
+          <ul class="list-unstyled">
+            <li><a href="/" class="text-light text-decoration-none">홈</a></li>
+            <li><a href="/cafeList" class="text-light text-decoration-none">비건 카페</a></li>
+            <li><a href="/meetupList" class="text-light text-decoration-none">비건 모임</a></li>
+            <li><a href="/about" class="text-light text-decoration-none">사이트 소개</a></li>
+          </ul>
+        </div>
+        <!-- 소셜 미디어 -->
+        <div class="col-md-4 mb-3">
+          <h5>팔로우 하기</h5>
+          <a href="https://facebook.com" class="text-light text-decoration-none me-3">
+            <i class="bi bi-facebook"></i> Facebook
+          </a>
+          <a href="https://instagram.com" class="text-light text-decoration-none me-3">
+            <i class="bi bi-instagram"></i> Instagram
+          </a>
+          <a href="https://twitter.com" class="text-light text-decoration-none">
+            <i class="bi bi-twitter"></i> Twitter
+          </a>
+        </div>
+      </div>
+      <!-- 저작권 -->
+      <div class="text-center mt-4">
+        <p class="small mb-0">&copy; 2024 풀잎당. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</html>

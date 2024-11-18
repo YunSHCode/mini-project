@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<div>
+    <th:block layout:fragment="content">
+        <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary">Board List</h1>
+                <!-- 게시글 등록 버튼 -->
+                <a th:href="@{/board/boardForm}" class="btn btn-success btn-lg">게시글 등록</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle text-center">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Content</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Updated Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 데이터 출력 -->
+                    <tr th:each="board : ${boards}">
+                        <td th:text="${board.boardId}">1</td>
+                        <td th:text="${board.boardTitle}">Sample Title</td>
+                        <td th:text="${board.boardContent}">Sample Content</td>
+                        <td th:text="${board.userId}">1</td>
+                        <td th:text="${board.boardCreateDt}">2024-11-13</td>
+                        <td th:text="${board.boardUpdateDt}">2024-11-13</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+</div>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- config -->
+<th:block th:replace="~{fragments/config :: configFragment}"></th:block>
+<th:block layout:fragment="css">
+    <style>
+        .card > img {
+            width: 300px;
+            height: 300px;
+        }
+
+             /* 슬라이드 이미지 크기 및 중앙 정렬 */
+         .custom-carousel-image {
+             min-width: 70%; /* 이미지 너비를 80%로 제한 */
+             height: 500px; /* 이미지 비율 유지 */
+             margin-left: auto; /* 양쪽 여백 균등 */
+             margin-right: auto;
+             border-radius: 10px; /* 이미지 모서리를 둥글게 처리 (선택 사항) */
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 추가 (선택 사항) */
+         }
+
+        /* Carousel 전체 여백 */
+        .carousel-inner {
+            padding: 20px 0; /* 위아래 여백 */
+        }
+
+    </style>
+</th:block>
+<body style="background-color: #e7f4dd">
+<th:block th:replace="~{fragments/header :: headerFragment  }"></th:block>
+<div id="carouselExampleCaptions" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="5000">
+            <img src="/images/home1.jpg" class="d-block mx-auto custom-carousel-image" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>풀잎당</h3>
+                <p>Some representative placeholder content for the first slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+            <img src="/images/home2.jpg" class="d-block mx-auto custom-carousel-image" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Some representative placeholder content for the second slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+            <img src="/images/home3.png" class="d-block mx-auto custom-carousel-image" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Some representative placeholder content for the third slide.</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" style="color: black" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" style="color: black" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="container mb-5">
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="mb-3">비건 카페</h2>
+            <a href="/cafe/" class="btn btn-success btn-lg">카페 더보기</a>
+        </div>
+        <div class="row row-cols-1 row-cols-lg-4 g-4 mb-5">
+            <!-- Card 1 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/cafe/0d3ab870-b482-401b-bd36-726c53c9433d.jpg" class="card-img-top" alt="비건 카페 1">
+                    <div class="card-body">
+                        <h5 class="card-title">카페 유로카</h5>
+                        <p class="card-text">서울의 대표적인 비건 카페로 신선한 채식 디저트를 제공합니다.</p>
+                        <a href="#" class="btn btn-primary">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/cafe/2aa12321-11eb-40d8-9df1-31064f0aa2d1.jpg" class="card-img-top" alt="비건 카페 2">
+                    <div class="card-body">
+                        <h5 class="card-title">그린 리프</h5>
+                        <p class="card-text">아늑한 분위기와 다양한 비건 음료를 즐길 수 있는 카페입니다.</p>
+                        <a href="#" class="btn btn-primary">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/cafe/25b2b777-7fc5-406e-a8be-ccd06e1fc7be.jpg" class="card-img-top" alt="비건 카페 3">
+                    <div class="card-body">
+                        <h5 class="card-title">브라이트 그린</h5>
+                        <p class="card-text">도심 속에서 채식주의자들을 위한 편안한 공간을 제공합니다.</p>
+                        <a href="#" class="btn btn-primary">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/cafe/337efbec-79e4-4475-b2f1-5ad2f69d7b79.jpg" class="card-img-top" alt="비건 카페 4">
+                    <div class="card-body">
+                        <h5 class="card-title">비건 빌리지</h5>
+                        <p class="card-text">다양한 채식 요리와 음료를 즐길 수 있는 비건 전문 카페입니다.</p>
+                        <a href="#" class="btn btn-primary">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="mb-3">비건 모임</h2>
+            <a href="/commnunity/" class="btn btn-success btn-lg">모임 더보기</a>
+        </div>
+        <div class="row row-cols-1 row-cols-lg-4 g-4 mb-5">
+            <!-- Card 1 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/menu/1b8a36b0-1028-478b-826c-c33ed0522255.jpg" class="card-img-top" alt="비건 모임 1">
+                    <div class="card-body">
+                        <h5 class="card-title">비건 브런치 모임</h5>
+                        <p class="card-text">다양한 비건 요리를 함께 즐기며 네트워킹할 수 있는 모임입니다.</p>
+                        <a href="#" class="btn btn-primary">참여하기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/menu/1b8a36b0-1028-478b-826c-c33ed0522255.jpg" class="card-img-top" alt="비건 모임 2">
+                    <div class="card-body">
+                        <h5 class="card-title">비건 쿠킹 클래스</h5>
+                        <p class="card-text">채식 요리를 배우고 함께 나누는 모임입니다.</p>
+                        <a href="#" class="btn btn-primary">참여하기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/menu/1b8a36b0-1028-478b-826c-c33ed0522255.jpg" class="card-img-top" alt="비건 모임 2">
+                    <div class="card-body">
+                        <h5 class="card-title">비건 쿠킹 클래스</h5>
+                        <p class="card-text">채식 요리를 배우고 함께 나누는 모임입니다.</p>
+                        <a href="/" class="btn btn-primary">참여하기</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="col">
+                <div class="card">
+                    <img src="/images/menu/1b8a36b0-1028-478b-826c-c33ed0522255.jpg" class="card-img-top" alt="비건 모임 2">
+                    <div class="card-body">
+                        <h5 class="card-title">비건 쿠킹 클래스</h5>
+                        <p class="card-text">채식 요리를 배우고 함께 나누는 모임입니다.</p>
+                        <a href="/commnunity/" class="btn btn-primary">참여하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3 class="mb-3">소통의 공간</h3>
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">비건 피드</h5>
+                    <p class="card-text">비건에 관한 경험을 공유해요~</p>
+                    <a href="/feed/" class="btn btn-primary">피드 보기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">자유게시판</h5>
+                    <p class="card-text">비건에 관해 자유롭게 소통해요</p>
+                    <a href="/board/boardList" class="btn btn-primary">게시글 보기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{fragments/footer :: footerFragment}"></th:block>
+</body>
+</html>
