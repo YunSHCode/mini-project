@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
+
+
 <div>
   <th:block layout:fragment="content">
-    <h1>feed 메인화면 입니다.</h1>
-    <h2>Hi</h2>
+    <link th:href="@{/css/feed_layout.css}" rel="stylesheet" />
+    <div class="feed_contain">
+      <div class="feed_wrap">
+        <div class="feed_unit">
+          <div class="heed_header">
+            <div class="prolie"></div>
+          </div>
+          <div class="media_box">
+            <div class="media_wrap">
+              <div class="media_trap">
+                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 1"></div>
+                <div class="media_unit"><img th:src="@{/images/home2.jpg}" alt="Slide 2"></div>
+                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 3"></div>
+              </div>
+              <div class="media_controller">
+                <button type="button" id="prevBtn">pre</button>
+                <button type="button" id="nextBtn">next</button>
+              </div>
+            </div>
+            <div class="tool_box">
+              <button type="button">
+                <p>댓글</p>
+                <p>999</p>
+              </button>
+              <button type="button">
+                <p>좋아요</p>
+                <p>999</p>
+              </button>
+              <button type="button">
+                <p>공유하기</p>
+              </button>
+            </div>
+          </div>
+          <div class="comment_box"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 슬라이드 자바스크립트 (Thymeleaf 경로로 처리) -->
+    <script th:src="@{/js/slider.js}"></script>
   </th:block>
 </div>
 </html>
