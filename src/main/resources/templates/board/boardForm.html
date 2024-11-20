@@ -13,7 +13,7 @@
     <th:block layout:fragment="content">
         <!-- 게시글 등록 폼 -->
         <h1>게시글 등록</h1>
-        <form th:action="@{/insertBoard}" method="post" id="boardForm">
+        <form th:action="@{/board/insertBoard}" method="post" id="boardForm">
             <label for="boardTitle">Title:</label>
             <input type="text" id="boardTitle" name="boardTitle" required>
             <br><br>
@@ -33,7 +33,7 @@
         </form>
 
         <!-- 돌아가기 버튼 -->
-        <a th:href="@{/boardList}">
+        <a th:href="@{/board/boardList}">
             <button>Back to List</button>
         </a>
     </th:block>
