@@ -1,78 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default_layout}">
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="css">
-  <link th:href="@{/css/layout.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/layout.css}"/>
 </th:block>
 <th:block layout:fragment="script">
-  <script th:src="@{/js/feed/slider.js}"></script>
+	<script th:src="@{/js/feed/slider.js}"></script>
 </th:block>
 
 <div>
-  <th:block layout:fragment="content">
-	  <div class="form-container">
-		  <form th:action="@{/submit-form}" method="post" enctype="multipart/form-data">
-			  <!-- 제목 입력 -->
-			  <div class="form-group">
-				  <label for="title">제목</label>
-				  <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required/>
-			  </div>
-			  
-			  <!-- 텍스트 입력 -->
-			  <div class="form-group">
-				  <label for="content">텍스트</label>
-				  <textarea id="content" name="content" rows="5" placeholder="내용을 입력하세요" required></textarea>
-			  </div>
-			  
-			  <!-- 태그 선택 -->
-			  <div class="form-group">
-				  <label for="tags">태그 선택 (최대 10개)</label>
-				  <div id="tags">
-					  <input type="checkbox" id="tag1" name="tags" value="tag1"/>
-					  <label for="tag1">태그 1</label>
-					  
-					  <input type="checkbox" id="tag2" name="tags" value="tag2"/>
-					  <label for="tag2">태그 2</label>
-					  
-					  <input type="checkbox" id="tag3" name="tags" value="tag3"/>
-					  <label for="tag3">태그 3</label>
-					  
-					  <input type="checkbox" id="tag4" name="tags" value="tag4"/>
-					  <label for="tag4">태그 4</label>
-					  
-					  <input type="checkbox" id="tag5" name="tags" value="tag5"/>
-					  <label for="tag5">태그 5</label>
-					  
-					  <input type="checkbox" id="tag6" name="tags" value="tag6"/>
-					  <label for="tag6">태그 6</label>
-					  
-					  <input type="checkbox" id="tag7" name="tags" value="tag7"/>
-					  <label for="tag7">태그 7</label>
-					  
-					  <input type="checkbox" id="tag8" name="tags" value="tag8"/>
-					  <label for="tag8">태그 8</label>
-					  
-					  <input type="checkbox" id="tag9" name="tags" value="tag9"/>
-					  <label for="tag9">태그 9</label>
-					  
-					  <input type="checkbox" id="tag10" name="tags" value="tag10"/>
-					  <label for="tag10">태그 10</label>
-				  </div>
-			  </div>
-			  
-			  <!-- 파일 첨부 -->
-			  <div class="form-group">
-				  <label for="files">파일 첨부 (최대 5개)</label>
-				  <input type="file" id="files" name="files" accept="image/*" multiple required/>
-				  <small>최대 5개의 파일을 업로드할 수 있습니다.</small>
-			  </div>
-			  
-			  <!-- 제출 버튼 -->
-			  <div class="form-group">
-				  <button type="submit">제출</button>
-			  </div>
-		  </form>
-	  </div>
-  </th:block>
+	<th:block layout:fragment="content">
+		<nav>
+			<a href="/feed/">뒤로가기</a>
+		</nav>
+		<div class="form-container">
+			<form enctype="multipart/form-data" method="post" th:action="@{/submit-form}">
+				
+				<!-- 파일 첨부 -->
+				<div class="form-group">
+					<label for="files">파일 첨부 (최대 5개)</label>
+					<input accept="image/*" id="files" multiple name="files" required type="file"/>
+					<small>최대 5개의 파일을 업로드할 수 있습니다.</small>
+				</div>
+				
+				
+				<!-- 제목 입력 -->
+				<div class="text_upload" style="display: flex; flex-direction: column">
+					<input id="title" name="title" placeholder="제목을 입력하세요" required type="text"/>
+					
+					<textarea id="content" name="content" placeholder="내용을 입력하세요" required rows="5"></textarea>
+				</div>
+				<!-- 태그 선택 -->
+				<div class="form-group">
+					<label for="tags">태그 선택 (최대 10개)</label>
+					<div id="tags">
+						<input id="tag1" name="tags" type="checkbox" value="tag1"/>
+						<label for="tag1">태그 1</label>
+						
+						<input id="tag2" name="tags" type="checkbox" value="tag2"/>
+						<label for="tag2">태그 2</label>
+						
+						<input id="tag3" name="tags" type="checkbox" value="tag3"/>
+						<label for="tag3">태그 3</label>
+						
+						<input id="tag4" name="tags" type="checkbox" value="tag4"/>
+						<label for="tag4">태그 4</label>
+					
+					</div>
+				</div>
+				
+				
+				<!-- 제출 버튼 -->
+				<div class="form-group">
+					<button type="submit">제출</button>
+				</div>
+			</form>
+		</div>
+	</th:block>
 </div>
 </html>

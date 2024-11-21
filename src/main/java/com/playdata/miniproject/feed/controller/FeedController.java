@@ -19,7 +19,7 @@ public class FeedController {
     }
 
     @GetMapping("/myfeed")
-    public String mypage() {
+    public String myfeed() {
         return "/feed/myfeed";
     }
 }

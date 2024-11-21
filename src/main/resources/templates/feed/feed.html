@@ -1,95 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default_layout}">
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="css">
-  <link th:href="@{/css/layout.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/layout.css}"/>
 </th:block>
 <th:block layout:fragment="script">
-  <script th:src="@{/js/feed/slider.js}"></script>
+	<script th:src="@{/js/feed/slider.js}"></script>
 </th:block>
 
-<div>
-  <th:block layout:fragment="content">
-	  <h1>전체 피드</h1>
-	  <div>
-		  <button type="button">업데이트</button>
-		  <span>2024-11-21</span>
-	  </div>
-	  <div class="filter-container">
-		  <h3>Filter Options</h3>
-		  <div class="filter-item">
-			  <input type="checkbox" id="filter1" value="Option 1">
-			  <label for="filter1">Option 1</label>
-		  </div>
-		  <div class="filter-item">
-			  <input type="checkbox" id="filter2" value="Option 2">
-			  <label for="filter2">Option 2</label>
-		  </div>
-		  <div class="filter-item">
-			  <input type="checkbox" id="filter3" value="Option 3">
-			  <label for="filter3">Option 3</label>
-		  </div>
-		  <div class="filter-item">
-			  <input type="checkbox" id="filter4" value="Option 4">
-			  <label for="filter4">Option 4</label>
-		  </div>
-		  <div class="filter-item">
-			  <input type="checkbox" id="filter5" value="Option 5">
-			  <label for="filter5">Option 5</label>
-		  </div>
-		  
-		  <div class="selected-items">
-			  <strong>Selected Filters:</strong>
-			  <ul id="selectedList"></ul>
-		  </div>
-	  </div>
-	  
-	  <div>
-		  <ul>
-			  <li>전체</li>
-			  <li>vegan1</li>
-			  <li>vegan1</li>
-			  <li>전체</li>
-			  <li>전체</li>
-		  </ul>
-	  </div>
-    <div class="feed_contain">
-      <div class="feed_wrap">
-        <div class="feed_unit">
-          <div class="heed_header">
-            <div class="prolie"></div>
-          </div>
-          <div class="media_box">
-            <div class="media_wrap">
-              <div class="media_trap">
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 1"></div>
-                <div class="media_unit"><img th:src="@{/images/home2.jpg}" alt="Slide 2"></div>
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 3"></div>
-              </div>
-              <div class="media_controller">
-                <button type="button" id="prevBtn">pre</button>
-                <button type="button" id="nextBtn">next</button>
-              </div>
-            </div>
-            <div class="tool_box">
-              <button type="button">
-                <p>댓글</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>좋아요</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>공유하기</p>
-              </button>
-            </div>
-          </div>
-          <div class="comment_box"></div>
-        </div>
-      </div>
-    </div>
-    <!-- 슬라이드 자바스크립트 (Thymeleaf 경로로 처리) -->
-  </th:block>
+
+<th:block layout:fragment="content">
+	
+	<nav>
+		<th:block>
+			<a href="/feed/upload"> 업로드</a>
+			<a href="/feed/myfeed"> 마이피드 </a>
+		</th:block>
+	</nav>
+	
+	<section>
+		<!-- 업데이트 -->
+		
+		<th:block>
+			<div class="feed_list_header">
+				<h1>전체 피드</h1>
+				<div>
+					<button type="button">업데이트</button>
+					<span>2024-11-21</span>
+				</div>
+			</div>
+		</th:block>
+		<!-- 필터링 -->
+		<th:block>
+			<div class="feed_filter" style="display: flex">
+				<div class="filter-item">
+					<input id="itemall" type="checkbox" value="item_all">
+					<label for="itemall">전체</label>
+				</div>
+				<div class="filter-item">
+					<input id="item1" type="checkbox" value="Option 2">
+					<label for="item1">vegan1</label>
+				</div>
+				<div class="filter-item">
+					<input id="item2" type="checkbox" value="Option 3">
+					<label for="item2">vegan2</label>
+				</div>
+				<div class="filter-item">
+					<input id="filter4" type="checkbox" value="Option 4">
+					<label for="filter4">vegan3</label>
+				</div>
+			</div>
+			<div class="vegan_result">
+				<ul style="display: flex">
+					<li>vegan1</li>
+					<li>vegan1</li>
+					<li>전체</li>
+					<li>전체</li>
+				</ul>
+			</div>
+		</th:block>
+	</section>
+	
+	<!--  콘텐츠  -->
+	
+	<div class="feed_contain">
+		<ul>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+			<li>
+				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+			</li>
+		</ul>
+	</div>
+</th:block>
 </div>
 </html>
