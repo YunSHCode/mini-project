@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.playdata.miniproject.board.mapper.BoardMapper">
+
+    <!-- 모든 게시글 조회 -->
+    <select id="readBoard" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT * FROM board
+    </select>
+
+    <!-- 게시글 삽입 -->
+    <insert id="insertBoard">
+        INSERT INTO board (board_title, board_content, user_id, board_create_dt, board_update_dt)
+        VALUES (#{boardTitle}, #{boardContent}, #{userId}, NOW(), NOW())
+    </insert>
+
+    <!-- ID로 게시글 조회 -->
+    <select id="readBoardById" parameterType="int" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT * FROM board WHERE board_id = #{id}
+    </select>
+
+    <!-- 게시판 조회 -->
+    <select id="getBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT
+            b.*, u.user_name
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
+        ORDER BY b.board_id DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 검색 게시판 조회 -->
+    <select id="searchBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT
+            b.*, u.user_name
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
+        WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY b.board_id DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 게시물 총 개수 -->
+    <select id="getTotalBoardsCount" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+    </select>
+
+    <!-- 검색된 게시물 총 개수 -->
+    <select id="getTotalSearchCount" resultType="int">
+        SELECT COUNT(*)
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
+        WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+
+</mapper>

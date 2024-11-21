@@ -1,24 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-</head>
-<body>
-    <h1>toast Editor Test</h1>
-    <div id = content>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
 
-    </div>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+</th:block>
+<th:block layout:fragment="script">
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script>
-        const editor = new toastui.Editor({
-            el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
-            height: '500px',                        // 에디터 영역의 높이 값 (OOOpx || auto)
-            initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-            initialValue: '내용을 입력해 주세요.',     // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
-            previewStyle: 'vertical'                // 마크다운 프리뷰 스타일 (tab || vertical)
-        });
-    </script>
-</body>
+<!--    <script th:src="@{/js/board/boardDetail.js}"></script>-->
+</th:block>
+<div>
+    <th:block layout:fragment="content">
+        <div class="container py-4">
+            <!-- 제목과 작성자 정보 -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary" th:text="${board.boardTitle}">게시글 제목</h1>
+                <div>
+                    <span class="text-muted">작성자:</span> <strong th:text="${board.userId}">작성자 ID</strong> |
+                    <span class="text-muted">작성일:</span> <strong th:text="${board.boardCreateDt}">2024-11-20</strong>
+                </div>
+            </div>
+
+            <!-- 게시글 내용 -->
+            <div class="mb-4">
+                <div id="viewer" class="border p-4 rounded bg-light">
+                    <!-- Toast UI Viewer에서 렌더링 -->
+                </div>
+            </div>
+
+            <!-- 동적으로 데이터 삽입 -->
+            <script th:inline="javascript">
+                const markdownContent = /*[[${board.boardContent}]]*/ '';
+                console.log('Content:', markdownContent);
+
+                // Toast UI Viewer 초기화
+                new toastui.Editor.factory({
+                    el: document.querySelector('#viewer'),
+                    viewer: true,
+                    initialValue: markdownContent
+                });
+            </script>
+
+            <!-- 버튼 -->
+            <div class="d-flex justify-content-end">
+                <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
+                <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger me-2">삭제</a>
+                <a th:href="@{/board/boardList.html}" class="btn btn-secondary">목록으로</a>
+            </div>
+        </div>
+    </th:block>
+</div>
 </html>
