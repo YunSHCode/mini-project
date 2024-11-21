@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<head>
+  <style>
+    #happy {
+      display: block;         /* 인라인 요소가 아닌 블록 요소로 변경 */
+      margin: 0 auto;         /* 수평 중앙 정렬 */
+      width: 500px;           /* 원하는 정사각형 크기 (예: 200px) */
+      height: 500px;          /* 정사각형 유지 */
+      object-fit: cover;      /* 이미지 비율을 유지하면서 크기에 맞게 자르기 */
+    }
+    h3{
+      text-align: center;
+    }
+
+  </style>
+</head>
+<div>
+  <div layout:fragment="content">
+    <img id="happy" src="/images/user/signup_success.png" alt="회원가입 성공 이미지" />
+    <h3>풀잎당 회원가입이 완료되었습니다.</h3>
+  </div>
+
+</div>
+</html>
