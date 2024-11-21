@@ -10,6 +10,49 @@
 
 <div>
   <th:block layout:fragment="content">
+	  <h1>전체 피드</h1>
+	  <div>
+		  <button type="button">업데이트</button>
+		  <span>2024-11-21</span>
+	  </div>
+	  <div class="filter-container">
+		  <h3>Filter Options</h3>
+		  <div class="filter-item">
+			  <input type="checkbox" id="filter1" value="Option 1">
+			  <label for="filter1">Option 1</label>
+		  </div>
+		  <div class="filter-item">
+			  <input type="checkbox" id="filter2" value="Option 2">
+			  <label for="filter2">Option 2</label>
+		  </div>
+		  <div class="filter-item">
+			  <input type="checkbox" id="filter3" value="Option 3">
+			  <label for="filter3">Option 3</label>
+		  </div>
+		  <div class="filter-item">
+			  <input type="checkbox" id="filter4" value="Option 4">
+			  <label for="filter4">Option 4</label>
+		  </div>
+		  <div class="filter-item">
+			  <input type="checkbox" id="filter5" value="Option 5">
+			  <label for="filter5">Option 5</label>
+		  </div>
+		  
+		  <div class="selected-items">
+			  <strong>Selected Filters:</strong>
+			  <ul id="selectedList"></ul>
+		  </div>
+	  </div>
+	  
+	  <div>
+		  <ul>
+			  <li>전체</li>
+			  <li>vegan1</li>
+			  <li>vegan1</li>
+			  <li>전체</li>
+			  <li>전체</li>
+		  </ul>
+	  </div>
     <div class="feed_contain">
       <div class="feed_wrap">
         <div class="feed_unit">
