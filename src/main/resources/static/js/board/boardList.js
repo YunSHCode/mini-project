@@ -1,5 +1,6 @@
 let currentCategory = '';
 let currentKeyword = '';
+
 /**
  * 게시글 데이터를 가져와 테이블에 렌더링합니다.
  * @param {number} page - 페이지 번호
@@ -8,13 +9,13 @@ let currentKeyword = '';
  */
 function loadBoards(page = 1, category = '', keyword = '') {
     $.ajax({
-        url: '/board/board.do',
+        url: '/board/list',
         type: 'GET',
         data: { page, searchCategory: category, searchKeyword: keyword },
         dataType: 'json',
         success: function (data) {
-            renderTableBody(data.postList); // 테이블 데이터 렌더링
-
+            renderTable(data.boardList);
+            renderPagination(data.pagination);
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -22,74 +23,55 @@ function loadBoards(page = 1, category = '', keyword = '') {
     });
 }
 
-/**
- * 서버에서 받은 데이터를 테이블의 tbody에 렌더링합니다.
- * @param {Array} boards - 게시글 데이터 배열
- */
-function renderTableBody(boards) {
-    const tbody = document.getElementById('boardTableBody');
-    tbody.innerHTML = ''; // 기존 내용 비우기
+function renderPagination(pagination) {
+    const paginationDiv = document.getElementById('pagination');
+    paginationDiv.innerHTML = '';
 
-    if (boards.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" class="text-center">게시글이 없습니다.</td></tr>`;
+    if (pagination.hasPrev) {
+        paginationDiv.innerHTML += `<button onclick="loadBoards(${pagination.currentPageNo - 1})">이전</button>`;
+    }
+
+    for (let i = pagination.firstPageNoOnPageList; i <= pagination.lastPageNoOnPageList; i++) {
+        paginationDiv.innerHTML += `
+            <button onclick="loadBoards(${i})" class="${i === pagination.currentPageNo ? 'active' : ''}">
+                ${i}
+            </button>`;
+    }
+
+    if (pagination.hasNext) {
+        paginationDiv.innerHTML += `<button onclick="loadBoards(${pagination.currentPageNo + 1})">다음</button>`;
+    }
+}
+
+/**
+ * 게시글 데이터를 테이블에 렌더링합니다.
+ * @param {Array} boardList - 게시글 목록
+ */
+function renderTable(boardList) {
+    const tableBody = document.getElementById('boardTableBody');
+    tableBody.innerHTML = ''; // 기존 데이터를 초기화합니다.
+
+    if (boardList.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center;">게시글이 없습니다.</td>
+            </tr>`;
         return;
     }
 
-    boards.forEach(board => {
+    boardList.forEach((board) => {
         const row = document.createElement('tr');
 
-        // 게시글 제목 (상세 페이지 링크 포함)
-        const titleCell = document.createElement('td');
-        titleCell.innerHTML = `<a href="/board/${board.boardId}">${board.boardTitle}</a>`;
-        row.appendChild(titleCell);
+        // 게시글 데이터를 테이블에 추가합니다.
+        row.innerHTML = ` 
+            <td>${board.boardTitle}</td>
+            <td>${board.userName}</td>
+            <td>${formatDate(board.boardCreateDt)}</td>
+        `;
 
-        // 사용자 ID
-        const userCell = document.createElement('td');
-        userCell.textContent = board.userId;
-        row.appendChild(userCell);
-
-        // 작성일
-        const dateCell = document.createElement('td');
-        dateCell.textContent = formatDate(board.boardCreateDt); // 날짜 포맷 함수 사용
-        row.appendChild(dateCell);
-
-        // 행 추가
-        tbody.appendChild(row);
+        tableBody.appendChild(row);
     });
 }
-
-function renderPagination(pageDTO) {
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = ''; // 기존 페이징 버튼 비우기
-
-    // 이전 버튼
-    if (pageDTO.prev) {
-        const prevButton = document.createElement('button');
-        prevButton.textContent = '이전';
-        prevButton.classList.add('btn', 'btn-primary', 'me-2');
-        prevButton.onclick = () => loadBoards(pageDTO.pageIndex - 1, currentCategory, currentKeyword);
-        pagination.appendChild(prevButton);
-    }
-
-    // 페이지 번호 버튼
-    for (let i = pageDTO.startPage; i <= pageDTO.endPage; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.classList.add('btn', 'btn-secondary', i === pageDTO.pageIndex ? 'active' : '');
-        pageButton.onclick = () => loadBoards(i, currentCategory, currentKeyword);
-        pagination.appendChild(pageButton);
-    }
-
-    // 다음 버튼
-    if (pageDTO.next) {
-        const nextButton = document.createElement('button');
-        nextButton.textContent = '다음';
-        nextButton.classList.add('btn', 'btn-primary', 'ms-2');
-        nextButton.onclick = () => loadBoards(pageDTO.pageIndex + 1, currentCategory, currentKeyword);
-        pagination.appendChild(nextButton);
-    }
-}
-
 
 function searchBoard() {
     const category = document.getElementById('searchCategory').value;
@@ -110,7 +92,7 @@ function searchBoard() {
 
 /**
  * 날짜 형식을 YYYY-MM-DD로 포맷합니다.
- * @param {string} dateStr - ISO 형식의 날짜 문자열
+ * @param {string} dateStr - 날짜 문자열
  * @returns {string} 포맷된 날짜 문자열
  */
 function formatDate(dateStr) {

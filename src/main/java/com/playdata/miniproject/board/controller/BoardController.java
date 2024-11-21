@@ -1,6 +1,6 @@
 package com.playdata.miniproject.board.controller;
 
-import com.playdata.miniproject.board.dto.BoardDTO;
+import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import com.playdata.miniproject.board.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ public class BoardController {
         return "/board/boardList";
     }
 
-    @GetMapping("/board.do")
+    @GetMapping("/list")
     @ResponseBody
-    public Map<String, Object> getBoardList(@RequestParam int page,
-                                            @RequestParam(required = false) String searchCategory,
-                                            @RequestParam(required = false) String searchKeyword) {
-        System.out.println(boardService.getBoardList(page, searchCategory, searchKeyword));
+    public Map<String, Object> getBoardList(
+            @RequestParam int page,
+            @RequestParam(required = false) String searchCategory,
+            @RequestParam(required = false) String searchKeyword) {
         return boardService.getBoardList(page, searchCategory, searchKeyword);
     }
 
@@ -48,7 +48,7 @@ public class BoardController {
     @GetMapping("/{id}")
     public String getBoardDetail(@PathVariable int id, Model model) {
         // 게시글 정보를 데이터베이스에서 가져옵니다.
-        BoardDTO board = boardService.getBoardById(id);
+        BoardWithUserDTO board = boardService.getBoardById(id);
         model.addAttribute("board", board);
         System.out.println("board = " + board);
         return "board/board"; // Thymeleaf 템플릿 경로
