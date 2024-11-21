@@ -1,6 +1,6 @@
 package com.playdata.miniproject.board.mapper;
 
-import com.playdata.miniproject.board.dto.BoardDTO;
+import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface BoardMapper {
 
 
-    List<BoardDTO> readBoard();
+    List<BoardWithUserDTO> readBoard();
 
 
     void insertBoard(@Param("boardTitle") String boardTitle,
@@ -21,13 +21,21 @@ public interface BoardMapper {
                      @Param("userId") int userId);
 
 
-    BoardDTO readBoardById(@Param("id") int id);
+    BoardWithUserDTO readBoardById(@Param("id") int id);
 
-    int getTotalSearchCount(String searchCategory, String searchKeyword);
+    // 검색된 게시글 총 개수
+    int getTotalSearchCount(@Param("category") String category, @Param("keyword") String keyword);
 
-    List<BoardDTO> searchBoardsWithPagination(String searchCategory, String searchKeyword, int recordCountPerPage, int offset);
+    // 검색된 게시글 조회
+    List<BoardWithUserDTO> searchBoards(
+            @Param("category") String category,
+            @Param("keyword") String keyword,
+            @Param("offset") int offset,
+            @Param("limit") int limit);
 
-    int getTotalBoardCount();
+    // 전체 게시글 총 개수
+    int getTotalBoardsCount();
 
-    List<BoardDTO> readBoardWithPagination(int recordCountPerPage, int offset);
+    // 게시글 조회
+    List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
 }

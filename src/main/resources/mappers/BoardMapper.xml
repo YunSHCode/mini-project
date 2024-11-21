@@ -5,7 +5,7 @@
 <mapper namespace="com.playdata.miniproject.board.mapper.BoardMapper">
 
     <!-- 모든 게시글 조회 -->
-    <select id="readBoard" resultType="com.playdata.miniproject.board.dto.BoardDTO">
+    <select id="readBoard" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT * FROM board
     </select>
 
@@ -16,36 +16,42 @@
     </insert>
 
     <!-- ID로 게시글 조회 -->
-    <select id="readBoardById" parameterType="int" resultType="com.playdata.miniproject.board.dto.BoardDTO">
+    <select id="readBoardById" parameterType="int" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT * FROM board WHERE board_id = #{id}
     </select>
 
     <!-- 게시판 조회 -->
-    <select id="readBoardWithPagination" resultType="com.playdata.miniproject.board.dto.BoardDTO">
-        SELECT *
-        FROM board
-        ORDER BY board_id DESC
-            LIMIT #{recordCountPerPage} OFFSET #{offset}
+    <select id="getBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT
+            b.*, u.user_name
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
+        ORDER BY b.board_id DESC
+            LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <!-- 검색 게시판 조회 -->
-    <select id="searchBoardsWithPagination" resultType="com.playdata.miniproject.board.dto.BoardDTO">
-        SELECT *
-        FROM board
+    <select id="searchBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
+        SELECT
+            b.*, u.user_name
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
         WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
-        ORDER BY board_id DESC
-            LIMIT #{recordCountPerPage} OFFSET #{offset}
+        ORDER BY b.board_id DESC
+            LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <!-- 게시물 총 개수 -->
-    <select id="getTotalBoardCount" resultType="int">
-        SELECT COUNT(*) FROM board
+    <select id="getTotalBoardsCount" resultType="int">
+        SELECT COUNT(*)
+        FROM board
     </select>
 
     <!-- 검색된 게시물 총 개수 -->
     <select id="getTotalSearchCount" resultType="int">
         SELECT COUNT(*)
-        FROM board
+        FROM board b
+                 LEFT JOIN user u ON b.user_id = u.user_id
         WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
