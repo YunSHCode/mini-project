@@ -12,4 +12,14 @@ public class FeedController {
     public String feed() {
         return "/feed/feed";
     }
+
+    @GetMapping("/upload")
+    public String upload() {
+        return "/feed/upload_feed";
+    }
+
+    @GetMapping("/myfeed")
+    public String mypage() {
+        return "/feed/myfeed";
+    }
 }

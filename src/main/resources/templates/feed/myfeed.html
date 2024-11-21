@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="css">
+  <link th:href="@{/css/layout.css}" rel="stylesheet" />
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/feed/slider.js}"></script>
+</th:block>
+
+<div>
+  <th:block layout:fragment="content">
+	  <h1>마이페이지</h1>
+    <!-- 슬라이드 자바스크립트 (Thymeleaf 경로로 처리) -->
+  </th:block>
+</div>
+</html>
