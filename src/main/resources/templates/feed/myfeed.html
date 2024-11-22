@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/feed/slider.js}"></script>
+</th:block>
+<th:block layout:fragment="content">
+  <div>
+    <th:block>
+      <nav>
+        <a href="/feed/">뒤로가기</a>
+      </nav>
+      <h1>마이페이지</h1>
+      <div class="profile">
+        <div class="profile_wrap">
+          <div class="profile_img"></div>
+          <div class="info_wrap">
+            <div class="userinfo_data">
+              <h1>#meanz</h1>
+              <p>Super_VEGAN</p>
+            </div>
+            <div class="tableinfo_data">
+              <p>15개</p>
+              <ul>
+                <li>vegan1</li>
+                <li>vegan2</li>
+                <li>vegan3</li>
+                <li>vegan4</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </th:block>
+  </div>
+  <div class="feed_contain">
+    <ul>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+      <li>
+        <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+      </li>
+    </ul>
+  </div>
+
+</th:block>
+
+</div>
+</html>

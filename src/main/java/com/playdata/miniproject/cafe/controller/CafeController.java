@@ -12,4 +12,9 @@ public class CafeController {
     public String feed() {
         return "/cafe/cafe";
     }
+
+    @GetMapping("/read")
+    public String readcafe() {
+        return "cafe/cafe_particular";
+    }
 }
