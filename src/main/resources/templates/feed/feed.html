@@ -64,27 +64,16 @@
 	<!--  콘텐츠  -->
 	
 	<div class="feed_contain">
-		<ul>
+		<ul th:each="feed : ${feeds}">
 			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
-			</li>
-			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
-			</li>
-			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
-			</li>
-			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
-			</li>
-			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
-			</li>
-			<li>
-				<div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+				<div class="feed_wrap"
+					 th:replace="feed/component/feed_unit :: feedunit"
+					 th:text="${feed.content}">
+				</div>
 			</li>
 		</ul>
 	</div>
+
 </th:block>
 </div>
 </html>
