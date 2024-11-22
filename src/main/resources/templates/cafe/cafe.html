@@ -68,6 +68,11 @@
     <!-- 카페 리스트 영역 -->
     <div class="cafe-list">
       <div class="cafe-list-size">
+        <ul>
+          <li>
+            <a th:href="@{/cafe/read}">카페 1 상세보기</a>
+          </li>
+        </ul>
         <p th:each="item : ${cafeList}" th:text="${item}">스크롤 기능 확인</p>
       </div>
     </div>

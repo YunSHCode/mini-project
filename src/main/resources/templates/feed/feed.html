@@ -10,43 +10,81 @@
 
 <div>
   <th:block layout:fragment="content">
-    <div class="feed_contain">
-      <div class="feed_wrap">
-        <div class="feed_unit">
-          <div class="heed_header">
-            <div class="prolie"></div>
+
+    <nav>
+      <th:block>
+        <a href="/feed/upload"> 업로드</a>
+        <a href="/feed/myfeed"> 마이피드 </a>
+      </th:block>
+    </nav>
+
+    <section>
+      <!-- 업데이트 -->
+
+      <th:block>
+        <div class="feed_list_header">
+          <h1>전체 피드</h1>
+          <div>
+            <button type="button">업데이트</button>
+            <span>2024-11-21</span>
           </div>
-          <div class="media_box">
-            <div class="media_wrap">
-              <div class="media_trap">
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 1"></div>
-                <div class="media_unit"><img th:src="@{/images/home2.jpg}" alt="Slide 2"></div>
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 3"></div>
-              </div>
-              <div class="media_controller">
-                <button type="button" id="prevBtn">pre</button>
-                <button type="button" id="nextBtn">next</button>
-              </div>
-            </div>
-            <div class="tool_box">
-              <button type="button">
-                <p>댓글</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>좋아요</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>공유하기</p>
-              </button>
-            </div>
-          </div>
-          <div class="comment_box"></div>
         </div>
-      </div>
+      </th:block>
+      <!-- 필터링 -->
+      <th:block>
+        <div class="feed_filter" style="display: flex">
+          <div class="filter-item">
+            <input id="itemall" type="checkbox" value="item_all">
+            <label for="itemall">전체</label>
+          </div>
+          <div class="filter-item">
+            <input id="item1" type="checkbox" value="Option 2">
+            <label for="item1">vegan1</label>
+          </div>
+          <div class="filter-item">
+            <input id="item2" type="checkbox" value="Option 3">
+            <label for="item2">vegan2</label>
+          </div>
+          <div class="filter-item">
+            <input id="filter4" type="checkbox" value="Option 4">
+            <label for="filter4">vegan3</label>
+          </div>
+        </div>
+        <div class="vegan_result">
+          <ul style="display: flex">
+            <li>vegan1</li>
+            <li>vegan1</li>
+            <li>전체</li>
+            <li>전체</li>
+          </ul>
+        </div>
+      </th:block>
+    </section>
+
+    <!--  콘텐츠  -->
+
+    <div class="feed_contain">
+      <ul>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+      </ul>
     </div>
-    <!-- 슬라이드 자바스크립트 (Thymeleaf 경로로 처리) -->
   </th:block>
 </div>
 </html>
