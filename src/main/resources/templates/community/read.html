@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="css">
+    <style>
+        .card {
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</th:block>
+<div>
+    <th:block layout:fragment="content">
+        <div class="container mt-5">
+            <div class="card">
+                <img th:src="@{/images/1213.jpg}" class="card-img-top" alt="커뮤니티 이미지">
+                <div class="card-body">
+                    <h3 class="card-title">커뮤니티 제목</h3>
+                    <p class="card-text">커뮤니티 설명</p>
+                    <p class="card-text">
+                        <strong>인원:</strong>
+                        <span>0</span>/<span>0</span>
+                    </p>
+                    <p class="card-text">
+                        <strong>개설자:</strong>
+                        <span>개설자 이름</span>
+                    </p>
+                    <a href="/community/" class="btn btn-secondary">목록으로</a>
+                    <a href="/community/join" class="btn btn-primary">참여하기</a>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="card">
+                <img th:src="@{/images/1213.jpg}" class="card-img-top" alt="이미지">
+                <div class="card-body">
+                    <h3>커뮤니티 제목</h3>
+                    <p>커뮤니티 설명</p>
+                    <p>인원: <span>0</span>/<span>0</span></p>
+                    <p>개설자: <span>개설자 이름</span></p>
+                    <a href="/community/" class="btn btn-secondary">목록으로</a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+</html>

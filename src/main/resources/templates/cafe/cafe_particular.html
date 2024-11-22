@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      width: 70vh;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    /* 좌측 정보 섹션 스타일 */
+    .info-section {
+      flex: 2; /* 비율에 따라 크기 설정 */
+      padding: 20px;
+    }
+
+    .info-section h1 {
+      margin: 0 0 10px;
+      color: #2c3e50;
+    }
+
+    .address, .hours, .contact, .links {
+      margin-bottom: 10px;
+    }
+
+    .links a {
+      color: #3498db;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* 우측 이미지 섹션 스타일 */
+    .image-section {
+      flex: 1; /* 비율에 따라 크기 설정 */
+      display: flex; /* 이미지 가운데 정렬 */
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .image-section img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</th:block>
+<div>
+<th:block layout:fragment="content">
+  <div class="container">
+    <!-- 좌측 정보 영역 -->
+    <div class="info-section">
+      <h1>카페 name</h1>
+      <p class="address">
+        📍 인천시 xxx (만수동)<br>
+      </p>
+      <p class="hours">⏰ 영업 중 · 매장 20:00에 영업 종료</p>
+      <p class="contact">📞 1522-3232</p>
+      <p class="links">
+        🔗 <a href="http://www.naver.com" target="_blank">예약하러가기</a><br>
+      </p>
+      <div class="menu">
+        <p>🚩메뉴 리스트</p>
+        <ol>
+          <li>r</li>
+          <li>s</li>
+          <li>e</li>
+        </ol>
+      </div>
+    </div>
+    <!-- 우측 이미지 영역 -->
+    <div class="image-section">
+      <img src="https://via.placeholder.com/400x300" alt="카페 이미지">
+    </div>
+  </div>
+</th:block>
+</div>
+</html>

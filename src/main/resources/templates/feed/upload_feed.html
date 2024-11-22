@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/feed/slider.js}"></script>
+</th:block>
+
+<div>
+  <th:block layout:fragment="content">
+    <nav>
+      <a href="/feed/">뒤로가기</a>
+    </nav>
+    <div class="form-container">
+      <form enctype="multipart/form-data" method="post" th:action="@{/submit-form}">
+
+        <!-- 파일 첨부 -->
+        <div class="form-group">
+          <label for="files">파일 첨부 (최대 5개)</label>
+          <input accept="image/*" id="files" multiple name="files" required type="file"/>
+          <small>최대 5개의 파일을 업로드할 수 있습니다.</small>
+        </div>
+
+
+        <!-- 제목 입력 -->
+        <div class="text_upload" style="display: flex; flex-direction: column">
+          <input id="title" name="title" placeholder="제목을 입력하세요" required type="text"/>
+
+          <textarea id="content" name="content" placeholder="내용을 입력하세요" required rows="5"></textarea>
+        </div>
+        <!-- 태그 선택 -->
+        <div class="form-group">
+          <label for="tags">태그 선택 (최대 10개)</label>
+          <div id="tags">
+            <input id="tag1" name="tags" type="checkbox" value="tag1"/>
+            <label for="tag1">태그 1</label>
+
+            <input id="tag2" name="tags" type="checkbox" value="tag2"/>
+            <label for="tag2">태그 2</label>
+
+            <input id="tag3" name="tags" type="checkbox" value="tag3"/>
+            <label for="tag3">태그 3</label>
+
+            <input id="tag4" name="tags" type="checkbox" value="tag4"/>
+            <label for="tag4">태그 4</label>
+
+          </div>
+        </div>
+
+
+        <!-- 제출 버튼 -->
+        <div class="form-group">
+          <button type="submit">제출</button>
+        </div>
+      </form>
+    </div>
+  </th:block>
+</div>
+</html>

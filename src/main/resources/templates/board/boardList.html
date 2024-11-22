@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="script">
+    <script th:src="@{/js/board/boardList.js}"></script>
+    <!--    <script th:src="@{/js/board/boardDetail.js}"></script>-->
+</th:block>
 <div>
     <th:block layout:fragment="content">
         <div class="container py-4">
+            <!-- 제목 및 등록 버튼 -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="text-primary">Board List</h1>
-                <!-- 게시글 등록 버튼 -->
                 <a th:href="@{/board/boardForm}" class="btn btn-success btn-lg">게시글 등록</a>
             </div>
 
+            <!-- 검색 영역 -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <select id="searchCategory" class="form-select">
+                        <option value="board_title">제목</option>
+                        <option value="user_name">작성자</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <input id="searchKeyword" type="text" class="form-control" placeholder="검색어를 입력하세요">
+                </div>
+                <div class="col-md-2">
+                    <button id="searchButton" class="btn btn-primary w-100" onclick="searchBoard()">검색</button>
+                </div>
+            </div>
+
+            <!-- 게시글 테이블 -->
             <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle text-center">
+                <table id="boardTable" class="table table-striped table-hover align-middle text-center">
                     <thead class="table-dark">
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Content</th>
-                        <th scope="col">User ID</th>
+                        <th scope="col">User Name</th>
                         <th scope="col">Created Date</th>
-                        <th scope="col">Updated Date</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!-- 데이터 출력 -->
-                    <tr th:each="board : ${boards}">
-                        <td th:text="${board.boardId}">1</td>
-                        <td th:text="${board.boardTitle}">Sample Title</td>
-                        <td th:text="${board.boardContent}">Sample Content</td>
-                        <td th:text="${board.userId}">1</td>
-                        <td th:text="${board.boardCreateDt}">2024-11-13</td>
-                        <td th:text="${board.boardUpdateDt}">2024-11-13</td>
-                    </tr>
+                    <tbody id="boardTableBody">
+                    <!-- JavaScript로 데이터를 동적으로 추가 -->
                     </tbody>
                 </table>
             </div>
+
+            <!-- 페이징 -->
+            <div id="pagination" class="d-flex justify-content-center mt-3"></div>
         </div>
     </th:block>
 </div>

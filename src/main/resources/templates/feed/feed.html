@@ -1,10 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="css">
+  <link th:href="@{/css/layout.css}" rel="stylesheet" />
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/feed/slider.js}"></script>
+</th:block>
+
 <div>
   <th:block layout:fragment="content">
-    <h1>feed 메인화면 입니다.</h1>
-    <h2>Hi</h2>
+
+    <nav>
+      <th:block>
+        <a href="/feed/upload"> 업로드</a>
+        <a href="/feed/myfeed"> 마이피드 </a>
+      </th:block>
+    </nav>
+
+    <section>
+      <!-- 업데이트 -->
+
+      <th:block>
+        <div class="feed_list_header">
+          <h1>전체 피드</h1>
+          <div>
+            <button type="button">업데이트</button>
+            <span>2024-11-21</span>
+          </div>
+        </div>
+      </th:block>
+      <!-- 필터링 -->
+      <th:block>
+        <div class="feed_filter" style="display: flex">
+          <div class="filter-item">
+            <input id="itemall" type="checkbox" value="item_all">
+            <label for="itemall">전체</label>
+          </div>
+          <div class="filter-item">
+            <input id="item1" type="checkbox" value="Option 2">
+            <label for="item1">vegan1</label>
+          </div>
+          <div class="filter-item">
+            <input id="item2" type="checkbox" value="Option 3">
+            <label for="item2">vegan2</label>
+          </div>
+          <div class="filter-item">
+            <input id="filter4" type="checkbox" value="Option 4">
+            <label for="filter4">vegan3</label>
+          </div>
+        </div>
+        <div class="vegan_result">
+          <ul style="display: flex">
+            <li>vegan1</li>
+            <li>vegan1</li>
+            <li>전체</li>
+            <li>전체</li>
+          </ul>
+        </div>
+      </th:block>
+    </section>
+
+    <!--  콘텐츠  -->
+
+    <div class="feed_contain">
+      <ul>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+        <li>
+          <div class="feed_wrap" th:replace="feed/compornent/feed_unit :: feedunit"></div>
+        </li>
+      </ul>
+    </div>
   </th:block>
 </div>
 </html>

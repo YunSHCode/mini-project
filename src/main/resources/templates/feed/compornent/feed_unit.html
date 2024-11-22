@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="feed_unit" th:fragment="feedunit">
+  <div class="heed_header">
+    <div class="prolie"></div>
+  </div>
+  <div class="media_box">
+    <div class="media_wrap">
+      <div class="media_trap">
+        <div class="media_unit"><img alt="Slide 1" th:src="@{/images/home1.jpg}"></div>
+        <div class="media_unit"><img alt="Slide 2" th:src="@{/images/home2.jpg}"></div>
+        <div class="media_unit"><img alt="Slide 3" th:src="@{/images/home1.jpg}"></div>
+      </div>
+      <div class="media_controller">
+        <button id="prevBtn" type="button">pre</button>
+        <button id="nextBtn" type="button">next</button>
+      </div>
+    </div>
+    <div class="tool_box">
+      <button type="button">
+        <p>댓글</p>
+        <p>999</p>
+      </button>
+      <button type="button">
+        <p>좋아요</p>
+        <p>999</p>
+      </button>
+      <button type="button">
+        <p>공유하기</p>
+      </button>
+    </div>
+  </div>
+  <div class="comment_box"></div>
+</div>
+</body>
+</html>

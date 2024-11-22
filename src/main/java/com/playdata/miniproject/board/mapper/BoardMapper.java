@@ -1,6 +1,6 @@
 package com.playdata.miniproject.board.mapper;
 
-import com.playdata.miniproject.board.dto.BoardDTO;
+import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,13 +12,30 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    @Select("SELECT * FROM board")
-    List<BoardDTO> readBoard();
 
-    @Insert("INSERT INTO board (board_title, board_content, user_id, board_create_dt, board_update_dt) " +
-            "VALUES (#{boardTitle}, #{boardContent}, #{userId}, NOW(), NOW())")
+    List<BoardWithUserDTO> readBoard();
+
+
     void insertBoard(@Param("boardTitle") String boardTitle,
                      @Param("boardContent") String boardContent,
-                     @Param("userId") Long userId);
+                     @Param("userId") int userId);
 
+
+    BoardWithUserDTO readBoardById(@Param("id") int id);
+
+    // 검색된 게시글 총 개수
+    int getTotalSearchCount(@Param("category") String category, @Param("keyword") String keyword);
+
+    // 검색된 게시글 조회
+    List<BoardWithUserDTO> searchBoards(
+            @Param("category") String category,
+            @Param("keyword") String keyword,
+            @Param("offset") int offset,
+            @Param("limit") int limit);
+
+    // 전체 게시글 총 개수
+    int getTotalBoardsCount();
+
+    // 게시글 조회
+    List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
 }
