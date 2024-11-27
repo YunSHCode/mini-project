@@ -65,7 +65,7 @@ function renderTable(boardList) {
         // 게시글 데이터를 테이블에 추가합니다.
         row.innerHTML = ` 
             <td><a href="/board/${board.boardId}">${board.boardTitle}</a></td>
-            <td>${board.userName}</td>
+            <td>${board.userRealname}</td>
             <td>${formatDate(board.boardCreateDt)}</td>
         `;
 

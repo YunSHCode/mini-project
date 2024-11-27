@@ -2,9 +2,11 @@ package com.playdata.miniproject.board.service;
 
 import com.playdata.miniproject.board.dto.BoardFileDTO;
 import com.playdata.miniproject.util.FileUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,8 +14,24 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class BoardFileService {
     private final String uploadDir = Paths.get("D:", "mini-project", "images", "board").toString();
+
+    {
+        ensureUploadDirExists();
+    }
+    private void ensureUploadDirExists() {
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            boolean created = dir.mkdirs();
+            if (created) {
+                System.out.println("Upload directory created at: " + uploadDir);
+            } else {
+                System.err.println("Failed to create upload directory at: " + uploadDir);
+            }
+        }
+    }
 
     public List<BoardFileDTO> uploadBoardFiles(List<MultipartFile> files) throws IOException {
         List<FileUtils.FileInfo> fileInfos = FileUtils.uploadFiles(files, uploadDir); // 원본과 저장 파일명 정보 반환

@@ -9,7 +9,9 @@ import org.apache.ibatis.type.Alias;
 @Alias("commentResponse")
 public class BoardCommentResponse {
     private int commentId;
+    private int commentStep;
     private String userRealname;
     private String commentCreateDt;
     private String commentContent;
+    private String userProfilePictureGenerated;
 }

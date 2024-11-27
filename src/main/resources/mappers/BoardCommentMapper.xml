@@ -24,7 +24,7 @@
         )
     </insert>
     <select id="commentList" parameterType="int" resultType="commentResponse">
-        SELECT u.user_realname, c.comment_create_dt, c.comment_content
+        SELECT u.user_realname, c.comment_create_dt, c.comment_content, c.comment_id, c.comment_step, u.user_profile_picture_generated
         FROM board_comment c
                  JOIN users u ON c.user_key = u.user_key
         WHERE c.board_id = #{boardId}

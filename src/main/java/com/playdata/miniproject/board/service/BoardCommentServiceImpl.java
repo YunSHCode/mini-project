@@ -17,7 +17,6 @@ public class BoardCommentServiceImpl implements BoardCommentService{
     @Override
     public void saveComment(BoardCommentRequest commentRequest) {
         if ((Integer)commentRequest.getCommentGroup() == 0) {
-
             // 원본 댓글 작성 로직
             commentRequest.setCommentStep(0);
             commentRequest.setCommentGroup(-1);
