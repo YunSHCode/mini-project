@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Toast UI Editor
     const editor = new toastui.Editor({
         el: document.querySelector('#editor'), // Editor container
-        height: '400px', // Editor height
+        height: '700px', // Editor height
         initialEditType: 'markdown', // Initial editor type (markdown or wysiwyg)
         previewStyle: 'vertical', // Split view (editor & preview)
         placeholder: '글을 입력하세요',
@@ -20,34 +20,44 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('업로드 가능한 파일 형식은 jpg, jpeg, png, gif, webp 입니다.');
                     return;
                 }
+                // 여러 개의 Blob URL 생성 가능
+                const blobUrl = URL.createObjectURL(blob);
 
-                const formData = new FormData();
-                formData.append('image', blob);
+                // 에디터에 Blob URL 삽입
+                callback(blobUrl, "사진 대체 텍스트 입력");
+                console.log(blobUrl);
 
-                $.ajax({
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    url: '/tui_editor/image-upload',
-                    data: formData,
-                    dataType: 'text',
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    timeout: 600000,
-                    success: function(data) {
-                        //console.log('ajax 이미지 업로드 성공');
-                        let imgUrl = `/tui_editor/image-print?filename=${data.filename}`;
-                        // callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
-                        // 형식 : ![대체 텍스트](주소)
-                        callback(data, '사진 대체 텍스트 입력');
-                    },
-                    error: function(e) {
-                        //console.log('ajax 이미지 업로드 실패');
-                        //console.log(e.abort([statusText]));
-
-                        callback('image_load_fail', '사진 대체 텍스트 입력');
-                    }
-                });
+                // 나중에 메모리 누수를 방지하기 위해 Blob URL을 해제
+                // Blob URL은 메모리 사용량을 늘리므로, 필요 시점에 해제합니다.
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1000000);
+                // const formData = new FormData();
+                // formData.append('image', blob);
+                //
+                // $.ajax({
+                //     type: 'POST',
+                //     enctype: 'multipart/form-data',
+                //     url: '/tui_editor/image-upload',
+                //     data: formData,
+                //     dataType: 'text',
+                //     processData: false,
+                //     contentType: false,
+                //     cache: false,
+                //     timeout: 600000,
+                //     success: function(data) {
+                //         //console.log('ajax 이미지 업로드 성공');
+                //         let imgUrl = `/tui_editor/image-print?filename=${data.filename}`;
+                //         // callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
+                //         // 형식 : ![대체 텍스트](주소)
+                //         console.log(data);
+                //         callback(data, '사진 대체 텍스트 입력');
+                //     },
+                //     error: function(e) {
+                //         //console.log('ajax 이미지 업로드 실패');
+                //         //console.log(e.abort([statusText]));
+                //
+                //         callback('image_load_fail', '사진 대체 텍스트 입력');
+                //     }
+                // });
             }
         }
     });

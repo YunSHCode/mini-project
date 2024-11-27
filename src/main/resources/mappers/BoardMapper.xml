@@ -11,21 +11,25 @@
 
     <!-- 게시글 삽입 -->
     <insert id="insertBoard">
-        INSERT INTO board (board_title, board_content, user_id, board_create_dt, board_update_dt)
+        INSERT INTO board (board_title, board_content, user_key, board_create_dt, board_update_dt)
         VALUES (#{boardTitle}, #{boardContent}, #{userId}, NOW(), NOW())
     </insert>
 
     <!-- ID로 게시글 조회 -->
     <select id="readBoardById" parameterType="int" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
-        SELECT * FROM board WHERE board_id = #{id}
+        SELECT
+            b.*, u.user_realname
+        FROM board b
+                 LEFT JOIN users u ON b.user_key = u.user_key
+        WHERE board_id = #{id}
     </select>
 
     <!-- 게시판 조회 -->
     <select id="getBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_name
+            b.*, u.user_realname
         FROM board b
-                 LEFT JOIN user u ON b.user_id = u.user_id
+                 LEFT JOIN users u ON b.user_key = u.user_key
         ORDER BY b.board_id DESC
             LIMIT #{limit} OFFSET #{offset}
     </select>
@@ -33,9 +37,9 @@
     <!-- 검색 게시판 조회 -->
     <select id="searchBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_name
+            b.*, u.user_realname
         FROM board b
-                 LEFT JOIN user u ON b.user_id = u.user_id
+                 LEFT JOIN users u ON b.user_key = u.user_key
         WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY b.board_id DESC
             LIMIT #{limit} OFFSET #{offset}
@@ -51,9 +55,13 @@
     <select id="getTotalSearchCount" resultType="int">
         SELECT COUNT(*)
         FROM board b
-                 LEFT JOIN user u ON b.user_id = u.user_id
+                 LEFT JOIN users u ON b.user_key = u.user_key
         WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
     </select>
+
+    <delete id="deleteboard" parameterType="int">
+        DELETE FROM board WHERE board_id = ${id}
+    </delete>
 
 
 </mapper>

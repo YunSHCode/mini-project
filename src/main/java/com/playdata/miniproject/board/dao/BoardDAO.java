@@ -1,18 +1,11 @@
-package com.playdata.miniproject.board.mapper;
+package com.playdata.miniproject.board.dao;
 
 import com.playdata.miniproject.board.dto.BoardWithUserDTO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
 
 import java.util.List;
 
-@Mapper
-public interface BoardMapper {
-
-
+public interface BoardDAO {
     List<BoardWithUserDTO> readBoard();
 
 
@@ -39,5 +32,5 @@ public interface BoardMapper {
     // 게시글 조회
     List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
 
-    void deleteboard(int id);
+    void deleteBoard(int id);
 }

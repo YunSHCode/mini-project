@@ -4,49 +4,86 @@
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <style>
+        /* 댓글과 답글의 구분을 위한 스타일 */
+        .comment-reply {
+            margin-left: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .reply-form {
+            margin-top: 10px;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="script">
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-<!--    <script th:src="@{/js/board/boardDetail.js}"></script>-->
+    <script th:src="@{/js/board/boardDetail.js}"></script>
+    <script th:inline="javascript">
+        const markdownContent = /*[[${board.boardContent}]]*/ '';
+        console.log('Content:', markdownContent);
+
+        // Toast UI Viewer 초기화
+        new toastui.Editor.factory({
+            el: document.querySelector('#viewer'),
+            viewer: true,
+            initialValue: markdownContent
+        });
+    </script>
 </th:block>
 <div>
     <th:block layout:fragment="content">
         <div class="container py-4">
-            <!-- 제목과 작성자 정보 -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-primary" th:text="${board.boardTitle}">게시글 제목</h1>
-                <div>
-                    <span class="text-muted">작성자:</span> <strong th:text="${board.userId}">작성자 ID</strong> |
-                    <span class="text-muted">작성일:</span> <strong th:text="${board.boardCreateDt}">2024-11-20</strong>
-                </div>
-            </div>
+            <div>
+                <!-- 첫 번째 줄: 제목과 작성 시간 -->
+                <h2 class="text-primary mb-2" th:text="${board.boardTitle}">게시글 제목</h2>
+                <p class="text-muted" th:text="'작성일: ' + ${#temporals.format(board.boardCreateDt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+                <hr>
 
-            <!-- 게시글 내용 -->
-            <div class="mb-4">
-                <div id="viewer" class="border p-4 rounded bg-light">
+                <!-- 두 번째 줄: 작성자 -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- 작성자 정보 -->
+                    <p class="text-muted mb-0">
+                        <img src="/images/user/default_user.png" width="32" height="32" class="rounded-circle">
+                        <strong th:text="${board.userRealname}">작성자 ID</strong>
+                    </p>
+
+                    <!-- 수정/삭제 버튼 -->
+                    <div>
+                        <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
+                        <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger">삭제</a>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- 본문 내용 -->
+                <div id="viewer" class="p-3 bg-light rounded">
                     <!-- Toast UI Viewer에서 렌더링 -->
                 </div>
             </div>
 
-            <!-- 동적으로 데이터 삽입 -->
-            <script th:inline="javascript">
-                const markdownContent = /*[[${board.boardContent}]]*/ '';
-                console.log('Content:', markdownContent);
+            <!-- 댓글 섹션 -->
+            <div class="comments-section mt-5">
+                <h4>댓글</h4>
+                <div class="comment-list mb-4">
+                    <!-- 댓글 목록은 AJAX를 통해 동적으로 추가됩니다 -->
+                </div>
 
-                // Toast UI Viewer 초기화
-                new toastui.Editor.factory({
-                    el: document.querySelector('#viewer'),
-                    viewer: true,
-                    initialValue: markdownContent
-                });
-            </script>
-
+                <!-- 댓글 입력 폼 -->
+                <div class="comment-form">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="commentContent" rows="3" placeholder="댓글을 입력하세요..." required></textarea>
+                    </div>
+                    <button type="button" id="submitComment" class="btn btn-primary">댓글 작성</button>
+                </div>
+            </div>
             <!-- 버튼 -->
             <div class="d-flex justify-content-end">
                 <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
                 <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger me-2">삭제</a>
                 <a th:href="@{/board/boardList.html}" class="btn btn-secondary">목록으로</a>
             </div>
+            <div id="boardData" th:data-board-id="${board.boardId}" th:data-board-content="${board.boardContent}"></div>
         </div>
     </th:block>
 </div>
