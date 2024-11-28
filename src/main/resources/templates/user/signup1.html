@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+    .signup-container {
+      width: 400px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: white;
+    }
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-text {
+      display: none; /* 기본적으로 숨겨진 상태 */
+    }
+    input:focus + .form-text {
+      display: block; /* 입력란 포커스 시 표시 */
+    }
+  </style>
+
+  <script type="text/javascript" th:inline="javascript">
+    $(document).ready(function() {
+      $("#user_id").on("blur", function () {
+        let querydata = {"id": $("#user_id").val()}
+        $.ajax({
+          url: "/user/signup/idcheck",
+          type: "get",
+          data: querydata,
+          success: success_run_01,
+          error: error_run_01
+        });//end ajax
+      });//end click
+
+      $("#user_nickname").on("blur", function () {
+        let querydata = {"nickname": $("#user_nickname").val()}
+        $.ajax({
+          url: "/user/signup/nicknamecheck",
+          type: "get",
+          data: querydata,
+          success: success_run_02,
+          error: error_run_02
+        });//end ajax
+      });//end click
+
+      $("#user_email").on("blur", function () {
+        let querydata = {"email": $("#user_email").val()}
+        $.ajax({
+          url: "/user/signup/emailcheck",
+          type: "get",
+          data: querydata,
+          success: success_run_03,
+          error: error_run_03
+        });//end ajax
+      });//end click
+
+      $("#user_phone").on("blur", function () {
+        let querydata = {"phone": $("#user_phone").val()}
+        $.ajax({
+          url: "/user/signup/phonecheck",
+          type: "get",
+          data: querydata,
+          success: success_run_04,
+          error: error_run_04
+        });//end ajax
+      });//end click
+
+    });//end ready
+
+    function success_run_01(resultdata) {
+      console.log(resultdata);
+      $("#userIdFeedback").html(resultdata)
+    }
+    function error_run_01(obj, msg1, msg2) {
+      console.log("오류발생");
+      console.log(obj);
+      console.log(msg1);
+      console.log(msg2);
+    }
+    function success_run_02(resultdata) {
+      console.log(resultdata);
+      $("#nicknameFeedback").html(resultdata)
+    }
+    function error_run_02(obj, msg1, msg2) {
+      console.log("오류발생");
+      console.log(obj);
+      console.log(msg1);
+      console.log(msg2);
+    }
+    function success_run_03(resultdata) {
+      console.log(resultdata);
+      $("#emailFeedback").html(resultdata)
+    }
+    function error_run_03(obj, msg1, msg2) {
+      console.log("오류발생");
+      console.log(obj);
+      console.log(msg1);
+      console.log(msg2);
+    }
+    function success_run_04(resultdata) {
+      console.log(resultdata);
+      $("#phoneFeedback").html(resultdata)
+    }
+    function error_run_04(obj, msg1, msg2) {
+      console.log("오류발생");
+      console.log(obj);
+      console.log(msg1);
+      console.log(msg2);
+    }
+
+  </script>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>풀잎당 회원가입</h2>
+    <form id="signupForm" action="/user/signup/verify" method="post">
+      <!-- ID -->
+      <div class="mb-3">
+        <label for="user_id" class="form-label">아이디</label>
+        <input type="text" class="form-control" id="user_id" name="userId" value="test1" placeholder="아이디 입력" required>
+        <div id="userIdFeedback"></div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="user_password" class="form-label">비밀번호</label>
+        <input type="password" class="form-control" id="user_password" name="userPassword" value="sfdf@$#1233" placeholder="비밀번호 입력" required>
+        <div class="form-text">8자 이상, 숫자, 문자, 특수문자를 포함해야 합니다.</div>
+        <div id="passwordFeedback" class="invalid-feedback">비밀번호 형식이 올바르지 않습니다.</div>
+      </div>
+
+      <!-- Nickname -->
+      <div class="mb-3">
+        <label for="user_nickname" class="form-label">닉네임</label>
+        <input type="text" class="form-control" id="user_nickname" name="userNickname" value="test1" placeholder="닉네임 입력" required>
+        <div id="nicknameFeedback"></div>
+      </div>
+
+      <!-- Real Name -->
+      <div class="mb-3">
+        <label for="user_realname" class="form-label">사용자 성명</label>
+        <input type="text" class="form-control" id="user_realname" name="userRealname" value="test1" placeholder="성명 입력" required>
+        <div class="form-text">주민등록상 본명을 입력하시기 바랍니다.</div>
+      </div>
+
+      <!-- Birthday -->
+      <div class="mb-3">
+        <label for="user_birthday" class="form-label">생년월일</label>
+        <input type="date" class="form-control" id="user_birthday" value="2024-10-31" name="userBirthday" required>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="user_email" class="form-label">이메일</label>
+        <input type="email" class="form-control" id="user_email" name="userEmail" value="example@gmail.com" placeholder="example@example.com" required>
+        <div id="emailFeedback"></div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="mb-3">
+        <label for="user_phone" class="form-label">휴대폰 번호</label>
+        <input type="text" class="form-control" id="user_phone" name="userPhoneNumber" value="2418746872" placeholder="휴대폰 번호 입력" required>
+        <div id="phoneFeedback"></div>
+      </div>
+
+      <!-- Vegan Type -->
+      <div class="mb-3">
+        <label for="user_vegan_type" class="form-label">비건 유형</label>
+        <select class="form-select" id="user_vegan_type" name="userVeganType"  required>
+          <option value="" disabled>선택하세요</option>
+          <option value="vegan" selected="selected">Vegan</option>
+          <option value="ovo">Ovo</option>
+          <option value="pesco">Pesco</option>
+        </select>
+      </div>
+
+      <!-- Profile Picture -->
+      <div class="mb-3">
+        <label for="profile_picture" class="form-label">프로필 사진</label>
+        <input type="file" class="form-control" id="profile_picture" name="userProfilePicture" accept="image/*">
+        <div class="form-text">프로필 사진으로 설정할 이미지를 업로드하세요.</div>
+      </div>
+
+      <button type="submit" class="btn btn-success w-100">회원가입</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+      // event.preventDefault(); // 기본 폼 제출 동작 방지
+
+      // 데이터 가져오기
+      const userId = document.getElementById('user_id').value;
+      const password = document.getElementById('user_password').value;
+      const nickname = document.getElementById('user_nickname').value;
+      const email = document.getElementById('user_email').value;
+      const phone = document.getElementById('user_phone').value;
+
+      // 비밀번호 검증
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        document.getElementById('user_password').classList.add('is-invalid');
+        return;
+      } else {
+        document.getElementById('user_password').classList.remove('is-invalid');
+      }
+
+      // 중복 확인 (예시용, 실제로는 서버와 통신 필요)
+      const existingIds = ['user001', 'user002'];
+      const existingNicknames = ['nick001', 'nick002'];
+      const existingEmails = ['john.doe@example.com', 'jane.doe@example.com'];
+      const existingPhones = ['01012345678', '01098765432'];
+
+      if (existingIds.includes(userId)) {
+        document.getElementById('user_id').classList.add('is-invalid');
+        return;
+      } else {
+        document.getElementById('user_id').classList.remove('is-invalid');
+      }
+
+      if (existingNicknames.includes(nickname)) {
+        document.getElementById('user_nickname').classList.add('is-invalid');
+        return;
+      } else {
+        document.getElementById('user_nickname').classList.remove('is-invalid');
+      }
+
+      if (existingEmails.includes(email)) {
+        document.getElementById('user_email').classList.add('is-invalid');
+        return;
+      } else {
+        document.getElementById('user_email').classList.remove('is-invalid');
+      }
+
+      if (existingPhones.includes(phone)) {
+        document.getElementById('user_phone').classList.add('is-invalid');
+        return;
+      } else {
+        document.getElementById('user_phone').classList.remove('is-invalid');
+      }
+
+      alert('회원가입이 완료되었습니다!');
+
+    });
+  </script>
+</body>
+</html>
