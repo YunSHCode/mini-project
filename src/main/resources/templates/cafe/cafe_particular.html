@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
-<th:block layout:fragment="css">
+<head>
+  <meta charset="UTF-8"/>
+  <title>cafe_particular</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -57,9 +59,9 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   </style>
-</th:block>
-<div>
-<th:block layout:fragment="content">
+</head>
+
+<body>
   <div class="container">
     <!-- 좌측 정보 영역 -->
     <div class="info-section">
@@ -86,6 +88,6 @@
       <img src="https://via.placeholder.com/400x300" alt="카페 이미지">
     </div>
   </div>
-</th:block>
-</div>
+</body>
+
 </html>
