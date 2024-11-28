@@ -39,10 +39,12 @@
     <script th:inline="javascript">
         const markdownContent = /*[[${board.boardContent}]]*/ '';
         console.log('Content:', markdownContent);
-
+        const viewerElement = document.querySelector('#viewer');
+        viewerElement.style.minHeight = '300px'; // 최소 높이 설정
+        viewerElement.style.height = 'auto';
         // Toast UI Viewer 초기화
         new toastui.Editor.factory({
-            el: document.querySelector('#viewer'),
+            el: viewerElement,
             viewer: true,
             initialValue: markdownContent
         });
@@ -98,7 +100,7 @@
             <div class="d-flex justify-content-end">
                 <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
                 <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger me-2">삭제</a>
-                <a th:href="@{/board/boardList.html}" class="btn btn-secondary">목록으로</a>
+                <a th:href="@{/board/boardList}" class="btn btn-secondary">목록으로</a>
             </div>
             <div id="boardData" th:data-board-id="${board.boardId}" th:data-board-content="${board.boardContent}"></div>
         </div>

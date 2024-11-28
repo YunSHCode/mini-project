@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
                         // 형식 : ![대체 텍스트](주소)
                         console.log(data);
-                        callback(imgUrl, '사진 대체 텍스트 입력');
+                        callback(data, '사진 대체 텍스트 입력');
                     },
                     error: function(e) {
                         //console.log('ajax 이미지 업로드 실패');
@@ -61,5 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
         document.querySelector('#boardContent').value = content;
+        // 게시판 상태 초기화
+        sessionStorage.removeItem('boardCurrentPage');
+        sessionStorage.removeItem('boardCurrentCategory');
+        sessionStorage.removeItem('boardCurrentKeyword');
     });
 });

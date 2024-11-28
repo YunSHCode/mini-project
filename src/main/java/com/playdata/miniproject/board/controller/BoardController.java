@@ -20,6 +20,11 @@ public class BoardController {
     private final BoardServiceImpl boardServiceImpl;
     private final BoardFileService boardFileService;
 
+    @GetMapping("/cafe")
+    public String cafe() {
+        return "/cafe/cafe_reservation";
+    }
+
     @GetMapping("/boardList")
     public String readBoard() {
         return "/board/boardList";
@@ -62,7 +67,7 @@ public class BoardController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBoard(@PathVariable int id) {
+    public String deleteBoard(@PathVariable int id, @SessionAttribute(name = "userKey", required = false) Integer userKey) {
         boardServiceImpl.deleteBoard(id);
         return "redirect:/board/boardList";
     }

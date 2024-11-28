@@ -38,8 +38,6 @@ public class BoardFileService {
         List<BoardFileDTO> fileDTOList = new ArrayList<>();
         for (FileUtils.FileInfo fileInfo : fileInfos) {
             fileDTOList.add(new BoardFileDTO(
-                    0,  // 파일 고유 ID
-                    0,                         // 게시판 ID (필요시 설정)
                     fileInfo.getOriginalFilename(), // 원본 파일명
                     fileInfo.getStoreFilename()     // 저장된 파일명
             ));
@@ -51,8 +49,6 @@ public class BoardFileService {
         System.out.println("boardFileService file = " + file);
         FileUtils.FileInfo fileInfo = FileUtils.uploadFile(file, uploadDir);
         BoardFileDTO boardFileDTO = new BoardFileDTO(
-                0,
-                0,
                 fileInfo.getOriginalFilename(),
                 fileInfo.getStoreFilename()
         );
