@@ -1,52 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default_layout}">
+<html layout:decorate="~{layout/default_layout}"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="css">
-  <link th:href="@{/css/layout.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/reset.css}"/>
+	<link rel="stylesheet" th:href="@{/css/feed_unit.css}"/>
+	<link rel="stylesheet" th:href="@{/css/feed_list.css}"/>
 </th:block>
 <th:block layout:fragment="script">
-  <script th:src="@{/js/feed/slider.js}"></script>
+	<script th:src="@{/js/feed/slider.js}"></script>
 </th:block>
 
 <div>
-  <th:block layout:fragment="content">
-    <div class="feed_contain">
-      <div class="feed_wrap">
-        <div class="feed_unit">
-          <div class="heed_header">
-            <div class="prolie"></div>
-          </div>
-          <div class="media_box">
-            <div class="media_wrap">
-              <div class="media_trap">
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 1"></div>
-                <div class="media_unit"><img th:src="@{/images/home2.jpg}" alt="Slide 2"></div>
-                <div class="media_unit"><img th:src="@{/images/home1.jpg}" alt="Slide 3"></div>
-              </div>
-              <div class="media_controller">
-                <button type="button" id="prevBtn">pre</button>
-                <button type="button" id="nextBtn">next</button>
-              </div>
-            </div>
-            <div class="tool_box">
-              <button type="button">
-                <p>댓글</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>좋아요</p>
-                <p>999</p>
-              </button>
-              <button type="button">
-                <p>공유하기</p>
-              </button>
-            </div>
-          </div>
-          <div class="comment_box"></div>
-        </div>
-      </div>
-    </div>
-    <!-- 슬라이드 자바스크립트 (Thymeleaf 경로로 처리) -->
-  </th:block>
+	<th:block layout:fragment="content">
+		
+		<div id="nav_position" th:insert="feed/component/page_nav :: pageNav"></div>
+		
+		<!-- 업데이트 -->
+		
+		<div class="section">
+			<h3>비건 타입 선택</h3>
+			<div class="vegan_type">
+				<ul id="tags">
+					<li>
+						<input id="vegan1" name="tags" type="checkbox" value="v1"/>
+						<label for="vegan1">프루테리언</label>
+					</li>
+					<li>
+						<input id="vegan2" name="tags" type="checkbox" value="v2"/>
+						<label for="vegan2">비건</label>
+					</li>
+					<li>
+						<input id="vegan3" name="tags" type="checkbox" value="v3"/>
+						<label for="vegan3">락토 베지테리언</label>
+					</li>
+					<li>
+						<input id="vegan4" name="tags" type="checkbox" value="v4"/>
+						<label for="vegan4">락토 오보 베지테리언</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<!--  콘텐츠  -->
+		<div class="section">
+			<div class="feed_contain">
+				<ul class="feed_list">
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+					<li>
+						<div class="feed_wrap" th:replace="feed/component/feed_unit :: feedunit"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</th:block>
 </div>
 </html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.miniproject.user.mapper.UserMapper">
+    <select id="login" parameterType="logininfo" resultType="user">
+            select * from users
+            where user_id=#{userId} and user_password=#{userPassword}
+    </select>
+
+    <insert id="signup" parameterType="signupinfo">
+        insert into users values (null, #{userId},#{userPassword},#{userNickname},#{userRealname},#{userBirthday},#{userEmail},
+        #{userPhoneNumber},#{userVeganType}, 'profile.png', null, now(), now())
+    </insert>
+
+    <select id="idcheck" parameterType="String" resultType="user">
+        select * from users
+        where user_id = #{userId}
+    </select>
+
+    <select id="nicknamecheck" parameterType="String" resultType="user">
+        select * from users
+        where user_nickname = #{userNickname}
+    </select>
+
+    <select id="emailcheck" parameterType="String" resultType="user">
+        select * from users
+        where user_email = #{userEmail}
+    </select>
+
+    <select id="phonecheck" parameterType="String" resultType="user">
+        select * from users
+        where user_phone_number = #{userPhoneNumber}
+    </select>
+</mapper>

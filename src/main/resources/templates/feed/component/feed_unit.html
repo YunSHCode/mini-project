@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="feed_unit" th:fragment="feedunit">
+		<div class="wrap">
+			<div class="media_box">
+				<div class="wrap">
+					<div class="media_content">
+						<div class="unit_header">
+							<div class="profile">
+								<div class="profile_img"></div>
+								<div class="profile_info">
+									<p id="name" th:text="myName">MEANZ</p>
+									<p id="vegan_type" th:text="veganType">SuperVegan</p>
+								</div>
+							</div>
+							<div class="unit_header_tool">
+								<button type="button"><i class="material-icons icon">more_vert</i></button>
+								<ul class="floating_menu">
+									<li><a href="#">수정하기</a></li>
+									<li><a href="#">삭제하기</a></li>
+								</ul>
+							</div>
+						</div>
+						
+						<div class="slider">
+							<div class="wrap">
+								<ul class="slider_trap">
+									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
+									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
+									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
+								</ul>
+								<div class="media_controller">
+									<button id="prevBtn" type="button">pre</button>
+									<button id="nextBtn" type="button">next</button>
+								</div>
+								<div class="eyes">
+									<span></span>
+									<span></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tool_box">
+						<button type="button">
+							<p><i class="material-icons icon">chat</i></p>
+							<p>999</p>
+						</button>
+						<button type="button">
+							<p><i class="material-icons icon">favorite</i></p>
+							<p>999</p>
+						</button>
+						<button type="button">
+							<p><i class="material-icons icon">share</i></p>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="comment_box">
+				<div class="wrap">
+					<div class="header_box">
+						<div class="header_info">
+							<p>댓글</p>
+							<span>2134</span>
+						</div>
+						<button>닫기</button>
+					</div>
+					<div class="comment_user_info">
+						<div class="comm_info">
+							<span>2024-11-27</span>
+							<span>조회수<span>123</span></span>
+						</div>
+						<p class="comm_text">
+							무슨 말을 하려던 최대 4줄이 한계이느라
+						</p>
+						<div>
+							<ul class="slider_tags">
+								<li>초밥</li>
+								<li>육회</li>
+								<li>파스타</li>
+								<li>치킨</li>
+							</ul>
+						</div>
+					</div>
+					<div class="comment_area">
+						<ul>
+							<li class="comm_unit">
+								<th:block th:insert="feed/component/comm_unit :: comm_unit"></th:block>
+							</li>
+						</ul>
+					</div>
+					<div class="comm_input">
+						<input placeholder="비건 좋아하면 소리질러" type="text">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Toast UI Editor
     const editor = new toastui.Editor({
         el: document.querySelector('#editor'), // Editor container
-        height: '400px', // Editor height
+        height: '700px', // Editor height
         initialEditType: 'markdown', // Initial editor type (markdown or wysiwyg)
         previewStyle: 'vertical', // Split view (editor & preview)
         placeholder: '글을 입력하세요',
@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('업로드 가능한 파일 형식은 jpg, jpeg, png, gif, webp 입니다.');
                     return;
                 }
-
                 const formData = new FormData();
                 formData.append('image', blob);
 
@@ -39,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         let imgUrl = `/tui_editor/image-print?filename=${data.filename}`;
                         // callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
                         // 형식 : ![대체 텍스트](주소)
+                        console.log(data);
                         callback(data, '사진 대체 텍스트 입력');
                     },
                     error: function(e) {
@@ -55,6 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // Sync editor content with hidden input on form submit
     document.querySelector('#boardForm').addEventListener('submit', function () {
         const content = editor.getMarkdown(); // Get Markdown content
+        if (!content.trim()) { // Check if content is empty or whitespace
+            event.preventDefault(); // Prevent form submission
+            alert('내용을 입력해주세요!'); // Notify user
+            return;
+        }
         document.querySelector('#boardContent').value = content;
+        // 게시판 상태 초기화
+        sessionStorage.removeItem('boardCurrentPage');
+        sessionStorage.removeItem('boardCurrentCategory');
+        sessionStorage.removeItem('boardCurrentKeyword');
     });
 });
