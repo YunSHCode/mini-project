@@ -38,4 +38,6 @@ public interface BoardMapper {
 
     // 게시글 조회
     List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
+
+    void deleteboard(int id);
 }
