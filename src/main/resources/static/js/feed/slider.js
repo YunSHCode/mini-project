@@ -1,23 +1,20 @@
-document.addEventListener("DOMContentLoaded", () => {
-let currentIndex = 0;
-const slides = document.querySelectorAll(".media_unit");
+window.addEventListener('DOMContentLoaded', () => {
+    const navPosition = document.getElementById('nav_position');
+    let lastScrollY = window.scrollY;
 
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.style.display = i === index ? "block" : "none";
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY) {
+            // 스크롤 내리면 헤더 숨기기
+            navPosition.style.transform = "translateY(-100%)";
+        } else {
+            // 스크롤 올리면 헤더 보이기
+            console.log("test2")
+            navPosition.style.transform = "translateY(0)";
+        }
+
+        lastScrollY = currentScrollY;
     });
-}
-
-document.getElementById("prevBtn").addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    showSlide(currentIndex);
-});
-
-document.getElementById("nextBtn").addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    showSlide(currentIndex);
-});
-
-// 첫 슬라이드를 초기화합니다.
-showSlide(currentIndex);
 });

@@ -1,61 +1,82 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+	<link rel="stylesheet" th:href="@{/css/feed_upload.css}"/>
+	<link rel="stylesheet" th:href="@{/css/reset.css}"/>
+
 </th:block>
 <th:block layout:fragment="script">
-  <script th:src="@{/js/feed/slider.js}"></script>
+	<script th:src="@{/js/feed/file_upload.js}"></script>
 </th:block>
 
-<div>
-  <th:block layout:fragment="content">
-    <nav>
-      <a href="/feed/">뒤로가기</a>
-    </nav>
-    <div class="form-container">
-      <form enctype="multipart/form-data" method="post" th:action="@{/submit-form}">
 
-        <!-- 파일 첨부 -->
-        <div class="form-group">
-          <label for="files">파일 첨부 (최대 5개)</label>
-          <input accept="image/*" id="files" multiple name="files" required type="file"/>
-          <small>최대 5개의 파일을 업로드할 수 있습니다.</small>
-        </div>
-
-
-        <!-- 제목 입력 -->
-        <div class="text_upload" style="display: flex; flex-direction: column">
-          <input id="title" name="title" placeholder="제목을 입력하세요" required type="text"/>
-
-          <textarea id="content" name="content" placeholder="내용을 입력하세요" required rows="5"></textarea>
-        </div>
-        <!-- 태그 선택 -->
-        <div class="form-group">
-          <label for="tags">태그 선택 (최대 10개)</label>
-          <div id="tags">
-            <input id="tag1" name="tags" type="checkbox" value="tag1"/>
-            <label for="tag1">태그 1</label>
-
-            <input id="tag2" name="tags" type="checkbox" value="tag2"/>
-            <label for="tag2">태그 2</label>
-
-            <input id="tag3" name="tags" type="checkbox" value="tag3"/>
-            <label for="tag3">태그 3</label>
-
-            <input id="tag4" name="tags" type="checkbox" value="tag4"/>
-            <label for="tag4">태그 4</label>
-
-          </div>
-        </div>
-
-
-        <!-- 제출 버튼 -->
-        <div class="form-group">
-          <button type="submit">제출</button>
-        </div>
-      </form>
-    </div>
-  </th:block>
-</div>
+<th:block layout:fragment="content">
+	<div class="nav_detail">
+		<a href="/feed/">뒤로가기</a>
+	</div>
+	<form enctype="multipart/form-data" method="post" th:action="@{/feed/upload}">
+		
+		<!-- 파일 첨부 -->
+		<div class="section">
+			<h3>파일 등록하기<span><span id="img_count" style="color: #45a049">0</span>/5</span></h3>
+			<div class="file_preview_area">
+				<ul class="file_trap" id="file_preview_area">
+				</ul>
+				<div class="file_slider_btn" style="display: none">
+						<button id="btn_prev" type="button">Prev</button>
+						<button id="btn_next" type="button">Next</button>
+			
+				</div>
+			</div>
+			<div class="drop_file" id="upload_area">
+				<div class="wrap">
+					<label class="custom-file-label" for="file_uploader">파일 선택</label>
+					<input
+							accept="image/*"
+							id="file_uploader"
+							multiple
+							name="feedFile"
+							onchange="filePreview(this)"
+							required
+							type="file"
+					/>
+					<p>최대 5개의 파일을 업로드할 수 있습니다.</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="section">
+			<h3>내용입력</h3>
+			<textarea id="content" name="content" placeholder="내용을 입력하세요" required rows="5"></textarea>
+		</div>
+		
+		<!-- 태그 선택 -->
+		
+		<div class="section">
+			<h3>비건 타입 선택</h3>
+			<div class="vegan_type">
+				<ul id="tags">
+					<li>
+						<input id="vegan1" name="diet" type="checkbox" value="vegan"/>
+						<label for="vegan1">vegan</label>
+					</li>
+					<li>
+						<input id="vegan2" name="diet" type="checkbox" value="ovo"/>
+						<label for="vegan2">ovo</label>
+					</li>
+					<li>
+						<input id="vegan3" name="diet" type="checkbox" value="pesco"/>
+						<label for="vegan3">pesco</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		
+		<!-- 제출 버튼 -->
+		
+		<button class="btn_bg_green" type="submit">보내기</button>
+	</form>
+</th:block>
 </html>
