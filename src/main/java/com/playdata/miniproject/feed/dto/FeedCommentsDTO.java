@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Alias("feedComments")
 public class FeedCommentsDTO {
-    int feed_comment_id;
-    int user_key;
-    int feed_comment_step;
-    int feed_comment_group;
-    LocalDateTime feed_comment_create_dt;
-    LocalDateTime feed_comment_update_dt;
+    int feedCommentId;
+    int userKey;
+    int feedId;
+    int feedCommentGroup;
+    int feedCommentStep;
+    String feedCommentContent;
+    LocalDateTime feedCommentCreateDt;
+    LocalDateTime feedCommentUpdateDt;
 }
 
 

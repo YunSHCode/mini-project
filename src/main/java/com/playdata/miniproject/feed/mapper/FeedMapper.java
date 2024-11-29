@@ -8,29 +8,26 @@ import java.util.List;
 
 @Mapper
 public interface FeedMapper {
-    // Feed 생성
+
+    // feed 조회
+    List<FeedDTO> allFeed();
+
+    // 태그 조건 조회
+    FeedDTO FeedByTag(String feedTag);
+
+    // 나의 조건 조회
+    FeedDTO feedByMy(int userKey);
+
+    // feed 생성
     int insertFeed(FeedDTO feed);
 
-    // Feed 파일 생성
-    int insertFeedFiles(List<FeedfileDTO> feedFiles);
+    // feed 파일 생성
+    int insertFeedFiles(FeedfileDTO feed);
 
-    // 모든 Feed 조회
-    List<FeedDTO> selectAllFeeds();
+    // feed 수정
+    int editFeed(FeedDTO feed);
 
-    // 특정 Feed 조회
-    FeedDTO readFeed(int feedId);
-
-    // Feed 삭제
+    // feed 삭제
     int deleteFeed(int feedId);
 
-    // 특정 Feed의 파일 목록 조회
-    List<FeedfileDTO> selectFeedFiles(int feedId);
-
-    int updateFeed(FeedDTO feed);
-
-    List<FeedDTO> searchFeeds(String keyword);
-
-    List<FeedDTO> searchFeedsByTag(String tag, String keyword);
-
-    FeedfileDTO selectFeedFile(int fileId);
 }
