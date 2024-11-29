@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.playdata.miniproject.feed.mapper.FeedMapper">
+
+    <!-- Feed 등록 -->
+    <insert id="insertFeed" parameterType="feed">
+        INSERT INTO feed
+        (feed_id, user_key, feed_comment_id, feed_file_id, feed_content, feed_create_dt, feed_update_dt, feed_tag)
+        VALUES
+        (#{feedId},
+        #{userKey},
+        <if test="feedCommentId != null">#{feedCommentId}</if>
+        <if test="feedCommentId == null">NULL</if>,
+        #{feedFileId},
+        #{feedContent},
+        #{feedCreateDt},
+        <if test="feedUpdateDt != null">#{feedUpdateDt}</if>
+        <if test="feedUpdateDt == null">NULL</if>,
+        #{feedTag})
+    </insert>
+
+
+    <!-- Feed 파일 등록 -->
+    <insert id="FeedFileUpload" parameterType="feedFile">
+        INSERT INTO feed_file
+        (feed_file_id, feed_file_type, feed_file_name_org, feed_file_name, feed_upload_dt)
+        VALUES
+            (#{feedFileId},
+             #{feedFileType},
+             #{feedFileNameOrg},
+             #{feedFileName},
+             #{feedUploadDt})
+    </insert>
+
+</mapper>
