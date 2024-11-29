@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.miniproject.cafe.mapper.ReservationMapper">
+    <select id="cafeById" parameterType="int" resultType="com.playdata.miniproject.cafe.dto.CafeDTO">
+        SELECT * FROM cafe WHERE cafe_id = #{cafeId}
+    </select>
+    <select id="menuListByCafe" parameterType="int" resultType="com.playdata.miniproject.cafe.dto.MenuDTO">
+        SELECT * FROM menu WHERE cafe_id = #{cafeId}
+    </select>
+</mapper>

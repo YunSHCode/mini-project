@@ -2,7 +2,9 @@ package com.playdata.miniproject.board.service;
 
 import com.playdata.miniproject.board.dto.BoardFileDTO;
 import com.playdata.miniproject.util.FileUtils;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,11 +18,11 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BoardFileService {
-    private final String uploadDir = Paths.get("D:", "mini-project", "images", "board").toString();
 
-    {
-        ensureUploadDirExists();
-    }
+    @Value("${file.board.dir}")
+    private String uploadDir;
+
+    @PostConstruct
     private void ensureUploadDirExists() {
         File dir = new File(uploadDir);
         if (!dir.exists()) {

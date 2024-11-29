@@ -25,7 +25,7 @@ public class FeedDataController {
 
     private final FeedService feedService;
 
-    @Value("${file.dir}")
+    @Value("${file.feed.dir}")
     private String UPLOADPATH; // "C:/feedImg/" 파일을 저장할 경로
 
     // 피드 업로드 및 파일 저장
