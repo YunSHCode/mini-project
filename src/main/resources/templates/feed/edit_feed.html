@@ -7,6 +7,7 @@
 
 </th:block>
 <th:block layout:fragment="script">
+	<script th:src="@{/js/feed/slider.js}"></script>
 	<script th:src="@{/js/feed/file_upload.js}"></script>
 </th:block>
 
@@ -15,11 +16,11 @@
 	<div class="nav_detail">
 		<a href="/feed/">뒤로가기</a>
 	</div>
-	<form enctype="multipart/form-data" method="post" th:action="@{/feed/upload}">
+	<form enctype="multipart/form-data" method="post" th:action="@{/submit-form}">
 		
 		<!-- 파일 첨부 -->
 		<div class="section">
-			<h3>파일 등록하기<span><span id="img_count" style="color: #45a049">0</span>/5</span></h3>
+			<h3>파일 등록하기<span><span id="img_count"></span>/5</span></h3>
 			<div class="file_preview_area">
 				<ul class="file_trap" id="file_preview_area">
 				</ul>
@@ -29,6 +30,8 @@
 			
 				</div>
 			</div>
+			<ul id="">
+			</ul>
 			<div class="drop_file" id="upload_area">
 				<div class="wrap">
 					<label class="custom-file-label" for="file_uploader">파일 선택</label>
@@ -58,16 +61,32 @@
 			<div class="vegan_type">
 				<ul id="tags">
 					<li>
-						<input id="vegan1" name="diet" type="checkbox" value="vegan"/>
-						<label for="vegan1">vegan</label>
+						<input id="vegan1" name="tags" type="checkbox" value="v1"/>
+						<label for="vegan1">프루테리언</label>
 					</li>
 					<li>
-						<input id="vegan2" name="diet" type="checkbox" value="ovo"/>
-						<label for="vegan2">ovo</label>
+						<input id="vegan2" name="tags" type="checkbox" value="v2"/>
+						<label for="vegan2">비건</label>
 					</li>
 					<li>
-						<input id="vegan3" name="diet" type="checkbox" value="pesco"/>
-						<label for="vegan3">pesco</label>
+						<input id="vegan3" name="tags" type="checkbox" value="v3"/>
+						<label for="vegan3">락토 베지테리언</label>
+					</li>
+					<li>
+						<input id="vegan4" name="tags" type="checkbox" value="v4"/>
+						<label for="vegan4">락토 오보 베지테리언</label>
+					</li>
+					<li>
+						<input id="vegan5" name="tags" type="checkbox" value="v5"/>
+						<label for="vegan5">페스코 베지테리언</label>
+					</li>
+					<li>
+						<input id="vegan6" name="tags" type="checkbox" value="v6"/>
+						<label for="vegan6">폴로 베지테리언</label>
+					</li>
+					<li>
+						<input id="vegan7" name="tags" type="checkbox" value="v7"/>
+						<label for="vegan7">플렉시테리언</label>
 					</li>
 				</ul>
 			</div>
