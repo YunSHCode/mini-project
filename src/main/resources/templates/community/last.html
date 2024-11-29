@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+    <div>
+    <th:block layout:fragment="css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .meeting-detail {
+            display: none;
+        }
+    </style>
+    </th:block>
+        </div>
+    <div>
+        <th:block layout:fragment="content">
+            <div class="container">
+
+                <div id="createPage" class="card">
+                    <h2>모임 생성</h2>
+                    <label for="creatorId">개설자 ID</label>
+                    <input type="text" id="creatorId" placeholder="개설자 ID를 입력하세요">
+
+                    <label for="title">모임 제목</label>
+                    <input type="text" id="title" placeholder="모임 제목을 입력하세요">
+
+                    <label for="imageUpload">이미지 업로드</label>
+                    <input type="file" id="imageUpload" accept="image/*">
+
+                    <label for="description">모임 설명</label>
+                    <textarea id="description" rows="4" placeholder="모임 설명을 입력하세요"></textarea>
+
+                    <label for="participants">참여 인원</label>
+                    <input type="number" id="participants" min="1" placeholder="참여 가능한 최대 인원 수를 입력하세요">
+
+                    <button onclick="saveMeeting()">생성하기</button>
+                </div>
+
+                <div id="meetingDetail" class="card meeting-detail">
+                    <h2 id="meetingTitle">모임 상세</h2>
+                    <p><strong>개설자:</strong> <span id="meetingCreator"></span></p>
+                    <p><strong>설명:</strong> <span id="meetingDescription"></span></p>
+                    <p><strong>참여 인원:</strong> <span id="meetingParticipants"></span>명</p>
+                    <button onclick="goBackToCreate()">돌아가기</button>
+
+                </div>
+            </div>
+
+            <script>
+                function saveMeeting() {
+                    const creatorId = document.getElementById('creatorId').value;
+                    const title = document.getElementById('title').value;
+                    const description = document.getElementById('description').value;
+                    const participants = document.getElementById('participants').value;
+
+                    if (!creatorId || !title || !description || !participants) {
+                        alert('모든 필드를 입력해주세요.');
+                        return;
+                    }
+
+
+                    document.getElementById('meetingCreator').innerText = creatorId;
+                    document.getElementById('meetingTitle').innerText = title;
+                    document.getElementById('meetingDescription').innerText = description;
+                    document.getElementById('meetingParticipants').innerText = participants;
+
+
+                    document.getElementById('createPage').style.display = 'none';
+                    document.getElementById('meetingDetail').style.display = 'block';
+                }
+
+                function goBackToCreate() {
+                    location.href = '/community';
+                    document.getElementById('meetingDetail').style.display = 'none';
+                    document.getElementById('createPage').style.display = 'block';
+                }
+            </script>
+        </th:block>
+    </div>
+
+</html>
