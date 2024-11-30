@@ -8,7 +8,7 @@
         comment_content,
         comment_step,
         comment_group,
-        comment_create_dt,
+        commendt_create_dt,
         comment_update_dt,
         board_id,
         user_key

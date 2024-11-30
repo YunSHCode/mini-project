@@ -12,19 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Alias("FeedFile")
 public class FeedfileDTO {
-    private int feedFileId;
-    private int feedFileType;
-    private String feedFileNameOrg;  // 원본 파일 이름
-    private String feedFileName;     // 저장된 파일 이름
-    private LocalDateTime feedUploadDt;
-
-    // 파일 이름 설정 메소드
-    public void setFeedFileName(String fileName) {
-        this.feedFileName = fileName;
-    }
-
-    // 원본 파일 이름 설정 메소드
-    public void setFeedFileNameOrg(String originalFileName) {
-        this.feedFileNameOrg = originalFileName;
-    }
+    int feedFileId; // 피드 파일 고유 아이디
+    int feedFileType; // 피드 파일 확장자
+    String feedFileNameOrg; // 파일 원본 이름
+    String feedFileName; // 파일 이름
+    LocalDateTime feedUploadDt; // 피드 업로드 날짜
+    int feedId; // 피드 외래키
 }

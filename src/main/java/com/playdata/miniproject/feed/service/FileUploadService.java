@@ -48,7 +48,8 @@ public class FileUploadService {
                         1, // feedFileType (예: 이미지 파일의 타입으로 1을 사용)
                         originalFilename, // 원본 파일 이름
                         storeFilename, // 저장된 파일 이름
-                        LocalDateTime.now() // 업로드 시간
+                        LocalDateTime.now(), // 업로드 시간
+                        1
                 );
 
                 // 파일 DTO 리스트에 추가
