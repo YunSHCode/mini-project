@@ -27,7 +27,6 @@ public class FeedDataController {
     private final FeedService feedService;
 
 
-
     // 피드 업로드 및 파일 저장
     @PostMapping("/feed/upload")
     public String responseUpload(

@@ -4,6 +4,7 @@ import com.playdata.miniproject.board.dto.BoardFileDTO;
 import com.playdata.miniproject.board.service.BoardFileService;
 import com.playdata.miniproject.util.FileUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,9 @@ import java.util.UUID;
 public class ToastEditorController {
 
     // 파일 저장할 디렉토리
-    private final String uploadDir = Paths.get("D:", "mini-project", "images", "board").toString();
+    @Value("${file.board.dir}")
+    private String uploadDir;
+
     private final BoardFileService boardFileService;
     /**
      * 에디터 이미지 업로드
@@ -33,6 +36,6 @@ public class ToastEditorController {
             return "";
         }
         BoardFileDTO boardFile = boardFileService.uploadBoardFile(image);
-        return "/uploads/board/" + boardFile.getStoreFilename();
+        return "/upload/board/" + boardFile.getStoreFilename();
     }
 }
