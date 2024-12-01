@@ -18,7 +18,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardServiceImpl boardServiceImpl;
-    private final BoardFileService boardFileService;
+//
+
 
     @GetMapping("/cafe")
     public String cafe() {

@@ -10,7 +10,7 @@
 
     <insert id="signup" parameterType="signupinfo">
         insert into users values (null, #{userId},#{userPassword},#{userNickname},#{userRealname},#{userBirthday},#{userEmail},
-        #{userPhoneNumber},#{userVeganType}, 'profile.png', null, null, null)
+        #{userPhoneNumber},#{userVeganType}, 'profile.png', null, now(), now())
     </insert>
 
     <select id="idcheck" parameterType="String" resultType="user">

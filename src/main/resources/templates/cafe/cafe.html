@@ -88,7 +88,7 @@
                     <div class="modal-footer">
                         <button type="button" id="modalClose" class="btn btn-secondary" data-bs-dismiss="modal">닫기
                         </button>
-                        <button type="button" class="btn btn-primary">예약</button>
+                        <button type="button"id="reservationButton" class="btn btn-primary">예약</button>
                     </div>
                 </div>
             </div>
@@ -157,6 +157,7 @@
 
                             // 모달 생성
                             var cafeModal = new bootstrap.Modal(document.getElementById('cafeModal'));
+                            var reservationButton = document.getElementById("reservationButton");
 
                             document.getElementById("modalClose").addEventListener("click", function () {
                                 cafeModal.hide();
@@ -173,6 +174,10 @@
                                 document.getElementById("modal_cafe_Num").innerText = `📞 연락처: ${cafe.cafeNo || "정보 없음"}`;
                                 document.getElementById("modal_cafe_open").innerText = `⏰ 오픈 시간: ${cafe.cafeOpenHour || "정보 없음"}`;
                                 document.getElementById("modal_cafe_close").innerText = `⏰ 마감 시간: ${cafe.cafeCloseHour || "정보 없음"}`;
+
+                                reservationButton.onclick = function () {
+                                    window.location.href = `/cafe/reservation/${cafe.cafeId}`;
+                                };
                             });
 
                             // 2. 마커에 mouseover 등록합니다

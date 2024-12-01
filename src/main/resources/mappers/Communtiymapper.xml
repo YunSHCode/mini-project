@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.playdata.miniproject.community.mapper.CommunityMapper">
+
+    <!-- 커뮤니티 등록 -->
+    <insert id="registerCommunity" parameterType="com.playdata.miniproject.community.dto.CommunityDTO">
+        INSERT INTO community (
+            community_title,
+            community_contents,
+            community_member,
+            community_member_max,
+            community_create_dt,
+            community_picture_original,
+            community_picture_generated,
+            user_key
+        ) VALUES (
+                     #{communityTitle},
+                     #{communityContents},
+                     #{communityMember},
+                     #{communityMemberMax},
+                     NOW(),
+                     #{communityPictureOriginal},
+                     #{communityPictureGenerated},
+                     #{userKey}
+                 )
+    </insert>
+
+    <!-- 모든 커뮤니티 조회 -->
+    <select id="getCommunityList" resultType="com.playdata.miniproject.community.dto.CommunityDTO">
+        SELECT
+            community_id,
+            community_title,
+            community_contents,
+            community_member,
+            community_member_max,
+            community_create_dt,
+            community_picture_original,
+            community_picture_generated,
+            user_key
+        FROM community
+    </select>
+
+    <!-- 특정 커뮤니티 조회 -->
+    <select id="getCommunityById" parameterType="int" resultType="com.playdata.miniproject.community.dto.CommunityDTO">
+        SELECT
+            community_id,
+            community_title,
+            community_contents,
+            community_member,
+            community_member_max,
+            community_create_dt,
+            community_picture_original,
+            community_picture_generated,
+            user_key
+        FROM community
+        WHERE community_id = #{id}
+    </select>
+
+    <!-- 특정 커뮤니티 삭제 -->
+    <delete id="deleteCommunity" parameterType="int">
+        DELETE FROM community
+        WHERE community_id = #{id}
+    </delete>
+
+    <!-- 커뮤니티 업데이트 -->
+    <update id="updateCommunity" parameterType="com.playdata.miniproject.community.dto.CommunityDTO">
+        UPDATE community
+        SET
+            community_title = #{communityTitle},
+            community_contents = #{communityContents},
+            community_member = #{communityMember},
+            community_member_max = #{communityMemberMax},
+            community_picture_original = #{communityPictureOriginal},
+            community_picture_generated = #{communityPictureGenerated},
+            user_key = #{userKey}
+        WHERE community_id = #{communityId}
+    </update>
+
+</mapper>
