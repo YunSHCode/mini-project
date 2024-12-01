@@ -4,69 +4,88 @@
 
 <mapper namespace="com.playdata.miniproject.feed.mapper.FeedMapper">
 
-
     <!-- 모든 Feed 조회 -->
-    <select id="allFeed" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
+    <select id="getAllFeeds" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
         SELECT * FROM feed
+        ORDER BY feed_create_dt desc
     </select>
 
+    <select id="getFeedFiles" resultType="com.playdata.miniproject.feed.dto.FeedfileDTO">
+        SELECT * FROM feed_files
+        WHERE feed_id = #{feedID}
+    </select>
 
-    <!-- My Feed 조회 -->
-    <select id="FeedByTag" parameterType="int" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
+    <!-- 특정 유저의 Feed 조회 -->
+    <select id="getFeedsByUser" parameterType="int" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
         SELECT * FROM feed f
-            LEFT JOIN  users u ON f.user_key = u.user_key
-            WHERE user_key = #{userKey}
+                          LEFT JOIN users u ON f.user_key = u.user_key
+        WHERE user_key = #{userKey}
     </select>
 
-    <!-- My Feed 태그 조회 -->
-    <select id="FeedByTag" parameterType="String" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
+    <!-- 특정 태그로 Feed 조회 -->
+    <select id="getFeedsByTag" parameterType="String" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
         SELECT * FROM feed
-            WHERE feed_tag LIKE CONCAT('%', #{feedTag}, '%')
+        WHERE feed_tag LIKE CONCAT('%', #{feedTag}, '%')
     </select>
 
     <!-- Feed 등록 -->
-    <insert id="insertFeed" parameterType="com.playdata.miniproject.feed.dto.FeedDTO" >
+    <insert id="insertFeed" parameterType="com.playdata.miniproject.feed.dto.FeedDTO" useGeneratedKeys="true" keyProperty="feedId">
         INSERT INTO feed
-        (feed_id, user_key, feed_comment_id, feed_file_id, feed_content, feed_create_dt, feed_update_dt, feed_tag)
+        (
+            <!-- feed_id, -->
+            user_key,
+            <!-- feed_comment_id, -->
+            <!-- feed_file_id, -->
+            feed_content,
+            feed_create_dt,
+            feed_update_dt,
+            feed_tag
+        )
         VALUES
-        (#{feedId},
+        (
+            <!-- #{feedId}, -->
         #{userKey},
-        <if test="feedCommentId != null">#{feedCommentId}</if>
-        <if test="feedCommentId == null">NULL</if>,
-        #{feedFileId},
+        <!-- <if test="feedCommentId != null">#{feedCommentId}</if> -->
+        <!-- <if test="feedCommentId == null">NULL</if>, -->
+        <!-- #{feedFileId}, -->
         #{feedContent},
-        #{feedCreateDt},
+        NOW(),
+        NOW(),
+        <!-- #{feedCreateDt},
         <if test="feedUpdateDt != null">#{feedUpdateDt}</if>
-        <if test="feedUpdateDt == null">NULL</if>,
+        <if test="feedUpdateDt == null">NULL</if>, -->
         #{feedTag})
     </insert>
 
     <!-- Feed 수정 -->
-    <update id="editFeed" parameterType="com.playdata.miniproject.feed.dto.FeedDTO">
+    <update id="updateFeed" parameterType="com.playdata.miniproject.feed.dto.FeedDTO">
         UPDATE feed SET
-            cotent = #{content}
+                        feed_content = #{feedContent},
+                        feed_tag = #{feedTag},
+                        feed_update_dt = #{feedUpdateDt}
         WHERE feed_id = #{feedId}
     </update>
 
     <!-- Feed 삭제 -->
     <delete id="deleteFeed" parameterType="int">
-        DELETE  from feed
-            WHERE feed_id = #{feedId}
+        DELETE FROM feed
+        WHERE feed_id = #{feedId}
     </delete>
 
-
     <!-- Feed 파일 등록 -->
-    <insert id="insertFeedFiles" parameterType="com.playdata.miniproject.feed.dto.FeedfileDTO">
-        INSERT INTO feed_file
-        (feed_file_id, feed_file_type, feed_file_name_org, feed_file_name, feed_upload_dt)
+    <insert id="insertFeedFiles" parameterType="java.util.List">
+        <!-- INSERT INTO feed_file -->
+        INSERT INTO feed_files
+        <!-- (feed_file_id, feed_file_type, feed_file_name_org, feed_file_name, feed_upload_dt) -->
+        (feed_file_type, feed_file_name_org, feed_file_name, feed_upload_dt , feed_id)
         VALUES
-            (#{feedFileId},
-             #{feedFileType},
-             #{feedFileNameOrg},
-             #{feedFileName},
-             #{feedUploadDt})
+        <foreach collection="feedFiles" item="file" separator=",">
+            (#{file.feedFileType},
+            #{file.feedFileNameOrg},
+            #{file.feedFileName},
+            #{file.feedUploadDt},
+            #{file.feedId})
+        </foreach>
     </insert>
-
-
 
 </mapper>

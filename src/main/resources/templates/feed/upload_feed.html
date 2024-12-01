@@ -3,6 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/css/feed_upload.css}"/>
+	<link rel="stylesheet" th:href="@{/css/feed_unit.css}"/>
 	<link rel="stylesheet" th:href="@{/css/reset.css}"/>
 
 </th:block>
@@ -15,19 +16,22 @@
 	<div class="nav_detail">
 		<a href="/feed/">뒤로가기</a>
 	</div>
-	<form enctype="multipart/form-data" method="post" action="/feed/upload" >
+	<form enctype="multipart/form-data" method="post" action="/feed/upload/feed">
 		
 		<!-- 파일 첨부 -->
 		<div class="section">
-			<h3>파일 등록하기<span><span id="img_count" style="color: #45a049">0</span>/5</span></h3>
+			<h3>파일 등록하기<span><span class="img_count" style="color: #45a049">0</span>/5</span></h3>
 			<div class="file_preview_area">
 				<ul class="file_trap" id="file_preview_area">
 				</ul>
-				<div class="file_slider_btn" style="display: none">
-						<button id="btn_prev" type="button">Prev</button>
-						<button id="btn_next" type="button">Next</button>
-			
-				</div>
+			</div>
+			<div class="upload_btn_box">
+				<button type="button" id="btn_prev">prev</button>
+				<span>
+					<span class="img_index">0</span>/
+					<span class="img_count">0</span>
+				</span>
+				<button type="button" id="btn_next">nex</button>
 			</div>
 			<div class="drop_file" id="upload_area">
 				<div class="wrap">

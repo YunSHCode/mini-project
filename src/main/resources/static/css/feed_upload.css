@@ -369,3 +369,11 @@ h3 span {
 }
 
 
+.upload_btn_box {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    font-size: 1.4em;
+}
