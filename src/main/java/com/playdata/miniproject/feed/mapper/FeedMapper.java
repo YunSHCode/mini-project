@@ -9,25 +9,25 @@ import java.util.List;
 @Mapper
 public interface FeedMapper {
 
-    // feed 조회
-    List<FeedDTO> allFeed();
+    // 1. 전체 피드 조회
+    List<FeedDTO> getAllFeeds();
 
-    // 태그 조건 조회
-    FeedDTO FeedByTag(String feedTag);
+    // 2. 태그로 피드 조회
+    List<FeedDTO> getFeedsByTag(String feedTag);
+    List<FeedfileDTO> getFeedFiles(int feedId);
 
-    // 나의 조건 조회
-    FeedDTO feedByMy(int userKey);
+    // 3. 특정 유저의 피드 조회
+    List<FeedDTO> getFeedsByUser(int userKey);
 
-    // feed 생성
+    // 4. 피드 생성
     int insertFeed(FeedDTO feed);
 
-    // feed 파일 생성
-    int insertFeedFiles(FeedfileDTO feed);
+    // 5. 피드 파일 생성
+    int insertFeedFiles(List<FeedfileDTO> feedFiles); // 여러 파일을 처리할 수 있도록 변경
 
-    // feed 수정
-    int editFeed(FeedDTO feed);
+    // 6. 피드 수정
+    int updateFeed(FeedDTO feed);
 
-    // feed 삭제
+    // 7. 피드 삭제
     int deleteFeed(int feedId);
-
 }

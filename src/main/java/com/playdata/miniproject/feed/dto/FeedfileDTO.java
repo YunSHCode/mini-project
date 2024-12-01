@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Alias("FeedFile")
 public class FeedfileDTO {
     int feedFileId; // 피드 파일 고유 아이디
-    int feedFileType; // 피드 파일 확장자
+    int feedFileType; // 피드 파일 타입 (int로 유지)
     String feedFileNameOrg; // 파일 원본 이름
-    String feedFileName; // 파일 이름
+    String feedFileName; // 파일 데이터
     LocalDateTime feedUploadDt; // 피드 업로드 날짜
     int feedId; // 피드 외래키
 }

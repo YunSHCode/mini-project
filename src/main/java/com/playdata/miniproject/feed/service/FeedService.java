@@ -4,119 +4,80 @@ import com.playdata.miniproject.feed.dao.FeedDAO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class FeedService implements FeedServiceImp {
+
+    private final FeedDAO feedDAO; // 의존성 주입
+
+
+    // 2. 피드 업로드 (userKey, feedContent, feedTag로 피드 등록)
     @Override
-    public int FeedUpload(FeedDTO feed, List<FeedfileDTO> files) {
-        return 0;
+    public int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files) {
+        if (files == null || files.isEmpty()) {
+            throw new IllegalArgumentException("피드는 최소 1개의 파일을 포함해야 합니다.");
+        }
+
+        // 피드 객체 생성
+        FeedDTO feed = new FeedDTO(userKey, feedContent, feedTag);
+
+        // 피드 등록
+        // feedDAO.insertFeed(feed);
+        feedDAO.insertFeed(feed);
+        int feed_id = feed.getFeedId();
+
+        List<FeedfileDTO> files2 = files.stream().map(o -> {
+            o.setFeedId(feed_id);
+            return o;
+        }).collect(Collectors.toList());
+
+        // 파일 등록
+        // feedDAO.insertFeedFiles(files);
+        feedDAO.insertFeedFiles(files2);
+
+        // 피드 ID 반환
+        return feed.getFeedId();
     }
 
+    // 3. 전체 피드 목록 조회
     @Override
-    public void feedUpload(MultipartFile[] uploadFiles, String content, String[] diet) {
-
+    public List<FeedDTO> getAllFeeds() {
+        return feedDAO.getAllFeeds(); // 모든 피드 목록 조회 (DAO에서 호출)
     }
 
+    // 4. 피드 파일 목록 조회
     @Override
-    public List<FeedDTO> feedList() {
-        return List.of();
+    public List<FeedfileDTO> getFeedFiles(int feedId) {
+        return  feedDAO.getFeedFiles(feedId);
     }
 
+
+    // 4. 특정 유저의 피드 목록 조회
     @Override
-    public List<FeedDTO> search(String tag, String keyword) {
-        return List.of();
+    public List<FeedDTO> getFeedsByUser(int userKey) {
+        return feedDAO.getFeedsByUser(userKey); // 해당 유저의 피드 목록 조회
     }
 
+    // 5. 태그로 피드 목록 조회
     @Override
-    public int FeedUpdate(FeedDTO feed) {
-        return 0;
+    public List<FeedDTO> getFeedsByTag(String feedTag) {
+        return feedDAO.getFeedsByTag(feedTag); // 해당 태그가 포함된 피드 목록 조회
     }
 
+    // 6. 피드 수정
     @Override
-    public int FeedDelete(int feed_id) {
-        return 0;
+    public int updateFeed(FeedDTO feed) {
+        return feedDAO.updateFeed(feed); // 피드 수정 (DAO에서 호출)
     }
-//
-//    private final FeedDAO feedDAO;
-//
-//    @Value("${file.dir}")
-//    private String UPLOAD_PATH;
-//
-//    @Value("${upload.path}") // application.properties에서 파일 경로를 읽어옵니다.
-//    private String uploadPath;
-//
-//    @Override
-//    public int FeedUpload(FeedDTO feed, FeedfileDTO feedFiles) {
-//        // 피드 등록
-//        int result = feedDAO.insertFeed(feed);
-//        if (result > 0) {
-//            // 파일 등록
-//            feedDAO.insertFeedFiles(feedFiles); // 파일 정보 DB에 저장
-//            return result; // 피드 등록 성공 시 결과 반환
-//        }
-//        return 0; // 피드 등록 실패 시 0 반환
-//    }
-//
-//    @Override
-//    public List<FeedDTO> feedList() {
-//        return feedDAO.getAllFeeds(); // 전체 피드 목록 조회
-//    }
-//
-//    @Override
-//    public int FeedUpdate(FeedDTO feed) {
-//        return feedDAO.updateFeed(feed); // 피드 수정
-//    }
-//
-//    @Override
-//    public int FeedDelete(int feedId) {
-//        return feedDAO.deleteFeedById(feedId); // 피드 삭제
-//    }
-//
-//    @Override
-//    public List<FeedDTO> search(String tag, String keyword) {
-//        return feedDAO.searchFeedsByTagAndKeyword(tag, keyword); // 태그와 키워드로 피드 검색
-//    }
-//
-//
-//    @Override
-//    public int FeedUpload(FeedDTO feed, List<FeedfileDTO> files) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void feedUpload(MultipartFile[] uploadFiles, String content, String[] diet) {
-//
-//        Arrays.stream(uploadFiles).forEach(uploadFile -> {
-//            String originalName = uploadFile.getOriginalFilename(); // 파일의 저장이름
-//            assert originalName != null; // null 일경우 에러 출력
-//            String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1); // 슬러시 문자제거
-//
-//            String uuid = UUID.randomUUID().toString(); // 랜덤 문자열 선언
-//            String saveName = uuid + "_" + fileName; // 실제 저장 네임 지정
-//            Path savePath = Paths.get(UPLOAD_PATH + File.separator + saveName); // 저장 위치 선언
-//
-//            try {
-//                uploadFile.transferTo(savePath); // 실제 이미지 저장
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        });
-//    }
+
+    // 7. 피드 삭제
+    @Override
+    public int deleteFeed(int feedId) {
+        return feedDAO.deleteFeedById(feedId); // 피드 삭제 (DAO에서 호출)
+    }
 }
