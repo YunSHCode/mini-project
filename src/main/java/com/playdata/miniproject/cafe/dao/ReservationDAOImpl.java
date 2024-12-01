@@ -1,7 +1,6 @@
 package com.playdata.miniproject.cafe.dao;
 
-import com.playdata.miniproject.cafe.dto.CafeDTO;
-import com.playdata.miniproject.cafe.dto.MenuDTO;
+import com.playdata.miniproject.cafe.dto.*;
 import com.playdata.miniproject.cafe.mapper.ReservationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,5 +20,30 @@ public class ReservationDAOImpl implements ReservationDAO{
     @Override
     public List<MenuDTO> menuListByCafe(int cafeId) {
         return mapper.menuListByCafe(cafeId);
+    }
+
+    @Override
+    public int insertReservation(ReservationRequest request) {
+        return mapper.insertReservation(request);
+    }
+
+    @Override
+    public void insertReservationMenu(int reservationId, int menuId, int reservationMenuQuantity) {
+        mapper.insertReservationMenu(reservationId, menuId, reservationMenuQuantity);
+    }
+
+    @Override
+    public ReservationSuccess selectReservationById(int reservationId) {
+        return mapper.selectReservationById(reservationId);
+    }
+
+    @Override
+    public List<ReservationSuccess> getReservationsByUser(int userKey, int offset, int size) {
+        return mapper.getReservationByUser(userKey, offset, size);
+    }
+
+    @Override
+    public int countReservationByUser(int userKey) {
+        return mapper.countReservationByUser(userKey);
     }
 }

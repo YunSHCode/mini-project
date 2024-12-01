@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<div>
+  <th:block layout:fragment="content">
+    <h1 class="text-center my-4">마이페이지</h1>
+
+    <!-- 부트스트랩 탭 -->
+    <ul class="nav nav-tabs" id="myPageTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab" aria-controls="posts" aria-selected="true">
+          내가 작성한 게시글
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservations" type="button" role="tab" aria-controls="reservations" aria-selected="false">
+          내가 예약한 목록
+        </button>
+      </li>
+    </ul>
+
+    <!-- 탭 콘텐츠 -->
+    <div class="tab-content mt-4" id="myPageTabContent">
+      <!-- 게시글 탭 -->
+      <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>작성 날짜</th>
+            <th>상세보기</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="board, iterStat : ${myBoardPage.content}">
+            <td th:text="${iterStat.index + 1 + (myBoardPage.number * myBoardPage.size)}"></td>
+            <td th:text="${board.boardTitle}"></td>
+            <td th:text="${#temporals.format(board.boardCreateDt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+              <a th:href="@{/board/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary">보기</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!-- 게시글 페이징 -->
+        <nav>
+          <ul class="pagination">
+            <!-- 이전 버튼 -->
+            <li class="page-item" th:classappend="${myBoardPage.number == 0} ? 'disabled'">
+              <a class="page-link" th:href="@{/myPage(boardPage=${myBoardPage.number - 1})}" aria-label="Previous">이전</a>
+            </li>
+
+            <!-- 페이지 번호 계산 -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence((myBoardPage.number / 10) * 10,
+                                        ((myBoardPage.number / 10) * 10) + 9)}"
+                th:classappend="${i == myBoardPage.number} ? 'active'"
+                th:if="${i < myBoardPage.totalPages}">
+              <a class="page-link" th:href="@{/myPage(boardPage=${i})}" th:text="${i + 1}"></a>
+            </li>
+
+            <!-- 다음 버튼 -->
+            <li class="page-item" th:classappend="${myBoardPage.number == myBoardPage.totalPages - 1} ? 'disabled'">
+              <a class="page-link" th:href="@{/myPage(boardPage=${myBoardPage.number + 1})}" aria-label="Next">다음</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- 예약 탭 -->
+      <div class="tab-pane fade" id="reservations" role="tabpanel" aria-labelledby="reservations-tab">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>카페 이름</th>
+            <th>픽업 시간</th>
+            <th>상세 보기</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="reservation, iterStat : ${myReservationsPage.content}">
+            <td th:text="${iterStat.index + 1 + (myReservationsPage.number * myReservationsPage.size)}"></td>
+            <td th:text="${reservation.cafeName}"></td>
+            <td th:text="${#temporals.format(reservation.reservationPickupTime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+              <button class="btn btn-sm btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#reservationModal"
+                      th:attr="data-reservation=${reservationJsonList}">
+                상세보기
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!-- 예약 페이징 -->
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" th:classappend="${myReservationsPage.hasPrevious()} ? '' : 'disabled'">
+              <a class="page-link" th:href="@{/myPage(postPage=${postCurrentPage}, reservationPage=${myReservationsPage.number - 1})}" aria-label="Previous">이전</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence((myReservationsPage.number / 10) * 10, ((myReservationsPage.number / 10) * 10) + 9)}"
+                th:classappend="${i == myReservationsPage.number} ? 'active'" th:if="${i < myReservationsPage.totalPages}">
+              <a class="page-link" th:href="@{/myPage(postPage=${postCurrentPage}, reservationPage=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${myReservationsPage.hasNext()} ? '' : 'disabled'">
+              <a class="page-link" th:href="@{/myPage(postPage=${postCurrentPage}, reservationPage=${myReservationsPage.number + 1})}" aria-label="Next">다음</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reservationModalLabel">예약 상세정보</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>카페 이름:</strong> <span id="modalCafeName"></span></p>
+            <p><strong>픽업 시간:</strong> <span id="modalPickupTime"></span></p>
+            <p><strong>메뉴:</strong></p>
+            <ul id="modalMenuList"></ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:src="@{/js/user/mypagetest.js}"></script>
+  </th:block>
+</div>
+</html>

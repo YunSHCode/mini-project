@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+</th:block>
+<th:block layout:fragment="script">
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <script th:src="@{/js/board/boardUpdateForm.js}"></script>
+</th:block>
+<div>
+  <th:block layout:fragment="content">
+
+    <!-- 게시글 수정 폼 -->
+    <h1 class="text-center mb-4">게시글 수정</h1>
+    <form th:action="@{/board/edit/{boardId}(boardId=${board.boardId})}" method="post" id="boardForm">
+      <div class="mb-3">
+        <label for="boardTitle" class="form-label">Title:</label>
+        <input type="text" id="boardTitle" name="boardTitle" class="form-control" th:value="${board.boardTitle}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="boardContent" class="form-label">Content:</label>
+        <!-- Toast UI Editor Container -->
+        <div id="editor" class="border"></div>
+        <!-- Hidden input to store editor content -->
+        <input type="hidden" id="boardContent" name="boardContent" th:value="${board.boardContent}">
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a th:href="@{/board/boardList}" class="btn btn-secondary">Back to List</a>
+      </div>
+    </form>
+  </th:block>
+</div>
+</html>

@@ -38,6 +38,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'//mybatis
     runtimeOnly 'com.mysql:mysql-connector-j'//mysql 드라이버
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' //tymeleaf 레이아웃
+    implementation 'org.springframework.data:spring-data-commons' // 페이징 처리
 }
 
 tasks.named('test') {

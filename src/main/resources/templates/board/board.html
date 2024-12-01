@@ -35,20 +35,6 @@
 </th:block>
 <th:block layout:fragment="script">
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script th:src="@{/js/board/boardDetail.js}"></script>
-    <script th:inline="javascript">
-        const markdownContent = /*[[${board.boardContent}]]*/ '';
-        console.log('Content:', markdownContent);
-        const viewerElement = document.querySelector('#viewer');
-        viewerElement.style.minHeight = '300px'; // 최소 높이 설정
-        viewerElement.style.height = 'auto';
-        // Toast UI Viewer 초기화
-        new toastui.Editor.factory({
-            el: viewerElement,
-            viewer: true,
-            initialValue: markdownContent
-        });
-    </script>
 </th:block>
 <div>
     <th:block layout:fragment="content">
@@ -64,7 +50,7 @@
                     <!-- 작성자 정보 -->
                     <p class="text-muted mb-0">
                         <img src="/images/user/default_user.png" width="32" height="32" class="rounded-circle">
-                        <strong th:text="${board.userRealname}">작성자 ID</strong>
+                        <strong th:text="${board.userNickname}">작성자 ID</strong>
                     </p>
 
                     <!-- 수정/삭제 버튼 -->
@@ -104,6 +90,20 @@
             </div>
             <div id="boardData" th:data-board-id="${board.boardId}" th:data-board-content="${board.boardContent}"></div>
         </div>
+        <script th:src="@{/js/board/boardDetail.js}"></script>
+        <script th:inline="javascript">
+            const markdownContent = /*[[${board.boardContent}]]*/ '';
+            console.log('Content:', markdownContent);
+            const viewerElement = document.querySelector('#viewer');
+            viewerElement.style.minHeight = '300px'; // 최소 높이 설정
+            viewerElement.style.height = 'auto';
+            // Toast UI Viewer 초기화
+            new toastui.Editor.factory({
+                el: viewerElement,
+                viewer: true,
+                initialValue: markdownContent
+            });
+        </script>
     </th:block>
 </div>
 </html>

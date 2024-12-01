@@ -4,6 +4,9 @@ import com.playdata.miniproject.board.dao.BoardDAO;
 import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import com.playdata.miniproject.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -57,5 +60,25 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void deleteBoard(int id) {
         boardDAO.deleteBoard(id);
+    }
+
+    @Override
+    public boolean checkWriter(int id, int userKey) {
+        return boardDAO.checkWriter(id, userKey);
+    }
+
+    @Override
+    public void updateBoard(String boardTitle, String boardContent, int id) {
+        boardDAO.updateBoard(boardTitle, boardContent, id);
+    }
+
+    @Override
+    public Page<BoardWithUserDTO> getBoardByUser(int userKey, int page, int size) {
+        int offset = page * size;
+        List<BoardWithUserDTO> boards = boardDAO.getBoardByUser(userKey, offset, size);
+        int total = boardDAO.countBoardByUser(userKey);
+
+        // PageImpl을 사용해 페이징 데이터 생성
+        return new PageImpl<>(boards, PageRequest.of(page, size), total);
     }
 }
