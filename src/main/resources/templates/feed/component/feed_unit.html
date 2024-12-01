@@ -16,7 +16,7 @@
 								</div>
 							</div>
 							<div class="unit_header_tool">
-								<button type="button"><i class="material-icons icon">more_vert</i></button>
+								<button type="button" class="feed_popup"><i class="material-icons icon">more_vert</i></button>
 								<ul class="floating_menu">
 									<li><a href="#">수정하기</a></li>
 									<li><a href="#">삭제하기</a></li>
@@ -31,15 +31,6 @@
 										<img alt="Feed Image" th:src="@{ /feed/img/{imgName} (imgName = ${feedImage.feedFileName})}">
 									</li>
 								</ul>
-								
-								<div class="media_controller">
-									<button id="prevBtn" type="button">pre</button>
-									<button id="nextBtn" type="button">next</button>
-								</div>
-								<div class="eyes">
-									<span></span>
-									<span></span>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -87,9 +78,14 @@
 							</li>
 						</ul>
 					</div>
-					<div class="comm_input">
-						<input placeholder="비건 좋아하면 소리질러" type="text">
-					</div>
+					<form th:action="@{/feed/comment}" th:object="${feed}" method="post">
+						<input type="hidden" name="feedId" th:value="${feed.feedId}">
+						<input type="hidden" name="userKey" value="0">
+						<div class="comm_input">
+							<input name="feedCommentContent" placeholder="비건 좋아하면 소리질러" type="text">
+						</div>
+					</form>
+					
 				</div>
 			</div>
 		</div>
