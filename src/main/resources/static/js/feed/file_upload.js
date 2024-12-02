@@ -75,7 +75,26 @@ function updateFileCount() {
 }
 
 
+document.getElementById("btn_prev").addEventListener("click", () => {
+    console.log(currentIndex);
+    if (currentIndex > 0) {
+        console.log("if:"+currentIndex);
+        currentIndex--;
+        updateSlide();
+    }
+});
 
+// Next 버튼 동작
+document.getElementById("btn_next").addEventListener("click", () => {
+    const filePreviewArea = document.getElementById("file_preview_area");
+    const items = filePreviewArea.querySelectorAll("li");
+    console.log(currentIndex);
+    if (currentIndex < items.length - 1) {
+        console.log("if:"+     currentIndex);
+        currentIndex++;
+        updateSlide();
+    }
+});
 
 
 
@@ -85,36 +104,14 @@ function updateSlide() {
     const indexCountArea = document.querySelector(".upload_btn_box");
     const indexCount = document.querySelector(".img_index"); // 현재 인덱스 표시 요소
     const items = filePreviewArea.querySelectorAll("li"); // 슬라이드 아이템
-
     // 모든 슬라이드 상태 업데이트
     items.forEach((item, index) => {
         item.style.display = index === currentIndex ? "block" : "none"; // 현재 슬라이드만 표시
     });
-
     // 현재 슬라이드 인덱스 업데이트
     if (indexCount) {
         indexCount.textContent = currentIndex + 1;
     }
-
-    // Prev 버튼 동작
-    document.getElementById("btn_prev").addEventListener("click", () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateSlide();
-        }
-    });
-
-// Next 버튼 동작
-    document.getElementById("btn_next").addEventListener("click", () => {
-        const filePreviewArea = document.getElementById("file_preview_area");
-        const items = filePreviewArea.querySelectorAll("li");
-
-        if (currentIndex < items.length - 1) {
-            currentIndex++;
-            updateSlide();
-        }
-    });
-
 }
 
 // 초기화
