@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService{
     private final GroupDAO groupDAO;
+    private final GroupFileService groupFileService;
 
     @Override
     @Transactional
@@ -24,7 +26,7 @@ public class GroupServiceImpl implements GroupService{
         int communityId = groupRequest.getCommunityId();
 
         // 3. 생성자를 멤버로 추가
-        MemberRequest memberRequest = new MemberRequest(groupRequest.getUserKey(), communityId, "참가");
+        MemberRequest memberRequest = new MemberRequest(groupRequest.getUserKey(), communityId, "개설자");
         groupDAO.insertMember(memberRequest);
     }
 
@@ -56,5 +58,32 @@ public class GroupServiceImpl implements GroupService{
     @Transactional
     public void requestToJoin(int userKey, int communityId) {
         groupDAO.insertMember(new MemberRequest(userKey, communityId, "신청"));
+    }
+
+    @Override
+    public Page<GroupListResponse> findMyCreatedGroups(int userKey, int page, int size) {
+        int offset = page * size;
+        List<GroupListResponse> groups = groupDAO.findMyCreatedGroups(userKey, offset, size);
+        int total = groupDAO.countMyCreatedGroups(userKey);
+        return new PageImpl<>(groups, PageRequest.of(page, size), total);
+    }
+
+    @Override
+    @Transactional
+    public void updateCommunity(GroupRequest groupRequest, String oldFileName) {
+        groupDAO.updateCommunity(groupRequest);
+        // 기존 파일 삭제 처리
+        if (oldFileName != null && !"NO_CHANGE".equals(groupRequest.getCommunityPictureGenerated())) {
+            groupFileService.deleteGroupFile(oldFileName);
+        }
+    }
+
+    @Override
+    public void deleteCommunity(int id) {
+        GroupDetailResponse existingCommunity = groupDAO.getCommunityDetail(id);
+        if (existingCommunity != null && existingCommunity.getCommunityPictureGenerated() != null) {
+            groupFileService.deleteGroupFile(existingCommunity.getCommunityPictureGenerated());
+        }
+        groupDAO.deleteCommunity(id);
     }
 }

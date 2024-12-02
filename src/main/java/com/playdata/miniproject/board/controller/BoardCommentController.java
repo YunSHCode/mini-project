@@ -39,6 +39,7 @@ public class BoardCommentController {
     @GetMapping("/list")
     public ResponseEntity<List<BoardCommentResponse>> getComments(@RequestParam int boardId) {
         List<BoardCommentResponse> comments = commentService.getCommentsByBoardId(boardId);
+        System.out.println("comments = " + comments);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 }

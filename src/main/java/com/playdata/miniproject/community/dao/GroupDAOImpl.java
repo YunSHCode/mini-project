@@ -46,4 +46,24 @@ public class GroupDAOImpl implements GroupDAO {
     public boolean isMemberAlreadyRequested(int userKey, int communityId) {
         return mapper.isMemberAlreadyRequested(userKey, communityId) > 0;
     }
+
+    @Override
+    public List<GroupListResponse> findMyCreatedGroups(int userKey, int offset, int size) {
+        return mapper.findMyCreatedGroups(userKey, offset, size);
+    }
+
+    @Override
+    public int countMyCreatedGroups(int userKey) {
+        return mapper.countMyCreatedGroups(userKey);
+    }
+
+    @Override
+    public void updateCommunity(GroupRequest groupRequest) {
+        mapper.updateCommunity(groupRequest);
+    }
+
+    @Override
+    public void deleteCommunity(int id) {
+        mapper.deleteCommunity(id);
+    }
 }

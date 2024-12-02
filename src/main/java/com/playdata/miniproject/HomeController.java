@@ -8,6 +8,8 @@ import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import com.playdata.miniproject.board.service.BoardService;
 import com.playdata.miniproject.cafe.dto.ReservationSuccess;
 import com.playdata.miniproject.cafe.service.ReservationService;
+import com.playdata.miniproject.community.dto.GroupListResponse;
+import com.playdata.miniproject.community.service.GroupService;
 import com.playdata.miniproject.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -27,20 +29,23 @@ public class HomeController {
 
     private final BoardService boardService;
     private final ReservationService reservationService;
+    private final GroupService groupService;
 
     @GetMapping("/")
     public String index() {
         return "index";
     }
 
-    @GetMapping("/myPage")
+    @GetMapping("/mypage")
     public String myPage(@SessionAttribute(value = "user", required = false) UserDTO user,
-            @RequestParam(defaultValue = "0") int boardPage,
-            @RequestParam(defaultValue = "10") int boardSize,
-            @RequestParam(defaultValue = "0") int reservationPage,
-            @RequestParam(defaultValue = "10") int reservationSize,
+                         @RequestParam(defaultValue = "0") int boardPage,
+                         @RequestParam(defaultValue = "10") int boardSize,
+                         @RequestParam(defaultValue = "0") int reservationPage,
+                         @RequestParam(defaultValue = "10") int reservationSize,
+                         @RequestParam(defaultValue = "0") int groupPage,
+                         @RequestParam(defaultValue = "10") int groupSize,
                          RedirectAttributes redirectAttributes,
-            Model model
+                         Model model
     ) {
         if (user == null) {
             redirectAttributes.addFlashAttribute("loginMessage", "로그인 후 이용 가능합니다.");
@@ -50,16 +55,10 @@ public class HomeController {
         // 게시글 데이터 페이징 처리
         Page<BoardWithUserDTO> myBoardPage = boardService.getBoardByUser(user.getUserKey(), boardPage, boardSize);
         model.addAttribute("myBoardPage", myBoardPage);
+
+        // 예약 데이터 페이징 처리
         Page<ReservationSuccess> myReservationsPage = reservationService.getReservationsByUser(user.getUserKey(), reservationPage, reservationSize);
         List<ReservationSuccess> reservations = myReservationsPage.getContent();
-        reservations.forEach(reservation -> {
-            System.out.println("Reservation: " + reservation);
-        });
-        // 예약 데이터 페이징 처리
-
-        reservations.forEach(reservation -> {
-            System.out.println("Reservation: " + reservation);
-        });
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         List<String> reservationJsonList = myReservationsPage.getContent().stream()
@@ -74,9 +73,12 @@ public class HomeController {
         model.addAttribute("myReservationsPage", myReservationsPage);
         model.addAttribute("reservationJsonList", reservationJsonList);
 
+        // 내가 만든 모임 데이터 페이징 처리
+        Page<GroupListResponse> myCreatedGroups = groupService.findMyCreatedGroups(user.getUserKey(), groupPage, groupSize);
+        model.addAttribute("myCreatedGroups", myCreatedGroups);
+
         return "user/mypageTest";
     }
-
 
 
 }

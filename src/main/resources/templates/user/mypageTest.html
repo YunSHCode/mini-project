@@ -17,6 +17,21 @@
           내가 예약한 목록
         </button>
       </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="myGroups-tab" data-bs-toggle="tab" data-bs-target="#myGroups" type="button" role="tab" aria-controls="myGroups" aria-selected="false">
+          내가 만든 모임
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="joinedGroups-tab" data-bs-toggle="tab" data-bs-target="#joinedGroups" type="button" role="tab" aria-controls="joinedGroups" aria-selected="false">
+          내가 참가 중인 모임
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pendingGroups-tab" data-bs-toggle="tab" data-bs-target="#pendingGroups" type="button" role="tab" aria-controls="pendingGroups" aria-selected="false">
+          내가 참가 신청한 모임
+        </button>
+      </li>
     </ul>
 
     <!-- 탭 콘텐츠 -->
@@ -113,6 +128,61 @@
           </ul>
         </nav>
       </div>
+
+      <!-- 내가 만든 모임 탭 -->
+      <div class="tab-pane fade" id="myGroups" role="tabpanel" aria-labelledby="myGroups-tab">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>모임 이름</th>
+            <th>참여 인원</th>
+            <th>최대 인원</th>
+            <th>관리</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="group, iterStat : ${myCreatedGroups.content}">
+            <td th:text="${iterStat.index + 1 + (myCreatedGroups.number * myCreatedGroups.size)}"></td>
+            <td th:text="${group.communityTitle}"></td>
+            <td th:text="${group.communityMember}"></td>
+            <td th:text="${group.communityMemberMax}"></td>
+            <td>
+              <!-- 수정 버튼 -->
+              <a th:href="@{/group/edit/{id}(id=${group.communityId})}" class="btn btn-sm btn-warning">수정</a>
+              <!-- 삭제 버튼 -->
+              <button class="btn btn-sm btn-danger" onclick="deleteGroup('${group.communityId}')">삭제</button>
+              <!-- 인원 관리 버튼 -->
+              <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#manageMembersModal"
+                      th:attr="data-group-id=${group.communityId}"
+                      onclick="loadGroupMembers(${group.communityId})">
+                인원 관리
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- 페이지네이션 -->
+        <nav>
+          <ul class="pagination">
+            <!-- 이전 버튼 -->
+            <li class="page-item" th:classappend="${myCreatedGroups.number == 0} ? 'disabled'">
+              <a class="page-link" th:href="@{/myPage(myGroupsPage=${myCreatedGroups.number - 1})}" aria-label="Previous">이전</a>
+            </li>
+            <!-- 페이지 번호 -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence((myCreatedGroups.number / 10) * 10, ((myCreatedGroups.number / 10) * 10) + 9)}"
+                th:classappend="${i == myCreatedGroups.number} ? 'active'"
+                th:if="${i < myCreatedGroups.totalPages}">
+              <a class="page-link" th:href="@{/myPage(myGroupsPage=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <!-- 다음 버튼 -->
+            <li class="page-item" th:classappend="${myCreatedGroups.number == myCreatedGroups.totalPages - 1} ? 'disabled'">
+              <a class="page-link" th:href="@{/myPage(myGroupsPage=${myCreatedGroups.number + 1})}" aria-label="Next">다음</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
     <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -126,6 +196,54 @@
             <p><strong>픽업 시간:</strong> <span id="modalPickupTime"></span></p>
             <p><strong>메뉴:</strong></p>
             <ul id="modalMenuList"></ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="manageMembersModal" tabindex="-1" aria-labelledby="manageMembersModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="manageMembersModalLabel">인원 관리</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- 참여 중인 인원 -->
+            <h6>참여 중인 인원</h6>
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>관리</th>
+              </tr>
+              </thead>
+              <tbody id="currentMembers">
+              <!-- 참여 중인 인원 목록이 JavaScript로 채워짐 -->
+              </tbody>
+            </table>
+
+            <!-- 신청 중인 인원 -->
+            <h6 class="mt-4">신청 중인 인원</h6>
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>관리</th>
+              </tr>
+              </thead>
+              <tbody id="pendingMembers">
+              <!-- 신청 중인 인원 목록이 JavaScript로 채워짐 -->
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>

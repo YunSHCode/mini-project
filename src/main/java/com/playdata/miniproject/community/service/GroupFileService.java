@@ -43,4 +43,16 @@ public class GroupFileService {
 
         return  groupFileDTO;
     }
+
+    public void deleteGroupFile(String fileName) {
+        File file = new File(uploadDir + File.separator + fileName);
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (deleted) {
+                System.out.println("Deleted file: " + fileName);
+            } else {
+                System.err.println("Failed to delete file: " + fileName);
+            }
+        }
+    }
 }

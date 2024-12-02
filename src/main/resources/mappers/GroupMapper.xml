@@ -70,9 +70,13 @@
         u.user_key,
         u.user_nickname,
         u.user_profile_picture_generated
-        FROM users u
-        INNER JOIN member m ON u.user_key = m.user_key
-        WHERE m.community_id = #{communityId}
+        FROM
+        users u
+        INNER JOIN
+        member m ON u.user_key = m.user_key
+        WHERE
+        m.community_id = #{communityId}
+        AND m.member_status IN ('참가', '개설자')
     </select>
 
     <!-- 참여하기 눌렀을때 해당 유저가 해당 모임에 참여중이거나 신청중인지 체크 -->
@@ -80,5 +84,51 @@
         SELECT COUNT(*)
         FROM member
         WHERE user_key = #{userKey} AND community_id = #{communityId}
+    </select>
+
+    <!--수정 -->
+    <update id="updateCommunity" parameterType="com.playdata.miniproject.community.dto.GroupRequest">
+        UPDATE community
+        <set>
+            community_title = #{communityTitle},
+            community_contents = #{communityContents},
+            community_member_max = #{communityMemberMax},
+            community_update_dt = NOW(),
+            <if test="communityPictureGenerated != 'NO_CHANGE'">
+                community_picture_generated = #{communityPictureGenerated},
+            </if>
+            <if test="communityPictureOriginal != 'NO_CHANGE'">
+                community_picture_original = #{communityPictureOriginal},
+            </if>
+        </set>
+        WHERE community_id = #{communityId}
+    </update>
+
+    <!--삭제-->
+    <delete id="deleteCommunity" parameterType="int">
+        DELETE FROM community
+        WHERE community_id = #{communityId}
+    </delete>
+
+    <!-- 마이페이지 (내가 만든 모임 조회) -->
+    <select id="findMyCreatedGroups" parameterType="map" resultType="com.playdata.miniproject.community.dto.GroupListResponse">
+        SELECT
+        community_id,
+        community_title,
+        community_picture_generated,
+        community_member,
+        community_member_max
+        FROM community
+        WHERE
+        user_key = #{userKey}
+        ORDER BY
+        community_create_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="countMyCreatedGroups" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM community
+        WHERE user_key = #{userKey}
     </select>
 </mapper>
