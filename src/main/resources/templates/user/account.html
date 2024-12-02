@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/noside_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block layout:fragment="css">
+        <style>
+            body {
+                background-color: #ffffff;
+                margin-top: 80px;
+            }
+
+            .sidebar {
+                position: fixed; /* 화면 왼쪽에 고정 */
+                top: 80px;
+                left: 0;
+                min-height: 100vh;
+                width: 250px;
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-right: 1px solid #ddd;
+                z-index: 1;
+            }
+
+            .main-content {
+                margin-left: 220px; /* Sidebar의 너비만큼 띄움 */
+                padding: 20px;
+                padding-top: 60px;
+                margin-bottom: 300px;
+                width: 1000px;
+                position: relative;
+            }
+
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .form-control {
+                margin-bottom: 10px;
+            }
+        </style>
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script>
+            function deleteAccount() {
+                if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                    window.location.href = "/delete-account";
+                }
+            }
+        </script>
+    </th:block>
+
+
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a href="#" class="nav-link">내 계정</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">내 예약</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">내 게시글</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">내 피드</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">내 모임</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>My Account</h1>
+                    <img th:src="${session.user.userProfilePictureGenerated}" alt="Profile Picture" class="profile-picture">
+                </div>
+
+                <!-- User Info -->
+                <form action="/update-account" method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="userId" class="form-label">User ID</label>
+                            <input type="text" id="userId" class="form-control" th:value="${user.userId}" readonly>
+
+                            <label for="userRealName" class="form-label">Real Name</label>
+                            <input type="text" id="userRealName" class="form-control" th:value="${user.userRealname}" readonly>
+
+                            <label for="userBirthday" class="form-label">Birthday</label>
+                            <input type="text" id="userBirthday" class="form-control" th:value="${user.userBirthday}" readonly>
+
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" id="userEmail" class="form-control" th:value="${user.userEmail}" readonly>
+
+                            <label for="userPhone" class="form-label">Phone Number</label>
+                            <input type="text" id="userPhone" class="form-control" th:value="${user.userPhoneNumber}" readonly>
+                        </div>
+
+                        <div class="col-md-6" style="position: relative">
+                            <label for="userNickname" class="form-label">Nickname</label>
+                            <input type="text" id="userNickname" class="form-control" th:value="${user.userNickname}">
+
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input type="password" id="userPassword" class="form-control" th:value="${user.userPassword}" placeholder="Change Password">
+
+                            <label for="userVeganType" class="form-label">Vegan Type</label>
+                            <select id="userVeganType" class="form-select">
+                                <option value="vegan" th:if="${user.userVeganType=='vegan'}" >Vegan</option>
+                                <option value="ovo" th:if="${user.userVeganType=='ovo'}">Ovo</option>
+                                <option value="pesco" th:if="${user.userVeganType=='pesco'}">Pesco</option>
+                            </select>
+                            <div style="position: absolute; bottom: 10px; right: 10px" >
+                                <button type="submit" class="btn btn-primary mt-3">업데이트 하기</button>
+                                <button type="button" class="btn btn-danger mt-3" onclick="deleteAccount()">계정 삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>
