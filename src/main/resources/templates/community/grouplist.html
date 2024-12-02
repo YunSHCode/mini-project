@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+
+<th:block layout:fragment="css">
+  <style>
+    .card {
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .create-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .create-button:hover {
+      background-color: #0056b3;
+    }
+
+    .last-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .last-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</th:block>
+
+<div>
+  <th:block layout:fragment="content">
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">커뮤니티 목록</h1>
+      <div class="row">
+        <!-- 목록 카드 -->
+        <div class="col-md-4 mb-3" th:each="community : ${communitylist}">
+          <div class="card">
+            <img th:src="@{'/upload/community/' + ${community.communityPictureGenerated}}" class="card-img-top" alt="커뮤니티 이미지">
+            <div class="card-body">
+              <h5 class="card-title" th:text="${community.communityTitle}">모임 카페</h5>
+              <p class="card-text" th:text="'멤버 수: ' + ${community.communityMember} + '/' + ${community.communityMemberMax}"></p>
+              <a th:href="@{'/group/detail/' + ${community.communityId}}" class="btn btn-primary">상세페이지</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 페이지네이션 -->
+      <div class="mt-4 text-center">
+        <ul class="pagination justify-content-center">
+          <!-- Previous 버튼 -->
+          <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/group/list(groupPage=${currentPage - 1}, groupSize=${groupSize})}">Previous</a>
+          </li>
+
+          <!-- 페이지 번호 -->
+          <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNum == currentPage} ? 'active'">
+            <a class="page-link" th:href="@{/group/list(groupPage=${pageNum}, groupSize=${groupSize})}" th:text="${pageNum + 1}"></a>
+          </li>
+
+          <!-- Next 버튼 -->
+          <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{/group/list(groupPage=${currentPage + 1}, groupSize=${groupSize})}">Next</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 고정 버튼 -->
+    <div class="fixed-buttons">
+      <a href="/group/editform" class="last-button">모임 생성</a>
+    </div>
+  </th:block>
+</div>
+</body>
+</html>

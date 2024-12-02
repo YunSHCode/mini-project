@@ -8,7 +8,11 @@
       <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
 <body>
-
+  <th:block th:if="${loginMessage}">
+    <script th:inline="javascript">
+      alert([[${loginMessage}]]);
+    </script>
+  </th:block>
   <div class="login-container">
     <h1 class="login-title">풀잎당 로그인</h1>
     <p class="login-subtitle">아래에 계정 정보를 입력하세요.</p>

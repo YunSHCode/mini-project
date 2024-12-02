@@ -33,4 +33,12 @@ public interface BoardDAO {
     List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
 
     void deleteBoard(int id);
+
+    boolean checkWriter(int id, int userKey);
+
+    void updateBoard(String boardTitle, String boardContent, int id);
+
+    List<BoardWithUserDTO> getBoardByUser(int userKey, int offset, int size);
+
+    int countBoardByUser(int userKey);
 }

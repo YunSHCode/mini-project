@@ -1,6 +1,7 @@
 package com.playdata.miniproject.cafe.controller;
 
 import com.playdata.miniproject.cafe.dto.CafeDTO;
+import com.playdata.miniproject.cafe.dto.MenuDTO;
 import com.playdata.miniproject.cafe.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class MapController {
         System.out.println(cafelist);
         return cafelist;
     }
-
+    @GetMapping(value ="/menu/" )
+    public List<MenuDTO> selectmenu() {
+        List<MenuDTO> menuList = cafeService.selectmenu();
+        System.out.println("menuList = " + menuList);
+        return menuList;
+    }
 
 }

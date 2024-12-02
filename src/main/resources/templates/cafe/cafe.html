@@ -8,11 +8,60 @@
     <meta charset="UTF-8"/>
     <title>cafe map</title>
 
+    <!-- css 적용 -->
     <style>
+        .cafe-list table {
+            width: 100%; /* 테이블 너비를 부모 요소에 맞춤 */
+            border-collapse: collapse; /* 테두리 중첩 제거 */
+            border: 1px solid black; /* 테이블 외곽선 추가 */
+        }
+
+        .cafe-list th, .cafe-list td {
+            text-align: left; /* 텍스트를 왼쪽 정렬 */
+            padding: 8px; /* 셀 내부 여백 추가 */
+            border: 1px solid black; /* 셀 경계선 추가 */
+        }
+
+        .cafe-list thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2; /
+            background-color: #f2f2f2;
+            font-weight: bold; /* 글씨 굵게 */
+            border: 1px solid black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 헤더에 그림자 추가 */
+        }
+        .modal-body-container {
+            display: flex; /* Flexbox를 사용하여 가로 정렬 */
+            justify-content: space-between; /* 양쪽에 여백을 만듦 */
+            align-items: center; /* 세로 축에서 정렬 */
+            padding: 10px; /* 내부 여백 추가 */
+        }
+
+        .modal-body {
+            flex: 1; /* 내용 영역이 남는 공간을 차지하도록 설정 */
+            padding: 10px; /* 내용과 이미지 간 여백 추가 */
+        }
+
+        .modal-body2 {
+            flex: 0 0 auto; /* 이미지 영역은 고정 크기로 설정 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        #modal_cafe_picture {
+            width: 26vh;
+            height: 26vh;
+            border-radius: 5px; /* 이미지 모서리를 둥글게 */
+            object-fit: cover; /* 이미지를 잘라내지 않고 비율 유지 */
+        }
+
         .customoverlay {
             background: white;
             border: 1px solid black;
-            padding: 5px;
+            padding: 2px;
             border-radius: 5px;
             font-size: 14px;
             text-align: center;
@@ -21,18 +70,44 @@
         #map {
             display: block;
             margin-top: 30px;
-            width: 60vh;
-            height: 50vh;
+            width: 70vh;
+            height: 60vh;
             border: solid black 1px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .cafe-list table {
+            width: 100%; /* 테이블 너비를 부모 요소에 맞춤 */
+            border-collapse: collapse; /* 테두리 중첩 제거 */
+        }
+
+        .cafe-list th, .cafe-list td {
+            text-align: left; /* 텍스트를 왼쪽 정렬 */
+            padding: 8px; /* 셀 내부 여백 추가 */
+            border: 1px solid black; /* 셀 경계선 추가 */
+            /* white-space: nowrap; !* 내용이 한 줄로 표시되도록 설정 *!*/
+        }
+
+        .cafe-list #tablename, #tableaddr, #tableno {
+            font-size: 13px;
+            width: 23.3vh;
+        }
+
+        .cafe-list th {
+            background-color: #f2f2f2; /* 헤더 배경색 지정 */
+            font-weight: bold; /* 헤더 폰트 굵게 */
+        }
+
+        .cafe-list td {
+            text-overflow: ellipsis; /* 내용이 길면 생략 기호 추가 */
+            overflow: hidden;
+        }
+
         .cafe-list {
             display: block;
-            width: 60vh;
+            width: 70vh;
             height: 30vh;
-            border: solid black 1px;
             margin-left: auto;
             margin-right: auto;
             margin-top: 30px;
@@ -59,36 +134,73 @@
             padding: 0;
             background-color: #f0f9f0;
         }
+        .carousel-item img{
+            width: 200px;
+            height: 200px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+        }
     </style>
 </head>
 <body>
-
     <!--부트스트랩2-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
+    <!-- 부트스트랩 3. jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <div layout:fragment="content">
-        <!-- 부트스트랩 3. jQuery -->
 
-        <!-- 모달 형태.1    -->
+    <!-- 레이아웃1. -->
+    <div layout:fragment="content">
+
+        <!-- 모달 형태.1   -->
         <div class="modal fade" id="cafeModal" tabindex="-1" aria-labelledby="cafeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="modal_cafe_title">카페 이름 </h4>
+                        <h4 class="modal-title"  id="modal_cafe_title"> </h4>
                     </div>
-                    <div class="modal-body">
-                        <p id="modal_cafe_Addr"></p>
-                        <p id="modal_cafe_Num"></p>
-                        <p id="modal_cafe_open"></p>
-                        <p id="modal_cafe_close"></p>
+                    <div class="modal-body-container">
+                        <!-- 텍스트 영역 -->
+                        <div class="modal-body">
+                            <p id="modal_cafe_Addr"></p>
+                            <p id="modal_cafe_Num"></p>
+                            <p id="modal_cafe_open"></p>
+                            <p id="modal_cafe_close"></p>
+                        </div>
+
+                        <!-- 이미지 영역 -->
+                        <div class="modal-body2">
+                            <img src="" id="modal_cafe_picture" alt="카페 이미지">
+                        </div>
+                    </div>
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" style="border-radius: 10px">
+                            <div class="carousel-item active">
+                                <img src="" class="d-block w-100"  alt="..." id="menu1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="" class="d-block w-100" alt="..." id="menu2" >
+                            </div>
+                            <div class="carousel-item">
+                                <img src="" class="d-block w-100" alt="..." id="menu3" >
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="modalClose" class="btn btn-secondary" data-bs-dismiss="modal">닫기
                         </button>
-                        <button type="button"id="reservationButton" class="btn btn-primary">예약</button>
+                        <button type="button" class="btn btn-primary">예약</button>
                     </div>
                 </div>
             </div>
@@ -96,32 +208,51 @@
 
         <!-- 지도 영역 -->
         <div id="map"></div>
+
         <!-- 카카오맵 키 -->
         <script type="text/javascript"
                 src="//dapi.kakao.com/v2/maps/sdk.js?appkey=664e6d5a215c422f526fcfa59d68b671&libraries=services"></script>
-
         <script>
+            <!-- 맵 선언과 초기위치  -->
             var container = document.getElementById('map');
             var options = {
                 center: new kakao.maps.LatLng(37.498095, 127.027610),
                 level: 6
             };
-
             var map = new kakao.maps.Map(container, options);
+
             $(document).ready(function () {
                 const markers = [];
                 const customOverlays = [];
+                const menulists = [];
+
+                $.ajax({
+                    url: "/cafe/map/menu/",
+                    type: "get",
+                    dataType: "json",
+                    success: function (response) {
+                        menulists.push(...response)
+
+                    }
+                });
+
                 //오버레이와 마커를 통해 저장할 리스트
                 $.ajax({
                     url: "/cafe/map/",
                     type: "get",
                     dataType: "json",
                     success: function (response) {
-                        console.log("카페리스트", response);
                         response.forEach(function (cafe) {
+
                             var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
                             var imageSize = new kakao.maps.Size(24, 35);
                             var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+                            const cafeMenus = menulists
+                                .filter(menu => menu.cafeId === cafe.cafeId) // 카페 ID와 메뉴 매칭
+                                .slice(0, 3); //
+                            const menuImg = cafeMenus.map(menu => `${menu.menuPictureGenerated}`)
+                            const menuHtml = cafeMenus.map(menu => `<li>${menu.menuName}</li>`).join("");
 
                             var marker = new kakao.maps.Marker({
                                 map: map,
@@ -131,18 +262,22 @@
                                 image: markerImage
                             });
 
-                            // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                            <!--경로-->
+                            var imagePath = `/images/cafe/${cafe.cafePictureGenerated}`;
+
                             var content = `
-                            <div class="customoverlay" style="background: white; border: 1px solid black; padding: 5px; border-radius: 5px;">
-                               <span class="">${cafe.cafeName}</span>
-                                      </div>`;
+                                             <div class="customoverlay" style="background: white; border: 1px solid black; padding: 5px; border-radius: 5px;">
+                                                    <p>${cafe.cafeName}</p>
+                                                    <ul>${menuHtml}</ul>
+                                              </div>
+                                                                            `;
 
                             // 커스텀 오버레이를 생성합니다
                             var customOverlay = new kakao.maps.CustomOverlay({
                                 map: map,
                                 position: marker.getPosition(),
                                 content: content,
-                                yAnchor: 1.5,
+                                yAnchor: 1.3,
 
                             });
 
@@ -150,14 +285,8 @@
                             markers.push({marker: marker, data: cafe});
                             customOverlays.push(customOverlay);
 
-                            /*// 글자 생성
-                            var infowindow = new kakao.maps.InfoWindow({
-                                content: `<div style="width: 250%">${cafe.cafeName}</div>`
-                            });*/
-
                             // 모달 생성
                             var cafeModal = new bootstrap.Modal(document.getElementById('cafeModal'));
-                            var reservationButton = document.getElementById("reservationButton");
 
                             document.getElementById("modalClose").addEventListener("click", function () {
                                 cafeModal.hide();
@@ -165,19 +294,37 @@
 
                             // 1. 마커 클릭
                             kakao.maps.event.addListener(marker, 'click', function () {
+                                closeAllOverlays();
                                 cafeModal.show();
-
-                                console.log("카페 데이터:", cafe);
                                 // 모달 데이터 업데이트
                                 document.getElementById("modal_cafe_title").innerHTML = cafe.cafeName;
                                 document.getElementById("modal_cafe_Addr").innerText = `📍 주소: ${cafe.cafeAddr || "정보 없음"}`;
                                 document.getElementById("modal_cafe_Num").innerText = `📞 연락처: ${cafe.cafeNo || "정보 없음"}`;
                                 document.getElementById("modal_cafe_open").innerText = `⏰ 오픈 시간: ${cafe.cafeOpenHour || "정보 없음"}`;
                                 document.getElementById("modal_cafe_close").innerText = `⏰ 마감 시간: ${cafe.cafeCloseHour || "정보 없음"}`;
+                                var imagePath = `/images/cafe/${cafe.cafePictureGenerated}`;
+                                document.getElementById("modal_cafe_picture").src = imagePath;
 
-                                reservationButton.onclick = function () {
-                                    window.location.href = `/cafe/reservation/${cafe.cafeId}`;
-                                };
+                                //모달 메뉴 부분
+                                const carouselInner = document.querySelector(".carousel-inner");
+                                carouselInner.innerHTML = ""; // 기존 캐러셀 콘텐츠 초기화
+
+                                const cafeMenus = menulists.filter(menu => menu.cafeId === cafe.cafeId); // 가게 ID와 메뉴 매칭
+                                cafeMenus.forEach((menu, index) => {
+                                    // 각 이미지 생성
+                                    const carouselItem = document.createElement("div");
+                                    carouselItem.classList.add("carousel-item");
+                                    if (index === 0) carouselItem.classList.add("active"); // 첫 번째 이미지는 활성화 상태로 설정
+
+                                    const imgElement = document.createElement("img");
+                                    imgElement.src = `/images/menu/${menu.menuPictureGenerated}`;
+                                    imgElement.classList.add("d-block", "w-100");
+                                    imgElement.alt = menu.menuName;
+
+                                    carouselItem.appendChild(imgElement);
+                                    carouselInner.appendChild(carouselItem);
+                                });
+
                             });
 
                             // 2. 마커에 mouseover 등록합니다
@@ -193,19 +340,22 @@
                                 /*  infowindow.close();*/
                             });
 
-                            // Function to close all custom overlays
+                            // 모두 닫기 기능
                             function closeAllOverlays() {
                                 customOverlay.setMap(null);
                             }
 
                             closeAllOverlays();
                         })
-
                         updateCafeList();
                     }
                 });
 
                 kakao.maps.event.addListener(map, 'drag', updateCafeList);
+
+                function closeAllOverlays() {
+                    customOverlay.setMap(null);
+                }
 
                 function updateCafeList() {
                     const bounds = map.getBounds();
@@ -214,8 +364,14 @@
                     });
 
                     const cafeListElement = $("#mycafeList");
-                    cafeListElement.empty(); // 기존 리스트 제거
+                    cafeListElement.empty();
                     visibleCafes.forEach(function (item) {
+                        const cafeMenus = menulists
+                            .filter(menu => menu.cafe_id === item.data.cafe_id) // 메뉴와 카페 매칭
+                            .slice(0, 3);
+
+                        const menuHtml = cafeMenus.map(menu => `<li>${menu.menu_name}</li>`).join("");
+
                         const cafeRow = `
                                             <tr>
                                                <td class="cafename">${item.data.cafeName}</td>
@@ -228,14 +384,24 @@
                 }
             });
         </script>
+        </script>
 
         <!-- 카페 리스트 영역 -->
         <div class="cafe-list">
-            <table id="mycafeList">
+            <table>
+                <thead>
+                <tr>
+                    <th id="tablename">이름</th>
+                    <th id="tableaddr">주소</th>
+                    <th id="tableno">번호</th>
+                </tr>
+                </thead>
+                <tbody id="mycafeList">
+                </tbody>
                 <!-- 목록이 동적으로 추가 -->
+
             </table>
         </div>
-
     </div>
 </body>
 </html>

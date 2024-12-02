@@ -3,7 +3,6 @@ let currentIndex = 0;
 
 function filePreview(input) {
     const filePreviewArea = document.getElementById("file_preview_area");
-    const fileCount = document.getElementById("img_count");
 
     // 입력된 파일 리스트 가져오기
     const files = input.files;
@@ -41,7 +40,7 @@ function filePreview(input) {
             // 파일 삭제 로직
             selectImages = selectImages.filter(image => image.name !== file.name);
             filePreviewArea.removeChild(listItem);
-            URL.revokeObjectURL(imgURL); // 메모리 누수 방지
+            URL.revokeObjectURL(imgURL);
 
             // 슬라이드 인덱스 조정
             if (currentIndex >= selectImages.length && currentIndex > 0) {
@@ -69,33 +68,56 @@ function filePreview(input) {
 
 // 파일 개수 업데이트 함수
 function updateFileCount() {
-    const fileCount = document.getElementById("img_count");
-    fileCount.textContent = selectImages.length;
-
-}
-
-// 슬라이드 업데이트 함수
-function updateSlide() {
-    const filePreviewArea = document.getElementById("file_preview_area");
-    const items = filePreviewArea.querySelectorAll("li");
-
-    items.forEach((item, index) => {
-        item.style.display = index === currentIndex ? "block" : "none";
+    const fileCount = document.querySelectorAll(".img_count");
+    fileCount.forEach((element) => {
+        element.textContent = selectImages.length;
     });
 }
 
-// Prev 버튼 동작
-document.getElementById("btn_prev").addEventListener("click", () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateSlide();
+
+
+
+
+
+// 슬라이드 업데이트 함수
+function updateSlide() {
+    const filePreviewArea = document.getElementById("file_preview_area"); // 슬라이드 출력 위치
+    const indexCountArea = document.querySelector(".upload_btn_box");
+    const indexCount = document.querySelector(".img_index"); // 현재 인덱스 표시 요소
+    const items = filePreviewArea.querySelectorAll("li"); // 슬라이드 아이템
+
+    // 모든 슬라이드 상태 업데이트
+    items.forEach((item, index) => {
+        item.style.display = index === currentIndex ? "block" : "none"; // 현재 슬라이드만 표시
+    });
+
+    // 현재 슬라이드 인덱스 업데이트
+    if (indexCount) {
+        indexCount.textContent = currentIndex + 1;
     }
-});
+
+    // Prev 버튼 동작
+    document.getElementById("btn_prev").addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlide();
+        }
+    });
 
 // Next 버튼 동작
-document.getElementById("btn_next").addEventListener("click", () => {
-    if (currentIndex < selectImages.length - 1) {
-        currentIndex++;
-        updateSlide();
-    }
+    document.getElementById("btn_next").addEventListener("click", () => {
+        const filePreviewArea = document.getElementById("file_preview_area");
+        const items = filePreviewArea.querySelectorAll("li");
+
+        if (currentIndex < items.length - 1) {
+            currentIndex++;
+            updateSlide();
+        }
+    });
+
+}
+
+// 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    updateSlide();
 });

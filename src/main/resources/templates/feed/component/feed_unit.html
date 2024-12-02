@@ -16,7 +16,7 @@
 								</div>
 							</div>
 							<div class="unit_header_tool">
-								<button type="button"><i class="material-icons icon">more_vert</i></button>
+								<button type="button" class="feed_popup"><i class="material-icons icon">more_vert</i></button>
 								<ul class="floating_menu">
 									<li><a href="#">수정하기</a></li>
 									<li><a href="#">삭제하기</a></li>
@@ -27,18 +27,10 @@
 						<div class="slider">
 							<div class="wrap">
 								<ul class="slider_trap">
-									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
-									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
-									<li><img alt="Slide 1" th:src="@{/images/home1.jpg}"></li>
+									<li th:each="feedImage : ${feed.feedFiles}">
+										<img alt="Feed Image" th:src="@{ /feed/img/{imgName} (imgName = ${feedImage.feedFileName})}">
+									</li>
 								</ul>
-								<div class="media_controller">
-									<button id="prevBtn" type="button">pre</button>
-									<button id="nextBtn" type="button">next</button>
-								</div>
-								<div class="eyes">
-									<span></span>
-									<span></span>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -68,18 +60,14 @@
 					</div>
 					<div class="comment_user_info">
 						<div class="comm_info">
-							<span>2024-11-27</span>
-							<span>조회수<span>123</span></span>
+							<span th:text="${#temporals.format(feed.feedUpdateDt, 'yyyy-MM-dd HH:mm')}">작성날짜</span>
 						</div>
-						<p class="comm_text">
+						<p class="comm_text" th:text="${feed.feedContent}">
 							무슨 말을 하려던 최대 4줄이 한계이느라
 						</p>
 						<div>
-							<ul class="slider_tags">
-								<li>초밥</li>
-								<li>육회</li>
-								<li>파스타</li>
-								<li>치킨</li>
+							<ul class="slider_tags"  >
+								<li th:each="text : ${#strings.arraySplit(feed.feedTag, ',')}" th:text="${text}"></li>
 							</ul>
 						</div>
 					</div>
@@ -90,9 +78,14 @@
 							</li>
 						</ul>
 					</div>
-					<div class="comm_input">
-						<input placeholder="비건 좋아하면 소리질러" type="text">
-					</div>
+					<form th:action="@{/feed/comment}" th:object="${feed}" method="post">
+						<input type="hidden" name="feedId" th:value="${feed.feedId}">
+						<input type="hidden" name="userKey" value="0">
+						<div class="comm_input">
+							<input name="feedCommentContent" placeholder="비건 좋아하면 소리질러" type="text">
+						</div>
+					</form>
+					
 				</div>
 			</div>
 		</div>

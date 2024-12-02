@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<div>
+  <th:block layout:fragment="content">
+    <div class="container mt-5">
+      <h2 class="mb-4 text-center">모임 만들기</h2>
+      <form id="createCommunityForm" method="post" enctype="multipart/form-data" action="/group/insert">
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="communityTitle" class="form-label">모임 제목</label>
+          <input type="text" class="form-control" id="communityTitle" name="communityTitle" placeholder="Enter community title" required maxlength="50">
+        </div>
+
+        <!-- Contents -->
+        <div class="mb-3">
+          <label for="communityContents" class="form-label">모임 설명</label>
+          <textarea class="form-control" id="communityContents" name="communityContents" rows="4" placeholder="Describe your community..." maxlength="500"></textarea>
+        </div>
+
+        <!-- Max Members -->
+        <div class="mb-3">
+          <label for="communityMemberMax" class="form-label">모임 최대 인원</label>
+          <input type="number" class="form-control" id="communityMemberMax" name="communityMemberMax" placeholder="Enter max members" required min="1">
+        </div>
+
+        <!-- Picture Upload -->
+        <div class="mb-3">
+          <label for="communityPicture" class="form-label">모임 대표 사진</label>
+          <div class="d-flex align-items-center">
+            <img id="previewImage" class="preview-img me-3" src="https://via.placeholder.com/200" alt="Default Image">
+            <input type="file" class="form-control" id="communityPicture" name="communityPicture" accept="image/*" onchange="updatePreview(event)">
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary">생성</button>
+        </div>
+      </form>
+    </div>
+    <script th:src="@{/js/group/groupForm.js}"></script>
+  </th:block>
+</div>
+</html>

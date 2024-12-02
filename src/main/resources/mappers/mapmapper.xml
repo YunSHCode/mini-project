@@ -7,4 +7,9 @@
         SELECT cafe_id, cafe_name, cafe_latitude, cafe_longtitude,cafe_addr,cafe_no,cafe_open_hour,cafe_close_hour,cafe_picture_original,cafe_picture_generated
         FROM cafe
     </select>
+
+    <select id="selectMenuDU">
+        SELECT menu_id, menu_name, menu_price, menu_picture_generated, cafe_id
+        FROM Menu
+    </select>
 </mapper>
