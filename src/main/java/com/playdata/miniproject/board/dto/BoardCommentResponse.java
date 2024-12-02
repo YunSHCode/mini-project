@@ -10,7 +10,7 @@ import org.apache.ibatis.type.Alias;
 public class BoardCommentResponse {
     private int commentId;
     private int commentStep;
-    private String userRealname;
+    private String userNickname;
     private String commentCreateDt;
     private String commentContent;
     private String userProfilePictureGenerated;

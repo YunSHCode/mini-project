@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
-<th:block layout:fragment="script">
-  <script src="/js/reservation/cafe_reservation.js"></script>
-</th:block>
+<!--<th:block layout:fragment="script">-->
+<!--  <script src="/js/reservation/cafe_reservation.js"></script>-->
+<!--</th:block>-->
 <div>
   <th:block layout:fragment="content">
     <!-- 예약 확인 모달 -->
@@ -42,6 +42,7 @@
             <!-- 예약자 정보 -->
             <div class="col-md-6 border-end">
               <h5 class="card-title text-center">예약자 정보</h5>
+              <input type="hidden" name="userKey" th:value="${customer.userKey}">
               <p><strong>이름:</strong> <span id="customerName" th:text="${customer.userRealname}">아무개</span></p>
               <p><strong>연락처:</strong> <span id="customerPhone" th:text="${customer.userPhoneNumber}">010-1234-5678</span></p>
               <p><strong>이메일:</strong> <span th:text="${customer.userEmail}">abcd1234@example.com</span></p>
@@ -109,6 +110,7 @@
         </div>
       </div>
     </div>
+    <script th:src="@{/js/reservation/cafe_reservation.js}"></script>
   </th:block>
 </div>
 </html>

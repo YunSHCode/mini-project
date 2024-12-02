@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.miniproject.community.mapper.GroupMapper">
+    <!-- Insert a new group -->
+    <insert id="insertGroup" parameterType="com.playdata.miniproject.community.dto.GroupRequest" useGeneratedKeys="true" keyProperty="communityId">
+        INSERT INTO community (
+        community_title,
+        community_contents,
+        community_member,
+        community_member_max,
+        community_create_dt,
+        community_update_dt,
+        community_picture_original,
+        community_picture_generated,
+        user_key
+        ) VALUES (
+        #{communityTitle},
+        #{communityContents},
+        1, <!-- 기본값으로 1 설정 -->
+        #{communityMemberMax},
+        NOW(),
+        NOW(),
+        #{communityPictureOriginal},
+        #{communityPictureGenerated},
+        #{userKey}
+        )
+    </insert>
+    <!-- .모임 개설시 멤버 같이 넣기 -->
+    <insert id="insertMember" parameterType="com.playdata.miniproject.community.dto.MemberRequest">
+        INSERT INTO member (user_key, community_id, member_status)
+        VALUES (#{member.userKey}, #{member.communityId}, #{member.memberStatus})
+    </insert>
+    <!-- 페이징된 커뮤니티 리스트 가져오기 -->
+    <select id="getCommunityList" resultType="com.playdata.miniproject.community.dto.GroupListResponse">
+        SELECT
+        community_id,
+        community_title,
+        community_picture_generated,
+        community_member,
+        community_member_max
+        FROM community
+        ORDER BY community_create_dt DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+    <!-- 전체 커뮤니티 수 조회 -->
+    <select id="countCommunity" resultType="int">
+        SELECT COUNT(*) FROM community
+    </select>
+    <!-- 커뮤니티 상세페이지 조회 -->
+    <select id="getCommunityDetail" parameterType="int" resultType="com.playdata.miniproject.community.dto.GroupDetailResponse">
+        SELECT
+        c.community_id AS communityId,
+        c.community_title AS communityTitle,
+        c.community_contents AS communityContents,
+        c.community_picture_generated AS communityPictureGenerated,
+        c.community_member AS communityMember,
+        c.community_member_max AS communityMemberMax,
+        u.user_key AS userKey,
+        u.user_nickname AS userNickname,
+        u.user_profile_picture_generated AS userProfilePictureGenerated
+        FROM community c
+        INNER JOIN users u ON c.user_key = u.user_key
+        WHERE c.community_id = #{communityId}
+    </select>
+    <!-- 커뮤니티에 참가되어있는 멤버 조회 -->
+    <select id="getGroupMembers" parameterType="int" resultType="com.playdata.miniproject.community.dto.MemberResponse">
+        SELECT
+        u.user_key,
+        u.user_nickname,
+        u.user_profile_picture_generated
+        FROM users u
+        INNER JOIN member m ON u.user_key = m.user_key
+        WHERE m.community_id = #{communityId}
+    </select>
+
+    <!-- 참여하기 눌렀을때 해당 유저가 해당 모임에 참여중이거나 신청중인지 체크 -->
+    <select id="isMemberAlreadyRequested" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE user_key = #{userKey} AND community_id = #{communityId}
+    </select>
+</mapper>

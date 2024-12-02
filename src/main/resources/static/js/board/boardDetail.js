@@ -39,7 +39,7 @@ function loadComments(boardId) {
             <div class="comment-author d-flex align-items-center">
                 <img src="${profileImage}" alt="User Profile" class="rounded-circle me-2" style="width: 40px; height: 40px;">
                 <div>
-                    <strong>${comment.userRealname}</strong><br>
+                    <strong>${comment.userNickname}</strong><br>
                     <span class="text-muted" style="font-size: 0.9rem;">${comment.commentCreateDt}</span>
                 </div>
             </div>

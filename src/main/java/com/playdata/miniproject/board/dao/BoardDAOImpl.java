@@ -52,4 +52,24 @@ public class BoardDAOImpl implements BoardDAO{
     public void deleteBoard(int id) {
         mapper.deleteboard(id);
     }
+
+    @Override
+    public boolean checkWriter(int id, int userKey) {
+        return mapper.checkWriter(id, userKey);
+    }
+
+    @Override
+    public void updateBoard(String boardTitle, String boardContent, int id) {
+        mapper.updateBoard(boardTitle, boardContent, id);
+    }
+
+    @Override
+    public List<BoardWithUserDTO> getBoardByUser(int userKey, int offset, int size) {
+        return mapper.getBoardByUser(userKey, offset, size);
+    }
+
+    @Override
+    public int countBoardByUser(int userKey) {
+        return mapper.countBoardByUser(userKey);
+    }
 }

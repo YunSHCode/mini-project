@@ -16,6 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.feed.dir}")
     private String feedDir;
 
+    @Value("${file.community.dir}")
+    private String communityDir;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // board 디렉토리 매핑
@@ -29,5 +31,9 @@ public class WebConfig implements WebMvcConfigurer {
         // feed 디렉토리 매핑
         registry.addResourceHandler("/upload/feed/**")
                 .addResourceLocations("file:" + feedDir);
+
+        // community 디렉토리 매핑
+        registry.addResourceHandler("/upload/community/**")
+                .addResourceLocations("file:" + communityDir);
     }
 }

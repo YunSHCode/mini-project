@@ -40,4 +40,12 @@ public interface BoardMapper {
     List<BoardWithUserDTO> getBoards(@Param("offset") int offset, @Param("limit") int limit);
 
     void deleteboard(int id);
+
+    boolean checkWriter(@Param("boardId") int id, @Param("userKey") int userKey);
+
+    void updateBoard(@Param("boardTitle") String boardTitle, @Param("boardContent") String boardContent, @Param("boardId") int id);
+
+    List<BoardWithUserDTO> getBoardByUser(@Param("userKey") int userKey, @Param("offset") int offset, @Param("limit") int limit);
+
+    int countBoardByUser(int userKey);
 }
