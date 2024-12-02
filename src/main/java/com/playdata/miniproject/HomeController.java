@@ -36,7 +36,7 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/user/mypage")
     public String myPage(@SessionAttribute(value = "user", required = false) UserDTO user,
                          @RequestParam(defaultValue = "0") int boardPage,
                          @RequestParam(defaultValue = "10") int boardSize,
@@ -77,7 +77,16 @@ public class HomeController {
         Page<GroupListResponse> myCreatedGroups = groupService.findMyCreatedGroups(user.getUserKey(), groupPage, groupSize);
         model.addAttribute("myCreatedGroups", myCreatedGroups);
 
-        return "user/mypageTest";
+        // 내가 참가 중인 모임 데이터 페이징 처리
+        Page<GroupListResponse> myParticipatedGroups = groupService.findMyGroups(user.getUserKey(), "참가", groupPage, groupSize);
+        model.addAttribute("myParticipatedGroups", myParticipatedGroups);
+        System.out.println("myParticipatedGroups = " + myParticipatedGroups);
+        // 내가 참가 신청한 모임 데이터 페이징 처리
+        Page<GroupListResponse> myPendingGroups = groupService.findMyGroups(user.getUserKey(), "신청", groupPage, groupSize);
+        model.addAttribute("myPendingGroups", myPendingGroups);
+        System.out.println("myPendingGroups = " + myPendingGroups);
+
+        return "user/mypageYsh";
     }
 
 

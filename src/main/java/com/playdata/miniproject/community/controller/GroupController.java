@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/group")
@@ -115,7 +117,7 @@ public class GroupController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteCommunity(@PathVariable int id) {
         try {
             groupService.deleteCommunity(id);
@@ -156,6 +158,38 @@ public class GroupController {
         // 신청 상태로 멤버 추가
         groupService.requestToJoin(user.getUserKey(), communityId);
         return ResponseEntity.ok("참여 요청이 성공적으로 등록되었습니다.");
+    }
+
+    @GetMapping("/{communityId}/members")
+    public ResponseEntity<Map<String, Object>> getGroupMembersForMyPage(@PathVariable int communityId) {
+        // Service로부터 현재 멤버와 신청자 리스트를 가져옴
+        List<MemberResponse> currentMembers = groupService.getGroupMembers(communityId);
+        List<MemberResponse> pendingMembers = groupService.getPendingMembers(communityId);
+
+        // 응답 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("currentMembers", currentMembers);
+        response.put("pendingMembers", pendingMembers);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/approve")
+    public ResponseEntity<String> approveMember(@RequestParam("communityId") int communityId, @RequestParam("userKey") int userKey) {
+        try {
+            groupService.approveMember(communityId, userKey);
+            return ResponseEntity.ok("Member approved and community member count updated successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/removemember")
+    public ResponseEntity<String> removeMember(@RequestParam("communityId") int communityId, @RequestParam("userKey") int userKey, @RequestParam("isExpelled") boolean isExpelled) {
+        groupService.removeMember(communityId, userKey, isExpelled);
+
+        String message = isExpelled ? "Member expelled and community member count updated successfully." : "Member request denied.";
+        return ResponseEntity.ok(message);
     }
 
 

@@ -39,7 +39,7 @@ public class UserController {
         return "/layout/default_layout";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/mypage1")
     public String mypage(Model model) {
         return "user/account";
     }

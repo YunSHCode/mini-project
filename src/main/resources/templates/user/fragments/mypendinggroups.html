@@ -1,0 +1,42 @@
+<th:block th:fragment="myPendingGroupsTable">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>모임 이름</th>
+      <th>참여 인원</th>
+      <th>최대 인원</th>
+      <th>관리</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="group, iterStat : ${myPendingGroups.content}">
+      <td th:text="${iterStat.index + 1 + (myPendingGroups.number * myPendingGroups.size)}"></td>
+      <td th:text="${group.communityTitle}"></td>
+      <td th:text="${group.communityMember}"></td>
+      <td th:text="${group.communityMemberMax}"></td>
+      <td><button class="btn btn-sm btn-warning" th:onclick="'cancelMember(' + ${group.communityId} + ', \'신청취소\')'">신청 취소</button></td>
+    </tr>
+    </tbody>
+  </table>
+  <!-- 페이지네이션 -->
+  <nav>
+    <ul class="pagination">
+      <!-- 이전 버튼 -->
+      <li class="page-item" th:classappend="${myPendingGroups.number == 0} ? 'disabled'">
+        <a class="page-link" th:href="@{/myPage(pendingGroupsPage=${myPendingGroups.number - 1})}" aria-label="Previous">이전</a>
+      </li>
+      <!-- 페이지 번호 -->
+      <li class="page-item"
+          th:each="i : ${#numbers.sequence((myPendingGroups.number / 10) * 10, ((myPendingGroups.number / 10) * 10) + 9)}"
+          th:classappend="${i == myPendingGroups.number} ? 'active'"
+          th:if="${i < myPendingGroups.totalPages}">
+        <a class="page-link" th:href="@{/myPage(pendingGroupsPage=${i})}" th:text="${i + 1}"></a>
+      </li>
+      <!-- 다음 버튼 -->
+      <li class="page-item" th:classappend="${myPendingGroups.number == myPendingGroups.totalPages - 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/myPage(pendingGroupsPage=${myPendingGroups.number + 1})}" aria-label="Next">다음</a>
+      </li>
+    </ul>
+  </nav>
+</th:block>

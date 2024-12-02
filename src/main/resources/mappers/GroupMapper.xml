@@ -69,7 +69,9 @@
         SELECT
         u.user_key,
         u.user_nickname,
-        u.user_profile_picture_generated
+        u.user_profile_picture_generated,
+        u.user_phone_number,
+        m.member_status
         FROM
         users u
         INNER JOIN
@@ -77,6 +79,22 @@
         WHERE
         m.community_id = #{communityId}
         AND m.member_status IN ('참가', '개설자')
+    </select>
+    <!-- 커뮤니티에 신청중인 멤버 조회 -->
+    <select id="getPendingMembers" parameterType="int" resultType="com.playdata.miniproject.community.dto.MemberResponse">
+        SELECT
+        u.user_key,
+        u.user_nickname,
+        u.user_profile_picture_generated,
+        u.user_phone_number,
+        m.member_status
+        FROM
+        users u
+        INNER JOIN
+        member m ON u.user_key = m.user_key
+        WHERE
+        m.community_id = #{communityId}
+        AND m.member_status IN ('신청')
     </select>
 
     <!-- 참여하기 눌렀을때 해당 유저가 해당 모임에 참여중이거나 신청중인지 체크 -->
@@ -110,6 +128,35 @@
         WHERE community_id = #{communityId}
     </delete>
 
+    <!--유저 승인-->
+    <update id="approveMember" parameterType="map">
+        UPDATE member
+        SET member_status = '참가'
+        WHERE community_id = #{communityId}
+        AND user_key = #{userKey}
+    </update>
+    <!-- 승인후 그룹 멤버수 증가 -->
+    <update id="increaseCommunityMemberCount" parameterType="int">
+        UPDATE community
+        SET community_member = community_member + 1
+        WHERE community_id = #{communityId}
+    </update>
+
+    <!--유저 거절 및 추방-->
+    <delete id="removeMember" parameterType="map">
+        DELETE FROM member
+        WHERE community_id = #{communityId}
+        AND user_key = #{userKey};
+    </delete>
+
+    <!-- 멤버 수 감소 (추방인 경우에만 적용) -->
+    <update id="decreaseCommunityMemberCount" parameterType="int">
+        UPDATE community
+        SET community_member = community_member - 1
+        WHERE community_id = #{communityId}
+    </update>
+
+
     <!-- 마이페이지 (내가 만든 모임 조회) -->
     <select id="findMyCreatedGroups" parameterType="map" resultType="com.playdata.miniproject.community.dto.GroupListResponse">
         SELECT
@@ -130,5 +177,48 @@
         SELECT COUNT(*)
         FROM community
         WHERE user_key = #{userKey}
+    </select>
+
+    <!-- 내가 참가한 모임 or 내가 참가 신청한 모임 동적 쿼리-->
+    <select id="findMyGroups" parameterType="map" resultType="com.playdata.miniproject.community.dto.GroupListResponse">
+        SELECT
+        c.community_id,
+        c.community_title,
+        c.community_picture_generated,
+        c.community_member,
+        c.community_member_max
+        FROM
+        community c
+        INNER JOIN member m ON c.community_id = m.community_id
+        WHERE
+        m.user_key = #{userKey}
+        <choose>
+            <when test="memberStatus == '참가'">
+                AND m.member_status = '참가'
+            </when>
+            <when test="memberStatus == '신청'">
+                AND m.member_status = '신청'
+            </when>
+        </choose>
+        ORDER BY
+        c.community_create_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="countMyGroups" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM
+        community c
+        INNER JOIN member m ON c.community_id = m.community_id
+        WHERE
+        m.user_key = #{userKey}
+        <choose>
+            <when test="memberStatus == '참가'">
+                AND m.member_status = '참가'
+            </when>
+            <when test="memberStatus == '신청'">
+                AND m.member_status = '신청'
+            </when>
+        </choose>
     </select>
 </mapper>

@@ -1,0 +1,45 @@
+<th:block th:fragment="postTable">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>제목</th>
+      <th>작성 날짜</th>
+      <th>상세보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board, iterStat : ${myBoardPage.content}">
+      <td th:text="${iterStat.index + 1 + (myBoardPage.number * myBoardPage.size)}"></td>
+      <td th:text="${board.boardTitle}"></td>
+      <td th:text="${#temporals.format(board.boardCreateDt, 'yyyy-MM-dd HH:mm')}"></td>
+      <td>
+        <a th:href="@{/board/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary">보기</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- 게시글 페이징 -->
+  <nav>
+    <ul class="pagination">
+      <!-- 이전 버튼: 이전 페이지 그룹으로 이동, 페이지가 음수면 0으로 -->
+      <li class="page-item" th:classappend="${myBoardPage.number < 10} ? 'disabled'">
+        <a class="page-link" href="#" th:attr="data-page=${T(Math).max((myBoardPage.number / 10) * 10 - 10, 0)}" aria-label="Previous">이전</a>
+      </li>
+
+      <!-- 페이지 번호: 현재 페이지 그룹 내의 번호들 표시 -->
+      <li class="page-item"
+          th:each="i : ${#numbers.sequence((myBoardPage.number / 10) * 10, ((myBoardPage.number / 10) * 10) + 9)}"
+          th:classappend="${i == myBoardPage.number} ? 'active'" th:if="${i < myBoardPage.totalPages}">
+        <a class="page-link" href="#" th:attr="data-page=${i}" th:text="${i + 1}"></a>
+      </li>
+
+      <!-- 다음 버튼: 다음 페이지 그룹으로 이동, 총 페이지 수를 넘어가지 않도록 -->
+      <li class="page-item" th:classappend="${myBoardPage.number >= (myBoardPage.totalPages - 1) - 9} ? 'disabled'">
+        <a class="page-link" href="#" th:attr="data-page=${T(Math).min((myBoardPage.number / 10) * 10 + 10, myBoardPage.totalPages - 1)}" aria-label="Next">다음</a>
+      </li>
+    </ul>
+  </nav>
+
+</th:block>

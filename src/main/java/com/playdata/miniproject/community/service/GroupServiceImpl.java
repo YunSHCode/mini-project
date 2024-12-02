@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,6 +49,37 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
+    public List<MemberResponse> getPendingMembers(int groupId) {
+        return groupDAO.getPendingMembers(groupId);
+    }
+
+    @Override
+    public void approveMember(int communityId, int userKey) {
+        // 현재 커뮤니티 정보 가져오기
+        GroupDetailResponse group = groupDAO.getCommunityDetail(communityId);
+        if (group.getCommunityMember() >= group.getCommunityMemberMax()) {
+            throw new IllegalStateException("Maximum number of members exceeded. Cannot approve member.");
+        }
+
+        groupDAO.approveMember(communityId, userKey);
+        groupDAO.increaseCommunityMemberCount(communityId);
+    }
+
+    @Override
+    public void removeMember(int communityId, int userKey, boolean isExpelled) {
+        groupDAO.removeMember(communityId, userKey);
+        if (isExpelled) groupDAO.decreaseCommunityMemberCount(communityId);
+    }
+
+    @Override
+    public Page<GroupListResponse> findMyGroups(int userKey, String memberStatus, int page, int size) {
+        int offset = page * size;
+        List<GroupListResponse> groups = groupDAO.findMyGroups(userKey, memberStatus,offset, size);
+        int total = groupDAO.countMyGroups(userKey, memberStatus);
+        return new PageImpl<>(groups, PageRequest.of(page, size), total);
+    }
+
+    @Override
     public boolean isMemberAlreadyRequested(int userKey, int communityId) {
         return groupDAO.isMemberAlreadyRequested(userKey,communityId);
     }
@@ -86,4 +116,5 @@ public class GroupServiceImpl implements GroupService{
         }
         groupDAO.deleteCommunity(id);
     }
+
 }
