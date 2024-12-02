@@ -18,7 +18,7 @@ function loadComments(boardId) {
             response.forEach(comment => {
                 let indentClass = '';
                 let replyButtonHTML = '';
-                let profileImage = "/images/user/" + comment.userProfilePictureGenerated || '/path/to/default-profile.png'; // 프로필 이미지 URL
+                let profileImage = "/images/user/" + comment.userProfilePictureGenerated || '/path/to/default-profile_01.png'; // 프로필 이미지 URL
 
                 // commentStep이 0일 경우에만 답글 버튼 추가
                 if (comment.commentStep === 0) {

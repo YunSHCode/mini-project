@@ -8,7 +8,7 @@ import org.apache.ibatis.type.Alias;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Alias("signupinfo")
+@Alias("signupInfo")
 public class SignupDTO {
     private String userId;               // 사용자 아이디
     private String userPassword;               // 비밀번호
