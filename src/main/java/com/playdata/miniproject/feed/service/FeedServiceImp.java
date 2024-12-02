@@ -2,35 +2,27 @@ package com.playdata.miniproject.feed.service;
 
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
-import org.springframework.ui.Model;
 
 import java.util.List;
 
 public interface FeedServiceImp {
-        // 1. 피드 생성
-        int FeedUpload(FeedDTO feed, List<FeedfileDTO> files); // 파일 포함
 
-        // 2. 피드 목록 조회
-        List<FeedDTO> feedList();
+        // 1. 피드 업로드
+        int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files);
 
-        // 3. 피드 상세 조회
-        FeedDTO getFeedInfo(int feed_id);
+        // 2. 전체 피드 목록 조회
+        List<FeedDTO> getAllFeeds();
+        List<FeedfileDTO> getFeedFiles(int feedId);
 
-        // 4. 피드 수정
-        int FeedUpdate(FeedDTO feed);
+        // 3. 특정 유저의 피드 목록 조회
+        List<FeedDTO> getFeedsByUser(int userKey);
 
-        // 5. 피드 삭제
-        int FeedDelete(int feed_id);
+        // 4. 태그로 피드 목록 조회
+        List<FeedDTO> getFeedsByTag(String feedTag);
 
-        // 6. 피드 검색 (단일 키워드)
-        List<FeedDTO> search(String keyword);
+        // 5. 피드 수정
+        int updateFeed(FeedDTO feed);
 
-        // 7. 피드 검색 (태그 및 키워드)
-        List<FeedDTO> search(String tag, String keyword);
-
-        // 8. 피드 파일 조회
-        List<FeedfileDTO> getFileList(int feed_id);
-
-        // 9. 특정 파일 조회
-        FeedfileDTO getFile(int file_id);
+        // 6. 피드 삭제
+        int deleteFeed(int feedId);
 }

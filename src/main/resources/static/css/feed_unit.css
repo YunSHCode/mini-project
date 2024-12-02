@@ -199,11 +199,77 @@
 *************************/
 
 .slider_trap {
-    display: flex;
     width: 500px;
     height: 500px;
     overflow: hidden;
+    border: 1px solid #97989a;
+    border-radius: 4px;
+    position: relative;
 }
+
+.slider_trap li {
+    width: 500px;
+    height: 500px;
+}
+
+.slider_trap img {
+    object-fit: cover;
+}
+
+.slick-prev,
+.slick-next {
+    display: block;
+    position: absolute;
+    border-radius: 999px;
+    top: 48%;
+    z-index: 99;
+    background-color: rgba(40, 42, 50, 0.54);
+    width: 60px;
+    height: 60px;
+    color: transparent;
+}
+
+.slick-prev {
+    left: 20px;
+}
+.slick-next {
+    right: 20px;
+}
+
+
+
+.slick-prev:hover {transform: rotate(-360deg);}
+.slick-next:hover {transform: rotate(360deg);}
+.slick-prev:hover,
+.slick-next:hover {
+    background-color: rgba(57, 117, 44, 0.81);
+    transition: background-color 0.2s ease, transform 0.4s ease;
+}
+
+.slick-prev::after,
+.slick-next::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 23px;
+    transform: rotate(45deg);
+    width: 15px;
+    height: 15px;
+}
+
+
+.slick-prev::after {
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    left: 26px;
+}
+.slick-next:after {
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    left: 22px;
+}
+
+
 
 
 /*************************
@@ -222,7 +288,7 @@
 
 
 .floating_menu {
-    display: flex;
+    display: none;
     flex-direction: column;
     position: absolute;
     background-color: #ffffff;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.playdata.miniproject.feed.mapper.FeedMapper">
+
+    <!-- 피드에 맞는 댓글 조회 -->
+    <select id="commentAllList" parameterType="int" resultType="com.playdata.miniproject.feed.dto.FeedCommentsDTO">
+        SELECT * FROM  feed_comments c
+        LEFT JOIN feed f ON f.feed_id = c.feed_id
+        WHERE c.feed_id = #{feedID}
+    </select>
+    <!-- 댓글 생성 -->
+    <insert id="insertComment" parameterType="int">
+        INSERT INTO feed_comments (
+            feed_comment_id,
+            user_key,
+            feed_id,
+            feed_comment_group,
+            feed_comment_step,
+            feed_comment_content,
+            feed_comment_create_dt,
+            feed_comment_update_dt
+        ) VALUES  (
+            #{feedCommentId},
+            #{userKey},
+            #{feedId},
+            #{feedCommentGroup},
+            #{feedCommentStep},
+            #{feedCommentContent},
+            NOW(),
+            NOW()
+       )
+    </insert>
+    <!-- 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM feed_comments
+        WHERE feed_comment_id = #{feedCommentId}
+    </delete>
+</mapper>

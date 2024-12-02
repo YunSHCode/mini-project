@@ -39,6 +39,8 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'//mysql 드라이버
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' //tymeleaf 레이아웃
     implementation 'org.springframework.data:spring-data-commons' // 페이징 처리
+    implementation 'commons-io:commons-io:2.16.1' // common io
+
 }
 
 tasks.named('test') {
