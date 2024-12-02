@@ -1,23 +1,25 @@
-document.addEventListener("DOMContentLoaded", () => {
-let currentIndex = 0;
-const slides = document.querySelectorAll(".media_unit");
-
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.style.display = i === index ? "block" : "none";
+$(document).ready(function(){
+    // $("#prevBtn").click(function(){
+    //     alert("Hello jQuery1!");
+    // })
+    // $("#nextBtn").click(function(){
+    //     alert("Hello jQuery2!");
+    // })
+    $('.slider_trap').slick({
+        dots: true,
+        infinite: true,
     });
-}
 
-document.getElementById("prevBtn").addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    showSlide(currentIndex);
-});
 
-document.getElementById("nextBtn").addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % slides.length;
-    showSlide(currentIndex);
-});
+    // const feedPopup = document.querySelector('.feed_popup');
+    // const floatingMenu = document.querySelector('.floating_menu');
 
-// 첫 슬라이드를 초기화합니다.
-showSlide(currentIndex);
+    // feedPopup.addEventListener('click', floatingMenu) => {}
+
+    $('.feed_popup').on('click', function() {
+        $(this).next('.floating_menu').toggle();
+    });
+
+
+
 });

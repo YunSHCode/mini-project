@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko-KR"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:th="http://www.thymeleaf.org/"
+>
+
+<body>
+	<div class="page_nav" th:fragment="pageNav">
+		<div class="page_nav_title">
+			<h3>전체피드</h3>
+			<div class="update_feed">
+				<button type="button"><i class="material-icons">refresh</i></button>
+				<label>2024-11-21</label>
+			</div>
+		</div>
+		<div class="btn_dual">
+			<a class="btn_left" href="/feed/myfeed">마이피드</a>
+			<a class="btn_right" th:href="@{/feed/upload}">업로드</a>
+		</div>
+	</div>
+	<div class="page_nav" th:fragment="backNav">
+		<button type="button"> 뒤로가기</button>
+	</div>
+</body>
+</html>

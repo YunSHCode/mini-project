@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+
+<th:block layout:fragment="content">
+  <div class="container mt-5">
+    <!-- 모임 이미지 -->
+    <div class="text-center mb-4">
+      <img th:src="@{'/upload/community/' + ${group.communityPictureGenerated}}"
+           alt="Community Image"
+           class="img-fluid rounded shadow"
+           style="max-height: 400px;">
+    </div>
+
+    <!-- 모임 제목 -->
+    <div class="text-center mb-4">
+      <h1 th:text="${group.communityTitle}" class="fw-bold">모임 제목</h1>
+    </div>
+
+    <!-- 개설자 정보 및 멤버 정보 -->
+    <div class="row mb-4">
+      <!-- 개설자 정보 -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">개설자 정보</h5>
+          </div>
+          <div class="card-body text-center">
+            <img th:src="@{'/upload/user/' + ${group.userProfilePictureGenerated}}"
+                 alt="개설자 프로필 사진"
+                 class="rounded-circle mb-3"
+                 style="width: 80px; height: 80px; object-fit: cover;">
+            <h6 class="card-title mb-0" th:text="${group.userNickname}">개설자 닉네임</h6>
+          </div>
+        </div>
+      </div>
+
+      <!-- 멤버 정보 -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0">멤버 정보</h5>
+          </div>
+          <div class="card-body">
+            <p th:text="'현재 인원: ' + ${group.communityMember} + ' / ' + ${group.communityMemberMax}" class="mb-3"></p>
+            <button class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#memberModal"
+                    th:onclick="'loadMembers(' + ${group.communityId} + ')'">멤버 보기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세 정보 -->
+    <div class="card">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">상세 정보</h5>
+      </div>
+      <div class="card-body">
+        <p th:text="${group.communityContents}">커뮤니티 내용</p>
+      </div>
+    </div>
+
+    <!-- 버튼 -->
+    <div class="mt-5 d-flex justify-content-between">
+      <a href="/group/list" class="btn btn-outline-secondary">목록으로</a>
+      <a th:href="@{'/group/request/' + ${group.communityId}}" id="joinButton" class="btn btn-primary">참여하기</a>
+    </div>
+  </div>
+
+  <!-- 멤버 보기 Modal -->
+  <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="memberModalLabel">멤버 목록</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="memberList" class="list-group">
+            <!-- 멤버 리스트가 여기에 동적으로 추가됩니다 -->
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script th:src="@{/js/group/groupDetail.js}"></script>
+</th:block>
+</html>

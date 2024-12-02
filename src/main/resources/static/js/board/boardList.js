@@ -8,6 +8,9 @@ let currentKeyword = '';
  * @param {string} keyword - 검색 키워드
  */
 function loadBoards(page = 1, category = '', keyword = '') {
+    sessionStorage.setItem('boardCurrentPage', page);
+    sessionStorage.setItem('boardCurrentCategory', category);
+    sessionStorage.setItem('boardCurrentKeyword', keyword);
     $.ajax({
         url: '/board/list',
         type: 'GET',
@@ -27,20 +30,48 @@ function renderPagination(pagination) {
     const paginationDiv = document.getElementById('pagination');
     paginationDiv.innerHTML = '';
 
+    // Bootstrap pagination container
+    const ul = document.createElement('ul');
+    ul.className = 'pagination justify-content-center';
+
     if (pagination.hasPrev) {
-        paginationDiv.innerHTML += `<button onclick="loadBoards(${pagination.currentPageNo - 1})">이전</button>`;
+        // 이전 버튼을 클릭하면 현재 페이지 -10 또는 첫 번째 페이지로 이동
+        const prevPage = Math.max(pagination.currentPageNo - 10, 1);
+        ul.innerHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="loadBoards(${prevPage},currentCategory, currentKeyword)">이전</a>
+            </li>`;
+    } else {
+        ul.innerHTML += `
+            <li class="page-item disabled">
+                <a class="page-link" href="#">이전</a>
+            </li>`;
     }
 
+    // 페이지 번호 버튼
     for (let i = pagination.firstPageNoOnPageList; i <= pagination.lastPageNoOnPageList; i++) {
-        paginationDiv.innerHTML += `
-            <button onclick="loadBoards(${i})" class="${i === pagination.currentPageNo ? 'active' : ''}">
-                ${i}
-            </button>`;
+        ul.innerHTML += `
+            <li class="page-item ${i === pagination.currentPageNo ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="loadBoards(${i},currentCategory, currentKeyword)">${i}</a>
+            </li>`;
     }
 
+    // 다음 버튼
     if (pagination.hasNext) {
-        paginationDiv.innerHTML += `<button onclick="loadBoards(${pagination.currentPageNo + 1})">다음</button>`;
+        // 다음 버튼을 클릭하면 현재 페이지 +10 또는 마지막 페이지로 이동
+        const nextPage = Math.min(pagination.currentPageNo + 10, pagination.realEndPage);
+        ul.innerHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" onclick="loadBoards(${nextPage},currentCategory, currentKeyword)">다음</a>
+            </li>`;
+    } else {
+        ul.innerHTML += `
+            <li class="page-item disabled">
+                <a class="page-link" href="#">다음</a>
+            </li>`;
     }
+
+    paginationDiv.appendChild(ul);
 }
 
 /**
@@ -64,8 +95,8 @@ function renderTable(boardList) {
 
         // 게시글 데이터를 테이블에 추가합니다.
         row.innerHTML = ` 
-            <td>${board.boardTitle}</td>
-            <td>${board.userName}</td>
+            <td><a href="/board/${board.boardId}">${board.boardTitle}</a></td>
+            <td>${board.userNickname}</td>
             <td>${formatDate(board.boardCreateDt)}</td>
         `;
 
@@ -116,5 +147,27 @@ function formatDate(dateStr) {
 
 // 초기 데이터 로드
 document.addEventListener('DOMContentLoaded', () => {
-    loadBoards(1); // 페이지 1부터 데이터 로드
+    const savedPage = sessionStorage.getItem('boardCurrentPage') || 1;
+    const savedCategory = sessionStorage.getItem('boardCurrentCategory');
+    const savedKeyword = sessionStorage.getItem('boardCurrentKeyword');
+
+    // 검색창과 카테고리 값 설정
+    if (savedKeyword) {
+        document.getElementById('searchKeyword').value = savedKeyword;
+        currentKeyword = savedKeyword;
+    }
+    if (savedCategory) {
+        document.getElementById('searchCategory').value = savedCategory;
+        currentCategory = savedCategory;
+    }
+
+    // 저장된 값으로 게시판 목록 로드
+    loadBoards(Number(savedPage), savedCategory || '', savedKeyword || '');
+});
+
+document.getElementById('resetBoard').addEventListener('click', function () {
+    // 게시판 상태 초기화
+    sessionStorage.removeItem('boardCurrentPage');
+    sessionStorage.removeItem('boardCurrentCategory');
+    sessionStorage.removeItem('boardCurrentKeyword');
 });

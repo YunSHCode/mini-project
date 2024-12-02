@@ -11,6 +11,6 @@ public class BoardWithUserDTO {
     private String boardContent;   // 내용
     private LocalDateTime boardCreateDt; // 생성 날짜
     private LocalDateTime boardUpdateDt; // 수정 날짜
-    private Long userId;           // 작성자 (FK)
-    private String userName;       // 작성자 이름
+    private int userKey;           // 작성자 (FK)
+    private String userNickname;       // 작성자 이름
 }

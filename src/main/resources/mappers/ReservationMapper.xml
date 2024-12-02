@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playdata.miniproject.cafe.mapper.ReservationMapper">
+    <select id="cafeById" parameterType="int" resultType="com.playdata.miniproject.cafe.dto.CafeDTO">
+        SELECT * FROM cafe WHERE cafe_id = #{cafeId}
+    </select>
+    <select id="menuListByCafe" parameterType="int" resultType="com.playdata.miniproject.cafe.dto.MenuDTO">
+        SELECT * FROM menu WHERE cafe_id = #{cafeId}
+    </select>
+    <insert id="insertReservation" parameterType="com.playdata.miniproject.cafe.dto.ReservationRequest" useGeneratedKeys="true" keyProperty="reservationId">
+        INSERT INTO reservation (user_key, cafe_id, reservation_pickup_time, reservation_create_dt)
+        VALUES (#{userKey}, #{cafeId}, #{pickupDateTime}, NOW())
+    </insert>
+    <!-- 예약 메뉴 정보 삽입 -->
+    <insert id="insertReservationMenu">
+        INSERT INTO reservation_menu (reservation_id, menu_id, reservation_menu_quantity)
+        VALUES (LAST_INSERT_ID(), #{menuId}, #{reservationMenuQuantity})
+    </insert>
+    <resultMap id="reservationResultMap" type="com.playdata.miniproject.cafe.dto.ReservationSuccess">
+        <id property="reservationId" column="reservation_id"/>
+        <result property="userRealname" column="user_realname"/>
+        <result property="cafeName" column="cafe_name"/>
+        <result property="reservationPickupTime" column="reservation_pickup_time"/>
+        <collection property="menuList" ofType="com.playdata.miniproject.cafe.dto.ReservationMenuSuccess">
+            <id property="menuId" column="menu_id"/>
+            <result property="menuName" column="menu_name"/>
+            <result property="menuPrice" column="menu_price" javaType="int"/>
+            <result property="reservationMenuQuantity" column="reservation_menu_quantity"/>
+            <result property="menuPictureGenerated" column="menu_picture_generated"/>
+        </collection>
+    </resultMap>
+    <select id="selectReservationById" resultMap="reservationResultMap">
+        SELECT
+        r.reservation_id,
+        u.user_realname,
+        c.cafe_name,
+        r.reservation_pickup_time,
+        m.menu_id,
+        m.menu_name,
+        m.menu_price,
+        m.menu_picture_generated,
+        rm.reservation_menu_quantity
+        FROM
+        reservation r
+        JOIN users u ON r.user_key = u.user_key
+        JOIN cafe c ON r.cafe_id = c.cafe_id
+        LEFT JOIN reservation_menu rm ON r.reservation_id = rm.reservation_id
+        LEFT JOIN menu m ON rm.menu_id = m.menu_id
+        WHERE
+        r.reservation_id = #{reservationId}
+    </select>
+
+    <!-- 사용자 조건 조회 (Mypage 사용 ) -->
+    <!-- 특정 사용자 예약 목록 카운트 -->
+    <select id="countReservationByUser" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE user_key = #{userKey}
+    </select>
+
+    <!-- 특정 사용자 예약 목록 페이징 조회 -->
+    <select id="getReservationByUser" resultMap="reservationResultMap">
+        SELECT
+        r.reservation_id,
+        u.user_realname,
+        c.cafe_name,
+        r.reservation_pickup_time,
+        m.menu_id,
+        m.menu_name,
+        m.menu_price,
+        rm.reservation_menu_quantity,
+        m.menu_picture_generated
+        FROM
+        reservation r
+        JOIN users u ON r.user_key = u.user_key
+        JOIN cafe c ON r.cafe_id = c.cafe_id
+        LEFT JOIN reservation_menu rm ON r.reservation_id = rm.reservation_id
+        LEFT JOIN menu m ON rm.menu_id = m.menu_id
+        WHERE
+        r.user_key = #{userKey}
+        ORDER BY
+        r.reservation_pickup_time DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>

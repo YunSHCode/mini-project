@@ -6,16 +6,16 @@
 <th:block th:replace="~{fragments/config :: configFragment}"></th:block>
 <!-- header -->
 <body>
-<th:block th:replace="~{fragments/header :: headerFragment  }"></th:block>
+    <th:block th:replace="~{fragments/header :: headerFragment  }"></th:block>
+    <div class="d-flex" style="min-height: 100vh;">
+        <div class="container">
+            <!-- content -->
+            <th:block layout:fragment="content">
 
-    <div class="container">
-      <!-- content -->
-      <th:block layout:fragment="content">
-
-      </th:block>
+            </th:block>
+        </div>
     </div>
-
-<!-- footer -->
-<th:block th:replace="~{fragments/footer :: footerFragment}"></th:block>
+    <!-- footer -->
+    <th:block th:replace="~{fragments/footer :: footerFragment}"></th:block>
 </body>
 </html>

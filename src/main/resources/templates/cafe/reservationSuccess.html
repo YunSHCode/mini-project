@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<div>
+  <th:block layout:fragment="content">
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center text-success">예약이 성공적으로 완료되었습니다!</h1>
+          <div class="reservation-details mt-4">
+            <p><strong>예약 번호:</strong> <span th:text="${reservation.reservationId}"></span></p>
+            <p><strong>고객명:</strong> <span th:text="${reservation.userRealname}"></span></p>
+            <p><strong>카페 이름:</strong> <span th:text="${reservation.cafeName}"></span></p>
+            <p><strong>픽업 시간:</strong> <span th:text="${#temporals.format(reservation.reservationPickupTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+          </div>
+          <h2 class="mt-4">주문한 메뉴</h2>
+          <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+              <th>이미지</th>
+              <th>메뉴 이름</th>
+              <th>수량</th>
+              <th>가격</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="menu : ${reservation.menuList}">
+              <td><img th:src="@{/images/menu/{file}(file=${menu.menuPictureGenerated})}" alt="메뉴 이미지" class="img-thumbnail" width="100" height="100"/></td>
+              <td th:text="${menu.menuName}"></td>
+              <td th:text="${menu.reservationMenuQuantity}"></td>
+              <td th:text="${#numbers.formatDecimal(menu.menuPrice, 0, 0)} + ' 원'"></td>
+            </tr>
+            </tbody>
+          </table>
+          <p class="text-end mt-3"><strong>총 금액:</strong> <span th:text="${totalAmount} + ' 원'"></span></p>
+          <div class="d-flex justify-content-between mt-4">
+            <a class="btn btn-primary" th:href="@{/}">메인 페이지로 이동</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </th:block>
+</div>
+</html>

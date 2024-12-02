@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<!--<th:block layout:fragment="script">-->
+<!--  <script src="/js/reservation/cafe_reservation.js"></script>-->
+<!--</th:block>-->
+<div>
+  <th:block layout:fragment="content">
+    <!-- 예약 확인 모달 -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reservationModalLabel">예약 정보 확인</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h6><strong>예약자 정보</strong></h6>
+            <p>이름: <span id="modalCustomerName"></span></p>
+            <p>연락처: <span id="modalCustomerPhone"></span></p>
+
+            <h6 class="mt-3"><strong>선택한 메뉴</strong></h6>
+            <div id="modalMenuList"></div>
+
+            <h6 class="mt-3"><strong>총 금액</strong></h6>
+            <p><span id="modalTotalPrice">0</span> 원</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="confirmReservation">예약 확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">디저트 예약</h1>
+
+      <!-- 예약자 정보와 카페 정보를 하나의 카드로 표시 -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <div class="row">
+            <!-- 예약자 정보 -->
+            <div class="col-md-6 border-end">
+              <h5 class="card-title text-center">예약자 정보</h5>
+              <input type="hidden" name="userKey" th:value="${customer.userKey}">
+              <p><strong>이름:</strong> <span id="customerName" th:text="${customer.userRealname}">아무개</span></p>
+              <p><strong>연락처:</strong> <span id="customerPhone" th:text="${customer.userPhoneNumber}">010-1234-5678</span></p>
+              <p><strong>이메일:</strong> <span th:text="${customer.userEmail}">abcd1234@example.com</span></p>
+            </div>
+
+            <!-- 카페 정보 -->
+            <div class="col-md-6">
+              <h5 class="card-title text-center">카페 정보</h5>
+              <p><strong>카페 이름:</strong> <span th:text="${cafe.cafeName}">카페 이름</span></p>
+              <p><strong>카페 연락처:</strong> <span th:text="${cafe.cafeNo}">02-1234-5678</span></p>
+              <p><strong>카페 위치:</strong> <span th:text="${cafe.cafeAddr}">서울시 강남구</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 메뉴와 수령 시간 -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <div class="row">
+            <!-- 메뉴 리스트 -->
+            <div class="col-md-8 border-end">
+              <h5 class="card-title text-center">메뉴 선택</h5>
+              <div id="menuList">
+                <div th:each="menuItem : ${menu}" class="menu-item d-flex align-items-center mb-3">
+                  <img th:src="@{/images/menu/{menuPictureGenerated}(menuPictureGenerated=${menuItem.menuPictureGenerated})}"
+                       th:alt="${menuItem.menuName}"
+                       class="img-thumbnail" style="width: 80px; height: 80px;">
+                  <div class="ms-3">
+                    <h6 class="mb-1" th:text="${menuItem.menuName}">메뉴 이름</h6>
+                    <p class="mb-1"><span th:text="${menuItem.menuPrice}">0</span> 원</p>
+                    <div class="d-flex align-items-center">
+                      <button type="button" class="btn btn-sm btn-secondary"
+                              th:onclick="'updateQuantity(' + ${menuItem.menuId} + ', -1)'">-</button>
+                      <input type="text" th:id="'quantity-' + ${menuItem.menuId}" value="0" readonly
+                             class="form-control form-control-sm mx-2 text-center" style="width: 50px;">
+                      <button type="button" class="btn btn-sm btn-secondary"
+                              th:onclick="'updateQuantity(' + ${menuItem.menuId} + ', 1)'">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4">
+                <h5 class="text-end">총 금액: <span id="totalPrice">0</span> 원</h5>
+              </div>
+            </div>
+
+            <!-- 수령 시간 선택 -->
+            <div class="col-md-4">
+              <h5 class="card-title text-center">수령 시간 선택</h5>
+              <form th:action="@{/cafe/reservation}" method="post" id="reservationForm">
+                <label for="pickupTime" class="form-label">수령 시간</label>
+                <select id="pickupTime" name="pickupTime" class="form-select mb-3" required>
+                  <option value="">시간 선택</option>
+                  <option value="10">10분 후</option>
+                  <option value="30">30분 후</option>
+                  <option value="60">1시간 후</option>
+                </select>
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary w-100">예약하기</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:src="@{/js/reservation/cafe_reservation.js}"></script>
+  </th:block>
+</div>
+</html>
