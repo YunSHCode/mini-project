@@ -9,7 +9,15 @@
     <select id="getAllFeeds" resultType="com.playdata.miniproject.feed.dto.FeedListDTO">
         SELECT f.*, u.user_nickname, u.user_vegan_type
         FROM feed f
-                 JOIN users u ON f.user_key = u.user_key;
+                 JOIN users u ON f.user_key = u.user_key
+        ORDER BY feed_create_dt desc;
+    </select>
+
+
+    <select id="getFeedById" resultType="com.playdata.miniproject.feed.dto.FeedListDTO">
+        SELECT *
+        FROM feed f
+        WHERE feed_id = #{feedId}
     </select>
 
     <!-- 파일 조회하기 -->
@@ -18,12 +26,24 @@
         WHERE feed_id = #{feedID}
     </select>
 
-    <!-- 특정 유저의 Feed 조회 -->
-    <select id="getFeedsByUser" parameterType="int" resultType="feed">
-        SELECT * FROM feed f
-        LEFT JOIN users u ON f.user_key = u.user_key
-        WHERE user_key = #{userKey}
+    <!-- 나의 피드 갖고오기 -->
+    <select id="getFeedsByUser" parameterType="int" resultType="feedList">
+        SELECT f.*, u.user_nickname, u.user_vegan_type
+        FROM feed f
+                 LEFT JOIN users u ON f.user_key = u.user_key
+        WHERE f.user_key = #{userKey}
+        ORDER BY feed_create_dt desc;
     </select>
+
+    <!-- 나의 피드 갯수 조회하기 -->
+    <select id="myFeedCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) AS feedCount
+        FROM feed f
+                 LEFT JOIN users u ON f.user_key = u.user_key
+        WHERE f.user_key = #{userKey}
+    </select>
+
+
 
     <!-- 특정 태그로 Feed 조회 -->
     <select id="getFeedsByTag" parameterType="String" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
@@ -42,12 +62,12 @@
             feed_tag
         )
         VALUES
-        (
-        #{userKey},
-        #{feedContent},
-        NOW(),
-        NOW(),
-        #{feedTag})
+            (
+                #{userKey},
+                #{feedContent},
+                NOW(),
+                NOW(),
+                #{feedTag})
     </insert>
 
     <!-- Feed 수정 -->
@@ -85,5 +105,9 @@
             #{file.feedId})
         </foreach>
     </insert>
+
+
+
+
 
 </mapper>

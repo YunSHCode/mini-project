@@ -9,14 +9,16 @@ import java.util.List;
 public interface FeedServiceImp {
 
         // 1. 피드 업로드
-                int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files);
+        int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files);
 
         // 2. 전체 피드 목록 조회
         List<FeedListDTO> getAllFeeds();
+
         List<FeedfileDTO> getFeedFiles(int feedId);
 
         // 3. 특정 유저의 피드 목록 조회
-        List<FeedDTO> getFeedsByUser(int userKey);
+        List<FeedListDTO> getFeedsByUser(int userKey); // 사용자 고유 아이디 기반 피드
+        int myFeedCount(int userKey); //
 
         // 4. 태그로 피드 목록 조회
         List<FeedDTO> getFeedsByTag(String feedTag);
@@ -29,4 +31,7 @@ public interface FeedServiceImp {
 
         // 피드 아이디 기반 댓글 삭제
         int deleteFeedCommentByFeedId(int feedId);
+        FeedListDTO getFeedById(int feedId);
+  
+        public List<FeedCommentsDTO> getCommet(int feedId);
 }

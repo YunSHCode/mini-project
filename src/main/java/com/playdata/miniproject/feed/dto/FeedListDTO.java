@@ -19,6 +19,7 @@ public class FeedListDTO {
     int userKey;
     String userNickName;
     String userVeganType;
+    String userProfilePictureGenerated;
     // feed contents
     String feedContent;
     String feedTag;
@@ -34,7 +35,8 @@ public class FeedListDTO {
             String userVeganType,
             String feedContent,
             String feedTag,
-            LocalDateTime feedUpdateDt
+            String userProfilePictureGenerated,
+    LocalDateTime feedUpdateDt
     ) {
         this.feedId = feedId;
         this.userNickName = userNickName;
@@ -42,6 +44,7 @@ public class FeedListDTO {
         this.userKey = userKey;
         this.feedContent = feedContent;
         this.feedTag = feedTag;
+        this.userProfilePictureGenerated = userProfilePictureGenerated;
         this.feedUpdateDt = feedUpdateDt;
     }
 

@@ -7,9 +7,11 @@ import com.playdata.miniproject.feed.service.FileUploadService;
 import com.playdata.miniproject.feed.service.FeedService;
 import com.playdata.miniproject.user.dto.UserDTO;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/feed")
@@ -34,10 +37,10 @@ import java.util.List;
 public class FeedViewController {
 
     private final FeedService feedService;
-    private final FileUploadService fileUploadService;  // 파일 업로드 서비스 추가
+    private final FileUploadService fileUploadService; // 파일 업로드 서비스 추가
 
-    /*@Value("/${file.feed.dir}") /*("${file.dir}feed/")*/
-    private String uploadpath="/Users/daul/fullstack7/upload/user/";
+    @Value("${file.dir}feed/")
+    private String uploadpath; // file.dir=C:/fullstack7/upload/
 
     // 피드 메인 페이지
     @GetMapping("/")
@@ -52,9 +55,7 @@ public class FeedViewController {
         FeedDTO feedDTO = new FeedDTO();
         model.addAttribute("feed", feedDTO);
 
-
-
-        return "/feed/feed";  // 피드 목록 화면 반환
+        return "/feed/feed"; // 피드 목록 화면 반환
     }
 
     // 피드 이미지 불러오기
@@ -80,13 +81,10 @@ public class FeedViewController {
 
     }
 
-
-
     // 피드 업로드 화면
     @GetMapping("/upload")
     public String upload(
-            @SessionAttribute(value = "user", required = false) UserDTO user, RedirectAttributes redirectAttributes
-    ) {
+            @SessionAttribute(value = "user", required = false) UserDTO user, RedirectAttributes redirectAttributes) {
         if (user == null) {
             redirectAttributes.addFlashAttribute("loginMessage", "로그인 후 이용 가능합니다.");
             return "redirect:/user/login/first";
@@ -96,14 +94,50 @@ public class FeedViewController {
 
     // 내 피드 화면
     @GetMapping("/myfeed")
-    public String myFeed() {
-        return "/feed/myfeed";  // 마이피드 화면 반환
+    public String myfeed(
+            @SessionAttribute(value = "user", required = false) UserDTO user,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("loginMessage", "로그인 후 이용 가능합니다.");
+            return "redirect:/user/login/first";
+        }
+
+        // 사용자의 피드 수 가져오기
+        int myfeedCount = feedService.myFeedCount(user.getUserKey());
+        System.out.println("*****************************");
+        System.out.println("유저 아이디" + user.getUserKey());
+        System.out.println("feed 횟수" + myfeedCount);
+        List<FeedListDTO> feedDTOList = feedService.getFeedsByUser(user.getUserKey());
+
+        // 모델에 데이터 추가
+
+        model.addAttribute("myfeedCount", myfeedCount);
+        model.addAttribute("feedList", feedDTOList);
+
+        return "/feed/myfeed";
     }
 
     // 피드 수정 화면
-    @GetMapping("/editFeed")
-    public String editFeed() {
-        return "/feed/edit_feed";  // 피드 수정 화면 반환
+    @GetMapping("/{feedId}/modify")
+    public String editFeed(@PathVariable("feedId") Integer feedId, Model model) {
+
+        FeedListDTO feedDTO = feedService.getFeedById(feedId);
+
+        List<FeedfileDTO> feedfileDTOList = feedService.getFeedFiles(feedDTO.getFeedId());
+        feedDTO.setFeedFiles(feedfileDTOList);
+
+        model.addAttribute("feed", feedDTO);
+
+        return "/feed/edit_feed"; // 피드 수정 화면 반환
+    }
+
+    @PostMapping("/modify/feed")
+    public String modifyFeed(
+            @RequestParam(name = "feedFile", required = false) List<MultipartFile> feedFiles,
+            @RequestBody FeedListDTO feed) {
+
+        return "asdasds";
     }
 
     // 피드 업로드 처리
@@ -112,7 +146,6 @@ public class FeedViewController {
                              @RequestParam(name = "content") String feedContent,
                              @RequestParam(name = "diet", required = false) List<String> feedTags,
                              @ModelAttribute("user") UserDTO user) throws IOException {
-
 
         // 입력 값 검증
         if (feedContent == null || feedContent.trim().isEmpty()) {
@@ -143,6 +176,6 @@ public class FeedViewController {
         // 서비스 로직 호출
         feedService.uploadFeed(user.getUserKey(), feedContent, String.join(",", feedTags), feedFileDTOList);
 
-        return "redirect:/feed/";  // 피드 등록 후 메인 화면으로 리다이렉트
+        return "redirect:/feed/"; // 피드 등록 후 메인 화면으로 리다이렉트
     }
 }

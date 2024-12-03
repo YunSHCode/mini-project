@@ -68,6 +68,4 @@ public class FeedDataController {
     public List<FeedCommentsDTO> getComments(@RequestParam("feedId") Integer feedId) {
         return feedCommentService.getCommentsByFeedId(feedId);
     }
-
-
 }
