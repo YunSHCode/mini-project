@@ -77,5 +77,4 @@ public class MyPageTabController {
         model.addAttribute("myPendingGroups", myPendingGroups);
         return "user/fragments/mypendinggroups :: myPendingGroupsTable";
     }
-
 }

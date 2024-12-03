@@ -1,19 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // 모든 페이지 링크에 클릭 이벤트 추가
-    addPaginationListeners();
+$(document).ready(function () {
+    // 초기 로드 시 선택된 탭 데이터 로드
+    const initialTab = $('.nav-link.active').data('bs-target');
+    loadTabData(initialTab);
 
-    function addPaginationListeners() {
-        document.querySelectorAll('.pagination a.page-link').forEach(pageLink => {
-            pageLink.addEventListener('click', function (event) {
-                event.preventDefault(); // 기본 이동 동작 방지
-                const targetPage = this.getAttribute('data-page');
-                const currentTab = document.querySelector('.nav-link.active').getAttribute('data-bs-target');
+    // 탭 클릭 이벤트 리스너 추가
+    $('.nav-link').on('click', function () {
+        const targetTab = $(this).data('bs-target');
+        loadTabData(targetTab);
+    });
 
-                loadTabData(currentTab, targetPage);
-            });
-        });
-    }
+    // 페이지네이션 클릭 처리 함수
+    window.loadPage = function (targetPage) {
+        const currentTab = $('.nav-link.active').data('bs-target');
+        loadTabData(currentTab, targetPage);
+    };
 
+    // 탭 데이터 로드 함수
     function loadTabData(targetTab, page = 0) {
         let url = '';
         switch (targetTab) {
@@ -40,17 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
             url: url,
             type: "GET",
             success: function (data) {
-                $(targetTab + 'Content').html(data);
-                addPaginationListeners(); // 새로운 페이지네이션 링크에 이벤트 추가
+                $(`${targetTab}Content`).html(data);
             },
             error: function (xhr, status, error) {
                 console.error("Error loading tab data:", error);
-                $(targetTab + 'Content').html("Failed to load data.");
+                $(`${targetTab}Content`).html("Failed to load data.");
             }
         });
     }
-
-    // 초기 로드 시 선택된 탭 데이터 로드
-    const initialTab = document.querySelector('.nav-link.active').getAttribute('data-bs-target');
-    loadTabData(initialTab);
 });
