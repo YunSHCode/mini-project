@@ -4,9 +4,7 @@ import com.playdata.miniproject.cafe.dao.MapDAO;
 import com.playdata.miniproject.cafe.dao.MenuDAO;
 import com.playdata.miniproject.cafe.dto.CafeDTO;
 import com.playdata.miniproject.cafe.dto.MenuDTO;
-import com.playdata.miniproject.cafe.mapper.MapMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

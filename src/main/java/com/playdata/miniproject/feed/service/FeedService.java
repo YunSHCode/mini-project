@@ -2,9 +2,11 @@ package com.playdata.miniproject.feed.service;
 
 import com.playdata.miniproject.feed.dao.FeedDAO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +16,6 @@ import java.util.stream.Collectors;
 public class FeedService implements FeedServiceImp {
 
     private final FeedDAO feedDAO; // 의존성 주입
-
 
     // 2. 피드 업로드 (userKey, feedContent, feedTag로 피드 등록)
     @Override
@@ -46,22 +47,31 @@ public class FeedService implements FeedServiceImp {
 
     // 3. 전체 피드 목록 조회
     @Override
-    public List<FeedDTO> getAllFeeds() {
+    public List<FeedListDTO> getAllFeeds() {
         return feedDAO.getAllFeeds(); // 모든 피드 목록 조회 (DAO에서 호출)
     }
 
     // 4. 피드 파일 목록 조회
     @Override
     public List<FeedfileDTO> getFeedFiles(int feedId) {
-        return  feedDAO.getFeedFiles(feedId);
+        return feedDAO.getFeedFiles(feedId);
     }
 
 
-    // 4. 특정 유저의 피드 목록 조회
+    // 4. 나의 피드 조회하기
     @Override
-    public List<FeedDTO> getFeedsByUser(int userKey) {
+    public List<FeedListDTO> getFeedsByUser(
+            @SessionAttribute("userKey") int userKey
+    ) {
         return feedDAO.getFeedsByUser(userKey); // 해당 유저의 피드 목록 조회
     }
+
+    @Override
+    public int myFeedCount(int userKey){
+        return feedDAO.myFeedCount(userKey);
+    };
+
+
 
     // 5. 태그로 피드 목록 조회
     @Override
@@ -80,4 +90,16 @@ public class FeedService implements FeedServiceImp {
     public int deleteFeed(int feedId) {
         return feedDAO.deleteFeedById(feedId); // 피드 삭제 (DAO에서 호출)
     }
+
+    @Override
+    public int deleteFeedCommentByFeedId(int feedId) {
+
+        return feedDAO.deleteFeedCommentByFeedId(feedId);
+    }
+
+    @Override
+    public FeedListDTO getFeedById(int feedId) {
+        return feedDAO.getFeedById(feedId);
+    }
+
 }

@@ -9,17 +9,29 @@
 					<div class="media_content">
 						<div class="unit_header">
 							<div class="profile">
-								<div class="profile_img"></div>
+								<div class="profile_img">
+									<img th:src="${feed.userProfilePictureGenerated}" alt="User Profile">
+								</div>
 								<div class="profile_info">
-									<p id="name" th:text="myName">MEANZ</p>
-									<p id="vegan_type" th:text="veganType">SuperVegan</p>
+									<p id="name" th:text="${feed.userNickName}">MEANZ</p>
+									<p id="vegan_type" th:text="${feed.userVeganType}">
 								</div>
 							</div>
-							<div class="unit_header_tool">
-								<button type="button" class="feed_popup"><i class="material-icons icon">more_vert</i></button>
+							<div class="unit_header_tool" th:if="${session.user != null and feed.userKey == session.user.userKey}">
+								<button class="feed_popup" type="button">
+									<i class="material-icons icon">more_vert</i>
+								</button>
 								<ul class="floating_menu">
-									<li><a href="#">수정하기</a></li>
-									<li><a href="#">삭제하기</a></li>
+									<li>
+										<a class="modify_feed" th:attr="data-feedid=${feed.feedId}">
+											수정하기
+										</a>
+									</li>
+									<li>
+										<a class="delete_feed" th:attr="data-feedid=${feed.feedId}">
+											삭제하기
+										</a>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -28,7 +40,8 @@
 							<div class="wrap">
 								<ul class="slider_trap">
 									<li th:each="feedImage : ${feed.feedFiles}">
-										<img alt="Feed Image" th:src="@{ /feed/img/{imgName} (imgName = ${feedImage.feedFileName})}">
+										<img alt="Feed Image"
+											 th:src="@{ /upload/feed/{imgName} (imgName = ${feedImage.feedFileName})}">
 									</li>
 								</ul>
 							</div>
@@ -66,7 +79,7 @@
 							무슨 말을 하려던 최대 4줄이 한계이느라
 						</p>
 						<div>
-							<ul class="slider_tags"  >
+							<ul class="slider_tags">
 								<li th:each="text : ${#strings.arraySplit(feed.feedTag, ',')}" th:text="${text}"></li>
 							</ul>
 						</div>
@@ -74,18 +87,17 @@
 					<div class="comment_area">
 						<ul>
 							<li class="comm_unit">
-								<th:block th:insert="feed/component/comm_unit :: comm_unit"></th:block>
 							</li>
 						</ul>
 					</div>
-					<form th:action="@{/feed/comment}" th:object="${feed}" method="post">
-						<input type="hidden" name="feedId" th:value="${feed.feedId}">
-						<input type="hidden" name="userKey" value="0">
+					<form method="post" th:action="@{/feed/comment}" th:object="${feed}">
+						<input name="feedId" th:value="${feed.feedId}" type="hidden">
+						<input name="userKey" type="hidden" value="0">
 						<div class="comm_input">
 							<input name="feedCommentContent" placeholder="비건 좋아하면 소리질러" type="text">
 						</div>
 					</form>
-					
+				
 				</div>
 			</div>
 		</div>
