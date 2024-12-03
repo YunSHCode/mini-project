@@ -4,16 +4,26 @@
 	  lang="ko-KR"
 >
 <body>
-	<th:block th:fragment="userUnit">
-		<div class="profile_img"></div>
-		<div class="user_name">
-			<h3>MEANZ</h3>
-			<p>UserID</p>
+	<th:block th:fragment="userUnit(feed)">
+		<!-- 사용자 정보 -->
+		<div class="profile_img">
+			<img th:src="${session.user.userProfilePictureGenerated}" alt="User Profile">
 		</div>
-			<p>SuperVegan</p>
-		<p>게시물 개수</p>
-		<p>좋아요 개수</p>
+		<div class="my info">
+			<h3 th:text="${session.user.userNickname}">User Nickname</h3>
+			<p th:text="${session.user.userId}">User ID</p>
+		</div>
+		
+		<!-- 사용자 추가 정보 -->
+		<div class="my_info">
+			<ul>
+				<li>나의 비건 스타일: <span th:text="${session.user.userVeganType}"></span></li>
+				<li>나의 게시물 개수: <span th:text="${myfeedCount}"></span></li>
+			</ul>
+		</div>
 	</th:block>
 	
+	</th:block>
+
 </body>
 </html>

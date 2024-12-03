@@ -3,6 +3,7 @@ package com.playdata.miniproject.user.service;
 import com.playdata.miniproject.user.dao.UserDAO;
 import com.playdata.miniproject.user.dto.LoginUserDTO;
 import com.playdata.miniproject.user.dto.SignupDTO;
+import com.playdata.miniproject.user.dto.UpdateDTO;
 import com.playdata.miniproject.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO userPhoneCheck(String userPhone) {
         return userDAO.userPhoneCheck(userPhone);
+    }
+
+    @Override
+    public int changeInfo(UpdateDTO updateDTO) {
+        return userDAO.changeInfo(updateDTO);
+    }
+
+    @Override
+    public UserDTO getUserByUserKey(int userKey) {
+        return userDAO.getUserByUserKey(userKey);
     }
 
 

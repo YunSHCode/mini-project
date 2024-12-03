@@ -2,6 +2,7 @@ package com.playdata.miniproject.user.mapper;
 
 import com.playdata.miniproject.user.dto.LoginUserDTO;
 import com.playdata.miniproject.user.dto.SignupDTO;
+import com.playdata.miniproject.user.dto.UpdateDTO;
 import com.playdata.miniproject.user.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,7 @@ public interface UserMapper {
     UserDTO nicknamecheck(String userNickname);
     UserDTO emailcheck(String userEmail);
     UserDTO phonecheck(String userPhoneNumber);
+    int update(UpdateDTO updateDTO);
 
-
+    UserDTO getUserByUserKey(@Param("userKey") int userKey);
 }

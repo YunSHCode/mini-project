@@ -7,6 +7,9 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <meta charset="UTF-8"/>
     <title>cafe map</title>
+    <!-- 부트스트랩 3. jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <!-- css 적용 -->
     <style>
@@ -25,12 +28,13 @@
         .cafe-list thead th {
             position: sticky;
             top: 0;
-            z-index: 2; /
-            background-color: #f2f2f2;
+            z-index: 2;
+        / background-color: #f2f2f2;
             font-weight: bold; /* 글씨 굵게 */
             border: 1px solid black;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 헤더에 그림자 추가 */
         }
+
         .modal-body-container {
             display: flex; /* Flexbox를 사용하여 가로 정렬 */
             justify-content: space-between; /* 양쪽에 여백을 만듦 */
@@ -68,13 +72,16 @@
         }
 
         #map {
+            overflow: visible;
             display: block;
             margin-top: 30px;
-            width: 70vh;
-            height: 60vh;
-            border: solid black 1px;
+            width: 60vh;
+            height: 50vh;
             margin-left: auto;
             margin-right: auto;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+
         }
 
         .cafe-list table {
@@ -134,13 +141,40 @@
             padding: 0;
             background-color: #f0f9f0;
         }
-        .carousel-item img{
+
+        .carousel-item img {
             width: 200px;
             height: 200px;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
         }
+
+        .carousel-item-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .carousel-item-content img {
+            flex: 1;
+            max-width: 45%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-details {
+            flex: 1;
+            padding-left: 15px;
+        }
+
+        .menu-details p {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -148,10 +182,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
-    <!-- 부트스트랩 3. jQuery -->
+    <!--&lt;!&ndash; 부트스트랩 3. jQuery &ndash;&gt;
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
+-->
     <!-- 레이아웃1. -->
     <div layout:fragment="content">
 
@@ -160,7 +194,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title"  id="modal_cafe_title"> </h4>
+                        <h4 class="modal-title" id="modal_cafe_title"></h4>
                     </div>
                     <div class="modal-body-container">
                         <!-- 텍스트 영역 -->
@@ -179,20 +213,38 @@
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner" style="border-radius: 10px">
                             <div class="carousel-item active">
-                                <img src="" class="d-block w-100"  alt="..." id="menu1">
+                                <div class="carousel-item-content">
+                                    <img src="" class="d-block w-50" alt="..." id="menu1">
+                                    <div class="menu-details">
+                                        <p id="menu1-name"></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="" class="d-block w-100" alt="..." id="menu2" >
+                                <div class="carousel-item-content">
+                                    <img src="" class="d-block w-50" alt="..." id="menu2">
+                                    <div class="menu-details">
+                                        <p id="menu2-name"></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="" class="d-block w-100" alt="..." id="menu3" >
+                                <div class="carousel-item-content">
+                                    <img src="" class="d-block w-50" alt="..." id="menu3">
+                                    <div class="menu-details">
+                                        <p id="menu3-name"></p>
+                                    </div>
+                                </div>
                             </div>
+                            <div><hr></div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -213,7 +265,8 @@
         <script type="text/javascript"
                 src="//dapi.kakao.com/v2/maps/sdk.js?appkey=664e6d5a215c422f526fcfa59d68b671&libraries=services"></script>
         <script>
-            <!-- 맵선언과초기위치  -->
+            <!--맵 선언과  초기위치  -->
+
             var container = document.getElementById('map');
             var options = {
                 center: new kakao.maps.LatLng(37.498095, 127.027610),
@@ -278,7 +331,6 @@
                                 position: marker.getPosition(),
                                 content: content,
                                 yAnchor: 1.3,
-
                             });
 
                             //마커, 오버레이 저장
@@ -305,23 +357,36 @@
                                 var imagePath = `/images/cafe/${cafe.cafePictureGenerated}`;
                                 document.getElementById("modal_cafe_picture").src = imagePath;
 
-                                //모달 메뉴 부분
                                 const carouselInner = document.querySelector(".carousel-inner");
                                 carouselInner.innerHTML = ""; // 기존 캐러셀 콘텐츠 초기화
 
-                                const cafeMenus = menulists.filter(menu => menu.cafeId === cafe.cafeId); // 가게 ID와 메뉴 매칭
+                                // 메뉴 데이터 매핑
+                                const cafeMenus = menulists.filter(menu => menu.cafeId === cafe.cafeId);
+
                                 cafeMenus.forEach((menu, index) => {
-                                    // 각 이미지 생성
                                     const carouselItem = document.createElement("div");
                                     carouselItem.classList.add("carousel-item");
-                                    if (index === 0) carouselItem.classList.add("active"); // 첫 번째 이미지는 활성화 상태로 설정
+                                    if (index === 0) carouselItem.classList.add("active");
+
+                                    const contentDiv = document.createElement("div");
+                                    contentDiv.classList.add("carousel-item-content");
 
                                     const imgElement = document.createElement("img");
                                     imgElement.src = `/images/menu/${menu.menuPictureGenerated}`;
-                                    imgElement.classList.add("d-block", "w-100");
-                                    imgElement.alt = menu.menuName;
+                                    imgElement.classList.add("d-block", "w-50");
 
-                                    carouselItem.appendChild(imgElement);
+                                    <!-- 메뉴 이름-->
+                                    const detailsDiv = document.createElement("div");
+                                    detailsDiv.classList.add("menu-details");
+
+                                    const nameElement = document.createElement("p");
+                                    nameElement.innerText = `${menu.menuName} 🍰`;
+
+                                    detailsDiv.appendChild(nameElement);
+
+                                    contentDiv.appendChild(imgElement);
+                                    contentDiv.appendChild(detailsDiv);
+                                    carouselItem.appendChild(contentDiv);
                                     carouselInner.appendChild(carouselItem);
                                 });
 
@@ -385,7 +450,6 @@
             });
         </script>
         </script>
-
         <!-- 카페 리스트 영역 -->
         <div class="cafe-list">
             <table>
@@ -399,7 +463,6 @@
                 <tbody id="mycafeList">
                 </tbody>
                 <!-- 목록이 동적으로 추가 -->
-
             </table>
         </div>
     </div>

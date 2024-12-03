@@ -2,17 +2,20 @@ package com.playdata.miniproject.user.controller;
 
 import com.playdata.miniproject.user.dto.LoginUserDTO;
 import com.playdata.miniproject.user.dto.SignupDTO;
+import com.playdata.miniproject.user.dto.UpdateDTO;
 import com.playdata.miniproject.user.dto.UserDTO;
+import com.playdata.miniproject.user.dto.UserFileDTO;
+import com.playdata.miniproject.user.service.UserFileService;
 import com.playdata.miniproject.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
@@ -20,9 +23,25 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes("user")
 public class UserController {
     private final UserService service;
+    private final UserFileService fileService;
+    //---------------------------------------------------------
 
+    @PostMapping("/update-account")
+    public String update(UpdateDTO updateDTO, Model model) {
+        int user = service.changeInfo(updateDTO);
 
+        if(user>=1){
+            System.out.println("정보수정 성공");
+            return "redirect:/user/mypage";
+        }else{
+            System.out.println("정보수정 실패");
+            model.addAttribute("errorMsg", true);
+            return "redirect:/user/mypage";
+        }
 
+    }
+
+    //---------------------------------------------------------
 
     @GetMapping("/login/first")
     public String loginfirst(Model model) {
@@ -39,8 +58,14 @@ public class UserController {
         return "/layout/default_layout";
     }
 
-    @GetMapping("/mypage1")
-    public String mypage(Model model) {
+
+    @GetMapping("/mypage")
+    public String mypage(@SessionAttribute(value = "user", required = false) UserDTO user, Model model) {
+        if(user==null){
+            return "redirect:/user/login/first";
+        }
+        UserDTO userDTO = service.getUserByUserKey(user.getUserKey());
+        model.addAttribute("user", userDTO);
         return "user/account";
     }
 
@@ -48,35 +73,20 @@ public class UserController {
     //---------------------------------------------------------
 
     @PostMapping("/login/verify")
-    //스프링에서 제공되는 기능을 이용해서 로그인 처리하기
     public String springlogin(LoginUserDTO loginUserDTO, Model model) {
         UserDTO user = service.getUserByUsername(loginUserDTO);
-        String view="";
-        System.out.println(user);
-        if(user!=null) {
+
+        if (user != null) {
             System.out.println("로그인 성공");
-         //   session.setAttribute("user", user);
-            model.addAttribute("user", user);
-            view="redirect:/";
-        }else{
+            model.addAttribute("user", user); // 필요시 세션에 저장
+            return "redirect:/"; // 메인 페이지로 이동
+        } else {
             System.out.println("로그인 실패");
-            view="redirect:/user/login/first";
+            model.addAttribute("errorMessage", true);
+            return "/user/login"; // 로그인 페이지로 다시 렌더링
         }
-        return view;
     }
 
-    //---------------------------------------------------------
-
-//    @GetMapping("/logout/verify")
-//    public String logout(HttpSession session) {
-//        System.out.println(session.getId());
-//        if(session!=null) {
-//            session.invalidate();
-//        }
-//        return "redirect:/";
-//    }
-
-    //---------------------------------------------------------
 
     @GetMapping("/logout/verify")
     public String springlogout(SessionStatus sessionStatus) {
@@ -88,11 +98,23 @@ public class UserController {
 
 
     @PostMapping("/signup/verify")
-    public String signup(SignupDTO signupDTO) {
-        service.addNewUser(signupDTO);
+    public String signup(@ModelAttribute SignupDTO signupDTO,
+                         @RequestParam(value = "userPicture", required = false) MultipartFile userPicture) throws IOException {
+        System.out.println("----------------");
         System.out.println(signupDTO);
+        System.out.println(userPicture);
+
+        UserFileDTO signupFile = fileService.uploadUserFile(userPicture);
+        signupDTO.setUserProfilePictureOriginal(signupFile.getUserProfilePictureOriginal());
+        signupDTO.setUserProfilePictureGenerated(signupFile.getUserProfilePictureGenerated());
+
+
+        service.addNewUser(signupDTO);
         return "user/success";
+
+        }
 
     }
 
-}
+
+
