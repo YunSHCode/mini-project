@@ -1,6 +1,8 @@
 package com.playdata.miniproject.feed.mapper;
 
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +12,7 @@ import java.util.List;
 public interface FeedMapper {
 
     // 1. 전체 피드 조회
-    List<FeedDTO> getAllFeeds();
+    List<FeedListDTO> getAllFeeds();
 
     // 2. 태그로 피드 조회
     List<FeedDTO> getFeedsByTag(String feedTag);
@@ -30,4 +32,9 @@ public interface FeedMapper {
 
     // 7. 피드 삭제
     int deleteFeed(int feedId);
+
+    int deleteFeedCommentByFeedId(int feedId);
+
+    int insertComment(FeedCommentsDTO comment);
+    List<FeedCommentsDTO> getCommentsByFeedId(int feedId);
 }

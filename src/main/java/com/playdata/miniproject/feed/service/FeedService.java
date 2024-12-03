@@ -1,7 +1,9 @@
 package com.playdata.miniproject.feed.service;
 
 import com.playdata.miniproject.feed.dao.FeedDAO;
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class FeedService implements FeedServiceImp {
 
     // 3. 전체 피드 목록 조회
     @Override
-    public List<FeedDTO> getAllFeeds() {
+    public List<FeedListDTO> getAllFeeds() {
         return feedDAO.getAllFeeds(); // 모든 피드 목록 조회 (DAO에서 호출)
     }
 
@@ -79,5 +81,15 @@ public class FeedService implements FeedServiceImp {
     @Override
     public int deleteFeed(int feedId) {
         return feedDAO.deleteFeedById(feedId); // 피드 삭제 (DAO에서 호출)
+    }
+
+    @Override
+    public int deleteFeedCommentByFeedId(int feedId) {
+
+        return feedDAO.deleteFeedCommentByFeedId(feedId);
+    }
+
+    public List<FeedCommentsDTO> getCommet(int feedId) {
+        return feedDAO.getCommentsByFeedId(feedId);
     }
 }

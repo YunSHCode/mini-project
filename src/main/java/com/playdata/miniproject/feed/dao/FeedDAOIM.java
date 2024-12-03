@@ -1,10 +1,12 @@
 package com.playdata.miniproject.feed.dao;
 
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
 public interface FeedDAOIM {
 
     // 1. 피드 생성하기
@@ -14,7 +16,7 @@ public interface FeedDAOIM {
     int insertFeedFiles(List<FeedfileDTO> feedFiles);  // 파일 목록을 받도록 수정
 
     // 3. 피드 목록 조회 (전체 피드 조회)
-    List<FeedDTO> getAllFeeds();  // FeedDTO와 FeedfileDTO를 따로 받지 않도록 수정
+    List<FeedListDTO> getAllFeeds();  // FeedDTO와 FeedfileDTO를 따로 받지 않도록 수정
 
     //4. 피드 파일 목록 조회
     List<FeedfileDTO> getFeedFiles(int feedId);
@@ -30,5 +32,10 @@ public interface FeedDAOIM {
 
     // 7. 피드 유저 검색하기 (마이 피드 검색용)
     List<FeedDTO> getFeedsByUser(int userKey);  // 여러 피드가 있을 수 있기 때문에 List로 반환
+
+    int deleteFeedCommentByFeedId(int feedId);
+
+    int insertComment(FeedCommentsDTO comment);
+     List<FeedCommentsDTO> getCommentsByFeedId(Integer feedId);
 
 }

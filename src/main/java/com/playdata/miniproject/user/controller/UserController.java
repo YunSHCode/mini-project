@@ -3,16 +3,17 @@ package com.playdata.miniproject.user.controller;
 import com.playdata.miniproject.user.dto.LoginUserDTO;
 import com.playdata.miniproject.user.dto.SignupDTO;
 import com.playdata.miniproject.user.dto.UserDTO;
+import com.playdata.miniproject.user.dto.UserFileDTO;
+import com.playdata.miniproject.user.service.UserFileService;
 import com.playdata.miniproject.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/user")
@@ -20,9 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes("user")
 public class UserController {
     private final UserService service;
-
-
-
+private final UserFileService fileService;
 
     @GetMapping("/login/first")
     public String loginfirst(Model model) {
@@ -88,11 +87,23 @@ public class UserController {
 
 
     @PostMapping("/signup/verify")
-    public String signup(SignupDTO signupDTO) {
-        service.addNewUser(signupDTO);
+    public String signup(@ModelAttribute SignupDTO signupDTO,
+                         @RequestParam(value = "userPicture", required = false) MultipartFile userPicture) throws IOException {
+        System.out.println("----------------");
         System.out.println(signupDTO);
+        System.out.println(userPicture);
+
+        UserFileDTO signupFile = fileService.uploadUserFile(userPicture);
+        signupDTO.setUserProfilePictureOriginal(signupFile.getUserProfilePictureOriginal());
+        signupDTO.setUserProfilePictureGenerated(signupFile.getUserProfilePictureGenerated());
+
+
+        service.addNewUser(signupDTO);
         return "user/success";
+
+        }
 
     }
 
-}
+
+

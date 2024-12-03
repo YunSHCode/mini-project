@@ -1,6 +1,8 @@
 package com.playdata.miniproject.feed.dao;
 
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import com.playdata.miniproject.feed.mapper.FeedMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ public class FeedDAO implements FeedDAOIM {
 
     // 3. 피드 목록 조회 (전체 피드 조회)
     @Override
-    public List<FeedDTO> getAllFeeds() {
+    public List<FeedListDTO> getAllFeeds() {
         return mapper.getAllFeeds();  // 모든 피드를 반환 (파일 정보는 별도 처리)
     }
 
@@ -60,5 +62,20 @@ public class FeedDAO implements FeedDAOIM {
     @Override
     public List<FeedDTO> getFeedsByUser(int userKey) {
         return mapper.getFeedsByUser(userKey);  // 특정 유저의 피드 목록 조회
+    }
+
+    @Override
+    public int deleteFeedCommentByFeedId(int feedId) {
+        return mapper.deleteFeedCommentByFeedId(feedId);
+    }
+
+    @Override
+    public int insertComment(FeedCommentsDTO comment) {
+        return mapper.insertComment(comment);
+    }
+
+    @Override
+    public List<FeedCommentsDTO> getCommentsByFeedId(Integer feedId) {
+        return mapper.getCommentsByFeedId(feedId);
     }
 }

@@ -1,6 +1,7 @@
 package com.playdata.miniproject.feed.service;
 
 import com.playdata.miniproject.feed.dto.FeedDTO;
+import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 
 import java.util.List;
@@ -8,10 +9,10 @@ import java.util.List;
 public interface FeedServiceImp {
 
         // 1. 피드 업로드
-        int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files);
+                int uploadFeed(int userKey, String feedContent, String feedTag, List<FeedfileDTO> files);
 
         // 2. 전체 피드 목록 조회
-        List<FeedDTO> getAllFeeds();
+        List<FeedListDTO> getAllFeeds();
         List<FeedfileDTO> getFeedFiles(int feedId);
 
         // 3. 특정 유저의 피드 목록 조회
@@ -25,4 +26,7 @@ public interface FeedServiceImp {
 
         // 6. 피드 삭제
         int deleteFeed(int feedId);
+
+        // 피드 아이디 기반 댓글 삭제
+        int deleteFeedCommentByFeedId(int feedId);
 }
