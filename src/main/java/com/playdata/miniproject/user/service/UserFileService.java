@@ -19,8 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserFileService {
 
-    /*@Value("${file.dir}users/")*/
-    private String uploadUser= "/Users/daul/fullstack7/upload/user/";
+    @Value("${file.dir}user/")
+    private String uploadUser;
     public UserFileDTO uploadUserFile(MultipartFile file) throws IOException {
         System.out.println("file = " + file);
         FileUtils.FileInfo fileInfo = FileUtils.uploadFile(file, uploadUser);

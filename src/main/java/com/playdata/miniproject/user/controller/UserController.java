@@ -30,10 +30,10 @@ public class UserController {
     public String update(UpdateDTO updateDTO, Model model) {
         int user = service.changeInfo(updateDTO);
 
-        if(user>=1){
+        if (user >= 1) {
             System.out.println("정보수정 성공");
             return "redirect:/user/mypage";
-        }else{
+        } else {
             System.out.println("정보수정 실패");
             model.addAttribute("errorMsg", true);
             return "redirect:/user/mypage";
@@ -59,9 +59,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/mypage")
+    @GetMapping("/account")
     public String mypage(@SessionAttribute(value = "user", required = false) UserDTO user, Model model) {
-        if(user==null){
+        if (user == null) {
             return "redirect:/user/login/first";
         }
         UserDTO userDTO = service.getUserByUserKey(user.getUserKey());
@@ -104,17 +104,19 @@ public class UserController {
         System.out.println(signupDTO);
         System.out.println(userPicture);
 
-        UserFileDTO signupFile = fileService.uploadUserFile(userPicture);
-        signupDTO.setUserProfilePictureOriginal(signupFile.getUserProfilePictureOriginal());
-        signupDTO.setUserProfilePictureGenerated(signupFile.getUserProfilePictureGenerated());
-
-
-        service.addNewUser(signupDTO);
-        return "user/success";
-
+        if (!userPicture.isEmpty()) {
+            UserFileDTO signupFile = fileService.uploadUserFile(userPicture);
+            signupDTO.setUserProfilePictureOriginal(signupFile.getUserProfilePictureOriginal());
+            signupDTO.setUserProfilePictureGenerated(signupFile.getUserProfilePictureGenerated());
+            service.addNewUser(signupDTO);
+            return "user/success";
+        } else {
+            service.addNewUser(signupDTO);
+            return "user/success";
         }
-
     }
+
+}
 
 
 

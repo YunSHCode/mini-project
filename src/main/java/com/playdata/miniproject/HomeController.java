@@ -52,39 +52,39 @@ public class HomeController {
             return "redirect:/user/login/first";
         }
 
-        // 게시글 데이터 페이징 처리
-        Page<BoardWithUserDTO> myBoardPage = boardService.getBoardByUser(user.getUserKey(), boardPage, boardSize);
-        model.addAttribute("myBoardPage", myBoardPage);
-
-        // 예약 데이터 페이징 처리
-        Page<ReservationSuccess> myReservationsPage = reservationService.getReservationsByUser(user.getUserKey(), reservationPage, reservationSize);
-        List<ReservationSuccess> reservations = myReservationsPage.getContent();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        List<String> reservationJsonList = myReservationsPage.getContent().stream()
-                .map(reservation -> {
-                    try {
-                        return mapper.writeValueAsString(reservation);
-                    } catch (JsonProcessingException e) {
-                        return "{}"; // JSON 변환 실패 시 빈 객체
-                    }
-                }).toList();
-        System.out.println("reservationJsonList = " + reservationJsonList);
-        model.addAttribute("myReservationsPage", myReservationsPage);
-        model.addAttribute("reservationJsonList", reservationJsonList);
-
-        // 내가 만든 모임 데이터 페이징 처리
-        Page<GroupListResponse> myCreatedGroups = groupService.findMyCreatedGroups(user.getUserKey(), groupPage, groupSize);
-        model.addAttribute("myCreatedGroups", myCreatedGroups);
-
-        // 내가 참가 중인 모임 데이터 페이징 처리
-        Page<GroupListResponse> myParticipatedGroups = groupService.findMyGroups(user.getUserKey(), "참가", groupPage, groupSize);
-        model.addAttribute("myParticipatedGroups", myParticipatedGroups);
-        System.out.println("myParticipatedGroups = " + myParticipatedGroups);
-        // 내가 참가 신청한 모임 데이터 페이징 처리
-        Page<GroupListResponse> myPendingGroups = groupService.findMyGroups(user.getUserKey(), "신청", groupPage, groupSize);
-        model.addAttribute("myPendingGroups", myPendingGroups);
-        System.out.println("myPendingGroups = " + myPendingGroups);
+//        // 게시글 데이터 페이징 처리
+//        Page<BoardWithUserDTO> myBoardPage = boardService.getBoardByUser(user.getUserKey(), boardPage, boardSize);
+//        model.addAttribute("myBoardPage", myBoardPage);
+//
+//        // 예약 데이터 페이징 처리
+//        Page<ReservationSuccess> myReservationsPage = reservationService.getReservationsByUser(user.getUserKey(), reservationPage, reservationSize);
+//        List<ReservationSuccess> reservations = myReservationsPage.getContent();
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.registerModule(new JavaTimeModule());
+//        List<String> reservationJsonList = myReservationsPage.getContent().stream()
+//                .map(reservation -> {
+//                    try {
+//                        return mapper.writeValueAsString(reservation);
+//                    } catch (JsonProcessingException e) {
+//                        return "{}"; // JSON 변환 실패 시 빈 객체
+//                    }
+//                }).toList();
+//        System.out.println("reservationJsonList = " + reservationJsonList);
+//        model.addAttribute("myReservationsPage", myReservationsPage);
+//        model.addAttribute("reservationJsonList", reservationJsonList);
+//
+//        // 내가 만든 모임 데이터 페이징 처리
+//        Page<GroupListResponse> myCreatedGroups = groupService.findMyCreatedGroups(user.getUserKey(), groupPage, groupSize);
+//        model.addAttribute("myCreatedGroups", myCreatedGroups);
+//
+//        // 내가 참가 중인 모임 데이터 페이징 처리
+//        Page<GroupListResponse> myParticipatedGroups = groupService.findMyGroups(user.getUserKey(), "참가", groupPage, groupSize);
+//        model.addAttribute("myParticipatedGroups", myParticipatedGroups);
+//        System.out.println("myParticipatedGroups = " + myParticipatedGroups);
+//        // 내가 참가 신청한 모임 데이터 페이징 처리
+//        Page<GroupListResponse> myPendingGroups = groupService.findMyGroups(user.getUserKey(), "신청", groupPage, groupSize);
+//        model.addAttribute("myPendingGroups", myPendingGroups);
+//        System.out.println("myPendingGroups = " + myPendingGroups);
 
         return "user/mypageYsh";
     }

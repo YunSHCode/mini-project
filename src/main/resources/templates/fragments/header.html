@@ -60,13 +60,13 @@
                     <div style="display: flex;  justify-content: flex-end; gap: 10px;">
                         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                            data-bs-toggle="dropdown" aria-expanded="false" style="position: relative;">
-                            <img th:src="C:/fullstack7/upload/user/${session.user.userProfilePictureOriginal}"
+                            <img th:src="@{${session.user.userProfilePictureGenerated != null ? '/upload/user/' + session.user.userProfilePictureGenerated : '/images/user/default_user.png'}}"
                                  alt="프로필 사진" width="47" height="47" class="rounded-circle">
                         </a>
 
 
                         <ul class="dropdown-menu text-small shadow" style="top: 50px;"> <!-- 아래로 이동 -->
-                            <li><a class="dropdown-item" href="/user/mypage">프로필 수정</a></li>
+                            <li><a class="dropdown-item" href="/user/account">프로필 수정</a></li>
                             <li><a class="dropdown-item" href="/user/mypage">마이페이지</a></li>
                             <li><a class="dropdown-item" href="#">피드글 보기</a></li>
                             <li><a class="dropdown-item" href="#">모임 참여하기</a></li>
