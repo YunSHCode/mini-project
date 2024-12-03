@@ -1,5 +1,6 @@
 package com.playdata.miniproject.feed.service;
 
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
@@ -33,5 +34,5 @@ public interface FeedServiceImp {
         int deleteFeedCommentByFeedId(int feedId);
         FeedListDTO getFeedById(int feedId);
   
-        public List<FeedCommentsDTO> getCommet(int feedId);
+        List<FeedCommentsDTO> getCommet(int feedId);
 }
