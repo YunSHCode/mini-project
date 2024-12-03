@@ -90,7 +90,7 @@
             <div class="main-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1>My Account</h1>
-                    <img th:src="'/upload/user/' + ${user.userProfilePictureGenerated}" alt="Profile Picture" class="profile-picture">
+                    <img th:src="@{${session.user.userProfilePictureGenerated != null ? '/upload/user/' + session.user.userProfilePictureGenerated : '/images/user/default_user.png'}}" alt="Profile Picture" class="profile-picture">
                 </div>
 
                 <!-- User Info -->

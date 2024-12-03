@@ -40,6 +40,9 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' //tymeleaf 레이아웃
     implementation 'org.springframework.data:spring-data-commons' // 페이징 처리
     implementation 'commons-io:commons-io:2.16.1' // common io
+    // JSON 타임리프에서 쓰려고
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.0'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
 
 }
 

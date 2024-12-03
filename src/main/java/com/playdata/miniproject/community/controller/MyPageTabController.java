@@ -1,5 +1,6 @@
 package com.playdata.miniproject.community.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.playdata.miniproject.board.dto.BoardWithUserDTO;
 import com.playdata.miniproject.board.service.BoardService;
 import com.playdata.miniproject.cafe.dto.ReservationSuccess;
@@ -9,12 +10,13 @@ import com.playdata.miniproject.community.service.GroupService;
 import com.playdata.miniproject.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/user/mypage")
 @Controller
@@ -76,5 +78,12 @@ public class MyPageTabController {
         Page<GroupListResponse> myPendingGroups = groupService.findMyGroups(user.getUserKey(), "신청", groupPage, groupSize);
         model.addAttribute("myPendingGroups", myPendingGroups);
         return "user/fragments/mypendinggroups :: myPendingGroupsTable";
+    }
+
+    @GetMapping("/reservationResult/{reservationId}")
+    public ResponseEntity<ReservationSuccess> getReservationDetails(@PathVariable int reservationId) {
+        ReservationSuccess reservation = reservationService.getReservationById(reservationId);
+        System.out.println("reservation.getMenuList() = " + reservation.getMenuList());
+        return ResponseEntity.ok(reservation);
     }
 }

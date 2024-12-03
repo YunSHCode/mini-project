@@ -15,6 +15,8 @@
       <td th:text="${#temporals.format(board.boardCreateDt, 'yyyy-MM-dd HH:mm')}"></td>
       <td>
         <a th:href="@{/board/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary">보기</a>
+        <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary me-2">수정</a>
+        <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-sm btn-danger">삭제</a>
       </td>
     </tr>
     </tbody>

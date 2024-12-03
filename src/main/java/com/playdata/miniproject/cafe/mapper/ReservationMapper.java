@@ -23,4 +23,6 @@ public interface ReservationMapper {
     List<ReservationSuccess> getReservationByUser(@Param("userKey") int userKey, @Param("offset") int offset, @Param("limit") int limit);
 
     int countReservationByUser(int userKey);
+
+    void cancelReservation(int reservationId);
 }

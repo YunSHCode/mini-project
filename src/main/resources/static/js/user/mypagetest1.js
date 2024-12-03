@@ -1,8 +1,9 @@
 $(document).ready(function () {
     // 초기 로드 시 선택된 탭 데이터 로드
     const initialTab = $('.nav-link.active').data('bs-target');
-    loadTabData(initialTab);
-
+    if (initialTab) {
+        loadTabData(initialTab); // 초기 활성 탭 데이터 로드
+    }
     // 탭 클릭 이벤트 리스너 추가
     $('.nav-link').on('click', function () {
         const targetTab = $(this).data('bs-target');
