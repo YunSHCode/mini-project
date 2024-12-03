@@ -1,5 +1,5 @@
 package com.playdata.miniproject.feed.dao;
-
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
@@ -46,4 +46,7 @@ public interface FeedDAOIM {
     int deleteFeedCommentByFeedId(int feedId);
 
     FeedListDTO getFeedById(int feedId);
+  
+    int insertComment(FeedCommentsDTO comment);
+    List<FeedCommentsDTO> getCommentsByFeedId(Integer feedId);
 }

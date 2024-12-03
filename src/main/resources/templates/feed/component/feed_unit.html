@@ -1,8 +1,62 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/default_layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html layout:decorate="~{layout/default_layout}"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:th="http://www.thymeleaf.org">
+<script>
+
+    $(document).ready(function () {
+        const feedId ="${feed.feedId}";
+        function loadComments() {
+            $.ajax({
+                url: `/feed/comments`,
+                type: "GET",
+                data: { feedId: feedId },
+                dataType: "json",
+                success: function (comments) {
+                    const commentArea = $(".comment_unit ul");
+                    commentArea.empty();
+
+                    comments.forEach((comm) => {
+
+                        const content = `
+                        <li class="comm_unit" style="background: white; border: 1px solid black; padding: 5px; border-radius: 5px;">
+                            <p>${comm.feedCommentContent}</p>
+                            <ul>User ID: ${comm.userKey}</ul>
+                        </li>`;
+                        console.log(content)
+                        commentArea.append(content); // DOM에 추가
+                    });
+                }
+            })
+        }
+
+        // 댓글 추가 후 새로고침 없이 반영
+        $("form").on("submit", function (event) {
+            event.preventDefault();
+
+            const commentContent = $("input[name='feedCommentContent']").val();
+
+            $.ajax({
+                url: `/feed/comment`,
+                type: "get",
+                contentType: "json",
+                data: JSON.stringify({
+                    feedId: feedId,
+                    feedCommentContent: commentContent
+                }),
+                success: function () {
+                    $("input[name='feedCommentContent']").val(""); // 입력 필드 초기화
+                    loadComments(); // 댓글 목록 새로고침
+                }
+            });
+        });
+        loadComments();
+        console.log(co)
+    });
+</script>
 <body>
-	<div class="feed_unit" th:fragment="feedunit">
+    <script>console.log(comm)</script>
+	<div class="feed_unit" th:fragment="feedunit(feed)">
 		<div class="wrap">
 			<div class="media_box">
 				<div class="wrap">
@@ -35,7 +89,7 @@
 								</ul>
 							</div>
 						</div>
-						
+
 						<div class="slider">
 							<div class="wrap">
 								<ul class="slider_trap">
@@ -73,7 +127,7 @@
 					</div>
 					<div class="comment_user_info">
 						<div class="comm_info">
-							<span th:text="${#temporals.format(feed.feedUpdateDt, 'yyyy-MM-dd HH:mm')}">작성날짜</span>
+							<span th:text="${feed.feedUpdateDt != null ? #temporals.format(feed.feedUpdateDt, 'yyyy-MM-dd HH:mm') : '작성날짜 없음'}">작성날짜</span>
 						</div>
 						<p class="comm_text" th:text="${feed.feedContent}">
 							무슨 말을 하려던 최대 4줄이 한계이느라
@@ -86,18 +140,19 @@
 					</div>
 					<div class="comment_area">
 						<ul>
-							<li class="comm_unit">
+							<li class="comm_unit" >
+								<th:block th:insert="feed/component/comm_unit :: comm_unit(feed=feed)"></th:block>
 							</li>
 						</ul>
 					</div>
-					<form method="post" th:action="@{/feed/comment}" th:object="${feed}">
-						<input name="feedId" th:value="${feed.feedId}" type="hidden">
-						<input name="userKey" type="hidden" value="0">
-						<div class="comm_input">
+					<form th:action="@{/feed/comment}" th:object="${feed}" method="post">
+						<input type="hidden" name="feedId" th:value="${feed.feedId}">
+						<input type="hidden" name="userKey" th:value="${userKey}">
+						<form class="comm_input">
 							<input name="feedCommentContent" placeholder="비건 좋아하면 소리질러" type="text">
-						</div>
+							<button type="button" style="width: 10%; background-color: #3f8032">버튼</button>
+						</form>
 					</form>
-				
 				</div>
 			</div>
 		</div>

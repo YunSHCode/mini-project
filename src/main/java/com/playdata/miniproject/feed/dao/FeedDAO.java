@@ -2,6 +2,7 @@ package com.playdata.miniproject.feed.dao;
 
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedListDTO;
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import com.playdata.miniproject.feed.mapper.FeedMapper;
 import lombok.RequiredArgsConstructor;
@@ -80,5 +81,15 @@ public class FeedDAO implements FeedDAOIM {
     @Override
     public FeedListDTO getFeedById(int feedId) {
         return mapper.getFeedById(feedId);
+    }
+  
+    @Override
+    public int insertComment(FeedCommentsDTO comment) {
+        return mapper.insertComment(comment);
+    }
+
+    @Override
+    public List<FeedCommentsDTO> getCommentsByFeedId(Integer feedId) {
+        return mapper.getCommentsByFeedId(feedId);
     }
 }

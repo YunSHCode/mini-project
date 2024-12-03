@@ -3,6 +3,7 @@ package com.playdata.miniproject.feed.service;
 import com.playdata.miniproject.feed.dao.FeedDAO;
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedListDTO;
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -100,6 +101,11 @@ public class FeedService implements FeedServiceImp {
     @Override
     public FeedListDTO getFeedById(int feedId) {
         return feedDAO.getFeedById(feedId);
+    }
+  
+    @Override
+    public List<FeedCommentsDTO> getCommet(int feedId) {
+        return feedDAO.getCommentsByFeedId(feedId);
     }
 
 }

@@ -11,7 +11,7 @@
         WHERE c.feed_id = #{feedID}
     </select>
     <!-- 댓글 생성 -->
-    <insert id="insertComment" parameterType="int">
+    <insert id="insertComment" parameterType="com.playdata.miniproject.feed.dto.FeedCommentsDTO">
         INSERT INTO feed_comments (
             feed_comment_id,
             user_key,
@@ -37,4 +37,9 @@
         DELETE FROM feed_comments
         WHERE feed_comment_id = #{feedCommentId}
     </delete>
+
+    <select id="getCommentsByFeedId" parameterType="int" resultType="com.playdata.miniproject.feed.dto.FeedCommentsDTO">
+        SELECT * FROM feed_comments WHERE feed_id = #{feedId}
+    </select>
+
 </mapper>

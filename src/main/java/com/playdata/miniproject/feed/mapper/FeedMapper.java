@@ -3,6 +3,7 @@ package com.playdata.miniproject.feed.mapper;
 import com.playdata.miniproject.feed.dto.FeedDTO;
 import com.playdata.miniproject.feed.dto.FeedListDTO;
 import com.playdata.miniproject.feed.dto.FeedfileDTO;
+import com.playdata.miniproject.feed.dto.FeedCommentsDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -40,4 +41,8 @@ public interface FeedMapper {
     int deleteFeedCommentByFeedId(int feedId);
 
     FeedListDTO getFeedById(int feedId);
+  
+  // 댓글
+  int insertComment(FeedCommentsDTO comment);
+    List<FeedCommentsDTO> getCommentsByFeedId(int feedId);
 }

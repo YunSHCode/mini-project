@@ -32,4 +32,6 @@ public interface FeedServiceImp {
         // 피드 아이디 기반 댓글 삭제
         int deleteFeedCommentByFeedId(int feedId);
         FeedListDTO getFeedById(int feedId);
+  
+        public List<FeedCommentsDTO> getCommet(int feedId);
 }

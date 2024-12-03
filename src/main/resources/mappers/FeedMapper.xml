@@ -26,7 +26,6 @@
         WHERE feed_id = #{feedID}
     </select>
 
-
     <!-- 나의 피드 갖고오기 -->
     <select id="getFeedsByUser" parameterType="int" resultType="feedList">
         SELECT f.*, u.user_nickname, u.user_vegan_type
@@ -34,7 +33,6 @@
                  LEFT JOIN users u ON f.user_key = u.user_key
         WHERE f.user_key = #{userKey}
         ORDER BY feed_create_dt desc;
-
     </select>
 
     <!-- 나의 피드 갯수 조회하기 -->
