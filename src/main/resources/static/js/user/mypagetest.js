@@ -1,41 +1,65 @@
 document.addEventListener('DOMContentLoaded', function () {
     const reservationModal = document.getElementById('reservationModal');
-
     reservationModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget; // Modal을 열게 한 버튼
-        const reservationJson = button.getAttribute('data-reservation'); // JSON 문자열
+        const currentReservationId = $(this).data('reservation-id');
+        // 버튼 클릭 이벤트 설정
+        $('[data-reservation-id]').on('click', function () {
+            const reservationId = $(this).data('reservation-id');
+            $('#cancelReservationBtn').data('reservation-id', reservationId);
+            // AJAX 요청
+            $.ajax({
+                url: `/user/mypage/reservationResult/${reservationId}`, // 백엔드 엔드포인트
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // 모달에 데이터 채우기
+                    $('#modalCafeName').text(data.cafeName);
+                    $('#modalPickupTime').text(formatDateTime(data.reservationPickupTime));
+                    // 메뉴 리스트 HTML 생성
+                    const menuHtml = data.menuList.map(menu => `
+        <li>
+            <img src="/images/menu/${menu.menuPictureGenerated}" alt="${menu.menuName}" style="width:50px;height:50px;border-radius:5px; margin-right:10px;"/>
+            <span>${menu.menuName} - ${menu.menuPrice}원 (${menu.reservationMenuQuantity}개)</span>
+        </li>
+    `).join('');
 
-        // JSON 문자열을 객체로 변환
-        let reservationData;
-        try {
-            reservationData = JSON.parse(reservationJson);
-        } catch (e) {
-            console.error("JSON 파싱 오류:", e);
-            return; // JSON 파싱에 실패하면 아무것도 하지 않고 종료
-        }
-
-        // Modal 내용 업데이트
-        document.getElementById('modalCafeName').textContent = reservationData.cafeName || '정보 없음';
-        document.getElementById('modalPickupTime').textContent = reservationData.reservationPickupTime || '정보 없음';
-
-        // 메뉴 리스트 업데이트 (menuList가 존재할 때만)
-        const menuList = reservationData.menuList;
-        const menuListContainer = document.getElementById('modalMenuList');
-        menuListContainer.innerHTML = ''; // 기존 메뉴 초기화
-
-        if (menuList && Array.isArray(menuList)) {
-            menuList.forEach(menu => {
-                const menuItem = document.createElement('li');
-                menuItem.textContent = `${menu.menuName} x ${menu.reservationMenuQuantity}`;
-                menuListContainer.appendChild(menuItem);
+                    $('#modalMenuList').html(menuHtml); // 모달의 ul 요소에 추가
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching reservation details:', error);
+                    $('#modalCafeName').text('데이터를 불러올 수 없습니다.');
+                    $('#modalPickupTime').text('');
+                    $('#modalMenu').text('');
+                }
             });
-        } else {
-            const emptyMessage = document.createElement('li');
-            emptyMessage.textContent = '메뉴 정보가 없습니다.';
-            menuListContainer.appendChild(emptyMessage);
-        }
-    });
+        });
 
+        //예약 취소 버튼 클릭 이벤트
+        $('#cancelReservationBtn').on('click', function () {
+            const reservationId = $(this).data('reservation-id');
+            if (confirm('정말 예약을 취소하시겠습니까?')) {
+                // AJAX 요청으로 예약 취소 처리
+                $.ajax({
+                    url: `/cafe/cancelReservation/${reservationId}`, // 예약 취소 엔드포인트
+                    type: 'POST',
+                    success: function () {
+                        alert('예약이 성공적으로 취소되었습니다.');
+
+                        // 모달 초기화 및 닫기
+                        $('#modalCafeName').text('');
+                        $('#modalPickupTime').text('');
+                        $('#modalMenuList').empty();
+                        $('#reservationModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error canceling reservation:', error);
+                        alert('예약 취소 중 문제가 발생했습니다.');
+                    }
+                });
+            }
+        });
+    });
     // 인원 관리 모달에서 참여/신청 인원 로드
     function loadGroupMembers(communityId) {
         $.ajax({
@@ -194,6 +218,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // 날짜 변환 함수
+    function formatDateTime(dateTime) {
+        const date = new Date(dateTime);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
     // 전역으로 함수 등록
     window.loadGroupMembers = loadGroupMembers;
     window.removeMember = removeMember;

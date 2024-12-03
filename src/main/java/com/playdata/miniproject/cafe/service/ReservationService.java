@@ -17,4 +17,6 @@ public interface ReservationService {
     ReservationSuccess getReservationById(int reservationId);
 
     Page<ReservationSuccess> getReservationsByUser(int userKey, int reservationPage, int reservationSize);
+
+    void cancelReservation(int reservationId);
 }

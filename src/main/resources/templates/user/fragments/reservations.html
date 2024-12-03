@@ -4,7 +4,7 @@
     <tr>
       <th>#</th>
       <th>카페 이름</th>
-      <th>피컴 시간</th>
+      <th>픽업 시간</th>
       <th>상세 보기</th>
     </tr>
     </thead>
@@ -17,7 +17,7 @@
         <button class="btn btn-sm btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#reservationModal"
-                th:attr="data-reservation=${reservationJsonList}">
+                th:attr="data-reservation-id=${reservation.reservationId}">
           상세보기
         </button>
       </td>

@@ -46,4 +46,9 @@ public class ReservationDAOImpl implements ReservationDAO{
     public int countReservationByUser(int userKey) {
         return mapper.countReservationByUser(userKey);
     }
+
+    @Override
+    public void cancelReservation(int reservationId) {
+        mapper.cancelReservation(reservationId);
+    }
 }

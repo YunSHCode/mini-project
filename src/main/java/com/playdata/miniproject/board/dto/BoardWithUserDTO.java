@@ -13,4 +13,5 @@ public class BoardWithUserDTO {
     private LocalDateTime boardUpdateDt; // 수정 날짜
     private int userKey;           // 작성자 (FK)
     private String userNickname;       // 작성자 이름
+    private String userProfilePictureGenerated;
 }
