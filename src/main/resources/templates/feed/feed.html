@@ -9,8 +9,14 @@
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 </th:block>
 <th:block layout:fragment="script">
+	<script
+			src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			crossorigin="anonymous"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	<script th:src="@{/js/feed/slider.js}"></script>
+	<script th:src="@{/js/feed/feed.js}"></script>
+
 </th:block>
 
 <div>
@@ -48,7 +54,7 @@
 		<div class="section">
 			<div class="feed_contain">
 				<ul class="feed_list" >
-					<li th:each="feed : ${feedList}" th:object="${feedList}" th:insert="feed/component/feed_unit :: feedunit">
+					<li th:each="feed : ${feedList}" th:object="${feedList}" th:insert="feed/component/feed_unit :: feedunit(feed)">
 					</li>
 				</ul>
 			</div>
