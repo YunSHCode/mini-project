@@ -14,20 +14,18 @@
                 <a th:href="@{/}"
                    class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-body-emphasis text-decoration-none"
                    aria-expanded="false" style="width: 150px; height: 40px">
-                    <!--                    <img src="/images/Logo.png" alt="Logo" class="bi me-2" width="200" height="32">-->
                     <img src="/images/Logo.png" alt="Logo" class="bi me-2 img-fluid" style="width: 140px; height: 39px">
 
                 </a>
             </div>
 
             <!-- 검색 area-->
-            <!--            <div class="search" style="width: 850px">-->
-            <div class="search-container"
-                 style="width: 40% ; position: fixed; top: auto; left: 50%; transform: translateX(-50%); z-index: 1000;">
-                <form class="w-100 me-3" role="search">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                </form>
-            </div>
+<!--            <div class="search-container"-->
+<!--                 style="width: 40% ; position: fixed; top: auto; left: 50%; transform: translateX(-50%); z-index: 1000;">-->
+<!--                <form class="w-100 me-3" role="search">-->
+<!--                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">-->
+<!--                </form>-->
+<!--            </div>-->
 
             <!-- 프로필 area -->
 
@@ -68,6 +66,7 @@
 
 
                         <ul class="dropdown-menu text-small shadow" style="top: 50px;"> <!-- 아래로 이동 -->
+                            <li><a class="dropdown-item" href="/user/mypage">프로필 수정</a></li>
                             <li><a class="dropdown-item" href="/user/mypage">마이페이지</a></li>
                             <li><a class="dropdown-item" href="#">피드글 보기</a></li>
                             <li><a class="dropdown-item" href="#">모임 참여하기</a></li>

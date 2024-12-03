@@ -4,24 +4,32 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.playdata.miniproject.user.mapper.UserMapper">
 
-    <update id="change" parameterType="updateInfo">
-            update users
-            set user_nickname="" user_password="" user_vegan_type=""
-            where user_key=""
+    <update id="update" parameterType="updateInfo">
+        update users
+        set user_nickname=#{userNickname},
+            user_password=#{userPassword},
+            user_vegan_type=#{userVeganType}
+        where user_key=#{userKey}
     </update>
 
-<!--    <delete id="delete" parameterType="javax.servlet.http.HttpSession">-->
-<!--            delete from users-->
-<!--            where user_key=#{session.user.userKey}-->
-<!--    </delete>-->
+    <!--    <delete id="delete" parameterType="javax.servlet.http.HttpSession">-->
+    <!--            delete from users-->
+    <!--            where user_key=#{session.user.userKey}-->
+    <!--    </delete>-->
 
     <select id="login" parameterType="loginInfo" resultType="user">
-            select * from users
-            where user_id=#{userId} and user_password=#{userPassword}
+        select * from users
+        where user_id=#{userId} and user_password=#{userPassword}
+    </select>
+
+    <select id="getUserByUserKey" parameterType="int" resultType="user">
+        select * from users
+        where user_key = #{userKey}
     </select>
 
     <insert id="signup" parameterType="signupInfo">
-        insert into users values (null, #{userId},#{userPassword},#{userNickname},#{userRealname},#{userBirthday},#{userEmail},
+        insert into users values (null,
+        #{userId},#{userPassword},#{userNickname},#{userRealname},#{userBirthday},#{userEmail},
         #{userPhoneNumber},#{userVeganType}, '/images/user/profile_01.png', null, now(), now())
     </insert>
 
