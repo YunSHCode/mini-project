@@ -33,8 +33,10 @@
     }
   </style>
 
+
+
   <script type="text/javascript" th:inline="javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
       $("#user_id").on("blur", function () {
         let querydata = {"id": $("#user_id").val()}
         $.ajax({
@@ -85,36 +87,43 @@
       console.log(resultdata);
       $("#userIdFeedback").html(resultdata)
     }
+
     function error_run_01(obj, msg1, msg2) {
       console.log("오류발생");
       console.log(obj);
       console.log(msg1);
       console.log(msg2);
     }
+
     function success_run_02(resultdata) {
       console.log(resultdata);
       $("#nicknameFeedback").html(resultdata)
     }
+
     function error_run_02(obj, msg1, msg2) {
       console.log("오류발생");
       console.log(obj);
       console.log(msg1);
       console.log(msg2);
     }
+
     function success_run_03(resultdata) {
       console.log(resultdata);
       $("#emailFeedback").html(resultdata)
     }
+
     function error_run_03(obj, msg1, msg2) {
       console.log("오류발생");
       console.log(obj);
       console.log(msg1);
       console.log(msg2);
     }
+
     function success_run_04(resultdata) {
       console.log(resultdata);
       $("#phoneFeedback").html(resultdata)
     }
+
     function error_run_04(obj, msg1, msg2) {
       console.log("오류발생");
       console.log(obj);
@@ -122,12 +131,66 @@
       console.log(msg2);
     }
 
+    document.getElementById('profile_picture').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('profile_preview');
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+      if (file) {
+        if (!allowedTypes.includes(file.type)) {
+          alert('이미지 파일만 업로드 가능합니다 (JPG, PNG, GIF)');
+          event.target.value = ''; // 파일 입력 초기화
+          preview.src = '#';
+          preview.style.display = 'none';
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block'; // 이미지 미리보기 표시
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = '#';
+        preview.style.display = 'none'; // 이미지 미리보기 숨김
+      }
+      document.getElementById('signupForm').addEventListener('submit', function (event) {
+        // 데이터 가져오기
+        const password1 = document.getElementById('user_password1').value;
+        const password2 = document.getElementById('user_password2').value;
+
+        // 비밀번호 검증
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+        if (!passwordRegex.test(password1)) {
+          document.getElementById('user_password1').classList.add('is-invalid');
+          document.getElementById('passwordFeedback').textContent = '비밀번호 형식이 올바르지 않습니다.';
+          event.preventDefault(); // 폼 제출 중단
+          return;
+        } else {
+          document.getElementById('user_password1').classList.remove('is-invalid');
+        }
+
+        if (password1 !== password2) {
+          document.getElementById('user_password2').classList.add('is-invalid');
+          document.getElementById('passwordFeedback').textContent = '비밀번호가 일치하지 않습니다.';
+          event.preventDefault(); // 폼 제출 중단
+          return;
+        } else {
+          document.getElementById('user_password2').classList.remove('is-invalid');
+        }
+
+        alert('회원가입이 완료되었습니다!');
+      });
+
+    });
   </script>
 </head>
 <body>
   <div class="signup-container">
     <h2>풀잎당 회원가입</h2>
-    <form id="signupForm" action="/user/signup/verify" method="post">
+    <form id="signupForm" action="/user/signup/verify" method="post" enctype="multipart/form-data">
       <!-- ID -->
       <div class="mb-3">
         <label for="user_id" class="form-label">아이디</label>
@@ -137,10 +200,15 @@
 
       <!-- Password -->
       <div class="mb-3">
-        <label for="user_password" class="form-label">비밀번호</label>
-        <input type="password" class="form-control" id="user_password" name="userPassword" value="sfdf@$#1233" placeholder="비밀번호 입력" required>
+        <label for="user_password1" class="form-label">비밀번호</label>
+        <input type="password" class="form-control" id="user_password1" name="userPassword" placeholder="비밀번호 입력" required>
         <div class="form-text">8자 이상, 숫자, 문자, 특수문자를 포함해야 합니다.</div>
-        <div id="passwordFeedback" class="invalid-feedback">비밀번호 형식이 올바르지 않습니다.</div>
+        <div id="passwordFeedback" class="invalid-feedback"></div>
+
+        <label for="user_password2" class="form-label mt-2">비밀번호 확인</label>
+        <input type="password" class="form-control" id="user_password2" name="userPasswordConfirm" placeholder="비밀번호 확인 입력" required>
+        <div class="form-text">8자 이상, 숫자, 문자, 특수문자를 포함해야 합니다.</div>
+        <div id="passwordFeedback2" class="invalid-feedback"></div>
       </div>
 
       <!-- Nickname -->
@@ -191,10 +259,13 @@
       <!-- Profile Picture -->
       <div class="mb-3">
         <label for="profile_picture" class="form-label">프로필 사진</label>
-        <input type="file" class="form-control" id="profile_picture" name="userProfilePicture" accept="image/*">
+        <input type="file" class="form-control" id="profile_picture" name="userPicture" accept="image/*">
         <div class="form-text">프로필 사진으로 설정할 이미지를 업로드하세요.</div>
-      </div>
+        <div class="mt-3">
+          <img id="profile_preview" src="#" alt="미리보기 이미지" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px; display: none;">
+        </div>
 
+      </div>
       <button type="submit" class="btn btn-success w-100">회원가입</button>
     </form>
   </div>
