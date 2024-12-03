@@ -16,4 +16,6 @@ public class UpdateDTO {
     private String userNickname;
     private String userPassword;
     private String userVeganType;
+
 }
+

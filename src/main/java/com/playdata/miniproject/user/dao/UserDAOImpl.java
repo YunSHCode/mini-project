@@ -2,6 +2,7 @@ package com.playdata.miniproject.user.dao;
 
 import com.playdata.miniproject.user.dto.LoginUserDTO;
 import com.playdata.miniproject.user.dto.SignupDTO;
+import com.playdata.miniproject.user.dto.UpdateDTO;
 import com.playdata.miniproject.user.dto.UserDTO;
 import com.playdata.miniproject.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,16 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserDTO userPhoneCheck(String userPhone) {
         return mapper.phonecheck(userPhone);
+    }
+
+    @Override
+    public int changeInfo(UpdateDTO updateDTO) {
+        return mapper.update(updateDTO);
+    }
+
+    @Override
+    public UserDTO getUserByUserKey(int userKey) {
+        return mapper.getUserByUserKey(userKey);
     }
 
 
