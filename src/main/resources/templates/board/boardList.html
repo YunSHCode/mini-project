@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
-<th:block layout:fragment="script">
-    <script th:src="@{/js/board/boardList.js}"></script>
-    <!--    <script th:src="@{/js/board/boardDetail.js}"></script>-->
-</th:block>
 <div>
     <th:block layout:fragment="content">
         <div class="container py-4">
@@ -51,6 +47,7 @@
             <!-- 페이징 -->
             <div id="pagination" class="d-flex justify-content-center mt-3"></div>
         </div>
+        <script th:src="@{/js/board/boardList.js}"></script>
     </th:block>
 </div>
 </html>

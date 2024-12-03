@@ -22,4 +22,22 @@ public interface GroupMapper {
     void insertMember(@Param("member") MemberRequest memberRequest);
 
     int isMemberAlreadyRequested(int userKey, int communityId);
+
+    List<GroupListResponse> findMyCreatedGroups(@Param("userKey") int userKey,@Param("offset") int offset, @Param("size") int size);
+
+    int countMyCreatedGroups(@Param("userKey") int userKey);
+
+    void updateCommunity(GroupRequest groupRequest);
+
+    void deleteCommunity(int id);
+
+    List<MemberResponse> getPendingMembers(@Param("communityId") int groupId);
+
+    void approveMember(@Param("communityId") int communityId, @Param("userKey") int userKey);
+    void increaseCommunityMemberCount(@Param("communityId") int communityId);
+    void removeMember(@Param("communityId") int communityId, @Param("userKey") int userKey);
+    void decreaseCommunityMemberCount(@Param("communityId") int communityId);
+    List<GroupListResponse> findMyGroups(@Param("userKey") int userKey,@Param("memberStatus") String memberStatus,@Param("offset") int offset, @Param("size") int size);
+
+    int countMyGroups(@Param("userKey") int userKey,@Param("memberStatus") String memberStatus);
 }

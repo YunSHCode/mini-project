@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/group")
@@ -76,6 +78,56 @@ public class GroupController {
         return "community/groupdetail";
     }
 
+    @GetMapping("/edit/{id}")
+    public String updateCommunity(@PathVariable int id, Model model) {
+        GroupDetailResponse group = groupService.getCommunityDetail(id);
+        model.addAttribute("community", group);
+        return "community/groupedit";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCommunity(@PathVariable int id,
+                                  @ModelAttribute GroupRequest groupRequest,
+                                  @RequestParam(value = "communityPicture", required = false) MultipartFile file) {
+        try {
+            String oldFileName = null;
+            if (file != null && !file.isEmpty()) {
+                // 기존 파일명을 저장하여 삭제 처리에 사용
+                GroupDetailResponse existingCommunity = groupService.getCommunityDetail(id);
+                oldFileName = existingCommunity.getCommunityPictureGenerated();
+
+                // 파일이 새로 선택된 경우 - 파일을 저장하고 DTO에 설정합니다.
+                GroupFileDTO fileDTO = groupFileService.uploadGroupFile(file);
+                groupRequest.setCommunityPictureGenerated(fileDTO.getStoreFilename());
+                groupRequest.setCommunityPictureOriginal(fileDTO.getOriginalFilename());
+            } else {
+                // 파일이 새로 선택되지 않은 경우 - 임의의 문자열 설정
+                groupRequest.setCommunityPictureGenerated("NO_CHANGE");
+                groupRequest.setCommunityPictureOriginal("NO_CHANGE");
+            }
+            groupRequest.setCommunityId(id);
+            // 나머지 모임 정보 업데이트
+            System.out.println("groupRequest = " + groupRequest.toString());
+            groupService.updateCommunity(groupRequest, oldFileName);
+            return "redirect:/group/detail/" + id;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";  // 예외 발생 시 에러 페이지로 이동
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteCommunity(@PathVariable int id) {
+        try {
+            groupService.deleteCommunity(id);
+            return "redirect:/group/list";  // 삭제 후 모임 목록 페이지로 이동
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";  // 예외 발생 시 에러 페이지로 이동
+        }
+    }
+
     @GetMapping("/members/{groupId}")
     public ResponseEntity<List<MemberResponse>> getGroupMembers(@PathVariable("groupId") int groupId) {
         List<MemberResponse> members = groupService.getGroupMembers(groupId);
@@ -107,4 +159,38 @@ public class GroupController {
         groupService.requestToJoin(user.getUserKey(), communityId);
         return ResponseEntity.ok("참여 요청이 성공적으로 등록되었습니다.");
     }
+
+    @GetMapping("/{communityId}/members")
+    public ResponseEntity<Map<String, Object>> getGroupMembersForMyPage(@PathVariable int communityId) {
+        // Service로부터 현재 멤버와 신청자 리스트를 가져옴
+        List<MemberResponse> currentMembers = groupService.getGroupMembers(communityId);
+        List<MemberResponse> pendingMembers = groupService.getPendingMembers(communityId);
+
+        // 응답 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("currentMembers", currentMembers);
+        response.put("pendingMembers", pendingMembers);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/approve")
+    public ResponseEntity<String> approveMember(@RequestParam("communityId") int communityId, @RequestParam("userKey") int userKey) {
+        try {
+            groupService.approveMember(communityId, userKey);
+            return ResponseEntity.ok("Member approved and community member count updated successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/removemember")
+    public ResponseEntity<String> removeMember(@RequestParam("communityId") int communityId, @RequestParam("userKey") int userKey, @RequestParam("isExpelled") boolean isExpelled) {
+        groupService.removeMember(communityId, userKey, isExpelled);
+
+        String message = isExpelled ? "Member expelled and community member count updated successfully." : "Member request denied.";
+        return ResponseEntity.ok(message);
+    }
+
+
 }

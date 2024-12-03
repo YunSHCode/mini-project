@@ -58,6 +58,7 @@ public class UserController {
         return "/layout/default_layout";
     }
 
+
     @GetMapping("/mypage")
     public String mypage(@SessionAttribute(value = "user", required = false) UserDTO user, Model model) {
         if(user==null){
