@@ -85,10 +85,10 @@
         WHERE feed_id = #{feedId}
     </delete>
 
-    <delete id="deleteFeedCommentByFeedId" parameterType="int">
-        DELETE FROM feed_comments
-        WHERE feed_id = #{feedId}
-    </delete>
+<!--    <delete id="deleteFeedCommentByFeedId" parameterType="int">-->
+<!--        DELETE FROM feed_comments-->
+<!--        WHERE feed_id = #{feedId}-->
+<!--    </delete>-->
 
     <!-- Feed 파일 등록 -->
     <insert id="insertFeedFiles" parameterType="java.util.List">

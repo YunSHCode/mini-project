@@ -20,7 +20,7 @@ public class FeedDataController {
 
     @DeleteMapping("/feed/")
     public String delete(@RequestParam(value = "feedId", required = true) Integer feedId) {
-        feedService.deleteFeedCommentByFeedId(feedId);
+        // feedService.deleteFeedCommentByFeedId(feedId);
         feedService.deleteFeed(feedId);
         return "test";
     }

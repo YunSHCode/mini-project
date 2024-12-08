@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         currentMembersTable.append(`
                         <tr>
                             <td>
-                                <img src="${member.userProfilePictureGenerated}" alt="${member.userNickname}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
+                                <img src="'/upload/user/' + ${member.userProfilePictureGenerated}" alt="${member.userNickname}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
                             </td>
                             <td>${member.userNickname}</td>
                             <td>${member.userPhoneNumber || "전화번호 없음"}</td>
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         pendingMembersTable.append(`
                         <tr>
                             <td>
-                                <img src="${member.userProfilePictureGenerated}" alt="${member.userNickname}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
+                                <img src="'/upload/user/' + ${member.userProfilePictureGenerated}" alt="${member.userNickname}" class="img-thumbnail" style="width: 40px; height: 40px; object-fit: cover;">
                             </td>
                             <td>${member.userNickname}</td>
                             <td>${member.userPhoneNumber || "전화번호 없음"}</td>
