@@ -252,7 +252,7 @@
                     <div class="modal-footer">
                         <button type="button" id="modalClose" class="btn btn-secondary" data-bs-dismiss="modal">닫기
                         </button>
-                        <button id="modalReserveButton" type="button" class="btn btn-primary">예약</button>
+                        <button type="button" class="btn btn-primary">예약</button>
                     </div>
                 </div>
             </div>
@@ -265,8 +265,7 @@
         <script type="text/javascript"
                 src="//dapi.kakao.com/v2/maps/sdk.js?appkey=664e6d5a215c422f526fcfa59d68b671&libraries=services"></script>
         <script>
-
-
+            <!--맵 선언과  초기위치  -->
             var container = document.getElementById('map');
             var options = {
                 center: new kakao.maps.LatLng(37.498095, 127.027610),
@@ -343,15 +342,6 @@
                             document.getElementById("modalClose").addEventListener("click", function () {
                                 cafeModal.hide();
                             });
-                            document.getElementById("modalReserveButton").addEventListener("click", function () {
-                                const cafeId = this.getAttribute("data-cafe-id"); // cafe_id 가져오기
-                                if (cafeId) {
-                                    const reserveUrl = `/cafe/reservation/${cafeId}`; // 예약 페이지 URL 생성
-                                    window.location.href = reserveUrl; // 예약 페이지로 이동
-                                } else {
-                                    alert("카페 정보를 불러오지 못했습니다."); // 예외 처리
-                                }
-                            });
 
                             // 1. 마커 클릭
                             kakao.maps.event.addListener(marker, 'click', function () {
@@ -365,8 +355,6 @@
                                 document.getElementById("modal_cafe_close").innerText = `⏰ 마감 시간: ${cafe.cafeCloseHour || "정보 없음"}`;
                                 var imagePath = `/images/cafe/${cafe.cafePictureGenerated}`;
                                 document.getElementById("modal_cafe_picture").src = imagePath;
-                                const reserveButton = document.getElementById("modalReserveButton");
-                                reserveButton.setAttribute("data-cafe-id", cafe.cafeId); // cafe_id 저장
 
                                 const carouselInner = document.querySelector(".carousel-inner");
                                 carouselInner.innerHTML = ""; // 기존 캐러셀 콘텐츠 초기화
@@ -459,6 +447,7 @@
                     });
                 }
             });
+        </script>
         </script>
         <!-- 카페 리스트 영역 -->
         <div class="cafe-list">

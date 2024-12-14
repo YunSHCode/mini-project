@@ -26,10 +26,29 @@ public class CafeController {
         return "cafe/cafe";
     }
 
-    @GetMapping("/read")
-    public String readcafe() {
-        return "cafe/cafe_particular";
+    @GetMapping("/read1")
+    public String readcafe1() {
+        return "cafe/cafe1";
     }
+
+
+    @GetMapping("/read2")
+    public String readcafe2() {
+        return "cafe/cafe2";
+
+    }
+
+    @GetMapping("/read3")
+    public String readcafe3() {
+        return "cafe/cafe3";
+    }
+
+    @GetMapping("/read4")
+    public String readcafe4() {
+        return "cafe/cafe4";
+    }
+
+
 
     @GetMapping("/reservation/{id}")
     public String cafe(@PathVariable("id") int cafeId, @SessionAttribute(value = "user", required = false) UserDTO user, Model model, RedirectAttributes redirectAttributes) {

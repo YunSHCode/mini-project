@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<head>
+    <style>
+        .wrapper1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            padding: 20px;
+        }
+
+        #cafecon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50%;
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 30px;
+            border: 2px solid black;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .info-section h1 {
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .address, .hours, .contact, .links {
+            margin-bottom: 10px;
+        }
+
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-left: 20px;
+        }
+
+        .image-section img {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+        .menu{
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                crossorigin="anonymous"></script>
+        <div>
+            <div class="wrapper1">
+                <div class="container" id="cafecon">
+                    <div class="info-section">
+                        <h1>오무오무 </h1>
+                        <p class="address">
+                            📍 서울 광진구 능동로37길 40-5 1층<br>
+                        </p>
+                        <p class="hours">⏰ 09:30 시작 · 매장 23:15에 영업 종료</p>
+                        <p class="contact">📞 0507-1431-2248</p>
+                        <p class="links">
+                            🔗 <a href="https://map.naver.com/p/search/오무오무/place/1491662353?placePath=?entry=pll&from=nx&fromNxList=true&searchType=place&c=15.00,0,0,3,dh" target="_blank">네이버 링크</a><br>
+                        </p>
+                        <div class="menu">
+
+                            <ol>
+                                <p>🚩메뉴 리스트</p>
+                                <li> 통단호박 케익</li>
+                                <li> 찹쌀 파이</li>
+                                <li> 비스코티</li>
+                            </ol>
+                            <div class="image-section" >
+                                <img src="/images/cafe/25b2b777-7fc5-406e-a8be-ccd06e1fc7be.jpg" alt="카페 이미지" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
