@@ -59,7 +59,7 @@
 ## 🟨 6. 테스트 결과
 
 ### Frontend 테스트 결과
-<img src="/src/main/resources/static/images/frontend_test_results.png" alt="Frontend Test Results" width="80%">
+[Frontend 테스트 결과 보기](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?usp=sharing)
 
 ### Backend 테스트 결과
 <img src="/src/main/resources/static/images/backend_test_results.png" alt="Backend Test Results" width="80%">
