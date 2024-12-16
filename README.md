@@ -62,6 +62,6 @@
 [Frontend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?usp=sharing)
 
 ### Backend 테스트 결과
-[Backend 테스트 결과 보기](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?usp=sharing)
+[Backend 테스트 결과 보기](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=475843754#gid=475843754)
 
 ---
