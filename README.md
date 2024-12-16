@@ -4,7 +4,7 @@
 
 ### 🔻 팀원 
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/YunSHCode) **윤성훈**  
-[<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/Sosohy) **김다울**  
+[<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/05Daul) **김다울**  
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/nao0963) **김선영**  
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/netioz) **김민지**  
 [<img src="https://img.shields.io/badge/Github-Link-181717?logo=Github">](https://github.com/7-Full-stackbackendLEEHYOJAE) **이효재**  
@@ -44,8 +44,24 @@
 
 ---
 
-## 🟧 4. FlowChart
+## 🟧 4. 기능 명세서
 
-<img src="/src/main/resources/static/images/FlowChart.png" alt="FlowChart" width="80%">
+> 기능 명세서를 여기에 추가합니다. 주요 기능, 사용 사례, 시나리오 등을 문서화합니다.
+
+---
+
+## 🟪 5. 요구사항 명세서
+
+> 요구사항 명세서를 여기에 추가합니다. 사용자 요구사항, 비즈니스 요구사항 등을 문서화합니다.
+
+---
+
+## 🟨 6. 테스트 결과
+
+### Frontend 테스트 결과
+<img src="/src/main/resources/static/images/frontend_test_results.png" alt="Frontend Test Results" width="80%">
+
+### Backend 테스트 결과
+<img src="/src/main/resources/static/images/backend_test_results.png" alt="Backend Test Results" width="80%">
 
 ---
