@@ -46,22 +46,22 @@
 
 ## 🟧 4. 기능 명세서
 
-> 기능 명세서를 여기에 추가합니다. 주요 기능, 사용 사례, 시나리오 등을 문서화합니다.
+[기능 명세서](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1791406220#gid=1791406220)
 
 ---
 
 ## 🟪 5. 요구사항 명세서
 
-> 요구사항 명세서를 여기에 추가합니다. 사용자 요구사항, 비즈니스 요구사항 등을 문서화합니다.
+[요구사항 명세서](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1670477596#gid=1670477596)
 
 ---
 
 ## 🟨 6. 테스트 결과
 
 ### Frontend 테스트 결과
-[Frontend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?usp=sharing)
+[Frontend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1518302369#gid=1518302369)
 
 ### Backend 테스트 결과
-[Backend 테스트 결과 보기](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=475843754#gid=475843754)
+[Backend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=475843754#gid=475843754)
 
 ---
