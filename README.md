@@ -36,7 +36,7 @@
 - **GitHub**: 협업 및 코드 저장소
 - **IntelliJ IDEA**: 백엔드 개발 환경
 
- ---
+---
 
 ## 🟦 3. ERD (Entity-Relationship Diagram)
 
@@ -44,24 +44,58 @@
 
 ---
 
-## 🟧 4. 기능 명세서
+## 🟨 4. 화면 설계서
+
+### 페이지 선택
+<details>
+  <summary>Main Page</summary>    
+  <img src=""/>    
+</details>
+
+<details>
+  <summary>UserPage</summary>    
+<img src=""/>    
+</details>
+
+<details>
+  <summary>Cafe & Reservation Page</summary>    
+<img src=""/>    
+</details>
+
+<details>
+  <summary>Group Page</summary>    
+<img src=""/>    
+</details>
+
+<details>
+  <summary>Feed Page</summary>    
+<img src=""/>    
+</details>
+
+<details>
+  <summary>Board Page</summary>    
+<img src=""/>    
+</details>
+
+
+---
+
+## 🟧 5. 기능 명세서
 
 [기능 명세서](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1791406220#gid=1791406220)
 
 ---
 
-## 🟪 5. 요구사항 명세서
+## 🟪 6. 요구사항 명세서
 
 [요구사항 명세서](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1670477596#gid=1670477596)
 
 ---
 
-## 🟨 6. 테스트 결과
+## 🟨 7. 테스트 결과
 
 ### Frontend 테스트 결과
 [Frontend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=1518302369#gid=1518302369)
 
 ### Backend 테스트 결과
 [Backend 테스트 결과](https://docs.google.com/spreadsheets/d/1VlRIEm97TF-sAsTUuvemY0y4OFjPHJ-vdtcl8LMIWGc/edit?gid=475843754#gid=475843754)
-
----
