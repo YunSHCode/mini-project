@@ -49,22 +49,31 @@
 ### 페이지 선택
 <details>
   <summary>Main Page</summary>    
-  <img src=""/>    
+  <img src="/images/Main_page_1.png"/>    
 </details>
 
 <details>
   <summary>UserPage</summary>    
-<img src=""/>    
+  <img src="/images/User_page_1.png"/>   
+  <img src="/images/User_page_2.png"/>   
+  <img src="/images/User_page_3.png"/>   
+  <img src="/images/User_page4.png"/>   
 </details>
 
 <details>
   <summary>Cafe & Reservation Page</summary>    
-<img src=""/>    
+<img src="/images/C&R_page_1.png"/>    
+  <img src="/images/C&R_page_2.png"/> 
+  <img src="/images/C&R_page_3.png"/> 
+  <img src="/images/C&R_page_4.png"/> 
 </details>
 
 <details>
   <summary>Group Page</summary>    
-<img src=""/>    
+<img src="/images/Group_page_1.png"/>    
+  <img src="/images/Group_page_2.png"/>   
+  <img src="/images/Group_page_3.png"/>   
+  <img src="/images/Group_page_4.png"/>   
 </details>
 
 <details>
@@ -74,7 +83,10 @@
 
 <details>
   <summary>Board Page</summary>    
-<img src=""/>    
+<img src="/images/Board_page_1.png"/>
+  <img src="/images/Board_page_2.png"/>
+  <img src="/images/Board_page_3.png"/>
+  <img src="/images/Board_page_4.png"/>
 </details>
 
 
