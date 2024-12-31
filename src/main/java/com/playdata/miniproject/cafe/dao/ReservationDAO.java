@@ -18,4 +18,6 @@ public interface ReservationDAO {
     List<ReservationSuccess> getReservationsByUser(int userKey, int offset, int size);
 
     int countReservationByUser(int userKey);
+
+    void cancelReservation(int reservationId);
 }

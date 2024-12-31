@@ -49,15 +49,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <!-- 작성자 정보 -->
                     <p class="text-muted mb-0">
-                        <img src="/images/user/default_user.png" width="32" height="32" class="rounded-circle">
+                        <img th:src="@{${board.userProfilePictureGenerated != null ? '/upload/user/' + board.userProfilePictureGenerated : '/images/user/default_user.png'}}" width="32" height="32" class="rounded-circle">
                         <strong th:text="${board.userNickname}">작성자 ID</strong>
                     </p>
-
-                    <!-- 수정/삭제 버튼 -->
-                    <div>
-                        <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
-                        <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger">삭제</a>
-                    </div>
                 </div>
                 <hr>
 
@@ -84,8 +78,6 @@
             </div>
             <!-- 버튼 -->
             <div class="d-flex justify-content-end">
-                <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-primary me-2">수정</a>
-                <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-danger me-2">삭제</a>
                 <a th:href="@{/board/boardList}" class="btn btn-secondary">목록으로</a>
             </div>
             <div id="boardData" th:data-board-id="${board.boardId}" th:data-board-content="${board.boardContent}"></div>

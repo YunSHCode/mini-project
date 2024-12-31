@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+<head>
+    <style>
+        .wrapper1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            padding: 20px;
+        }
+
+        #cafecon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50%;
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 30px;
+            border: 2px solid black;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .info-section h1 {
+            margin: 0 0 10px;
+            color: #2c3e50;
+        }
+
+        .address, .hours, .contact, .links {
+            margin-bottom: 10px;
+        }
+
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-left: 20px;
+        }
+
+        .image-section img {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+        .menu{
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                crossorigin="anonymous"></script>
+        <div>
+            <div class="wrapper1">
+                <div class="cafecon" id="cafecon">
+                    <div class="info-section">
+                        <h1>카페 유로카</h1>
+                        <p class="address">
+                            📍 서울 서초구 서초대로50길 8 관정빌딩 1층 카페 유로카<br>
+                        </p>
+                        <p class="hours">⏰ 08:30 시작 · 매장 20:00에 영업 종료</p>
+                        <p class="contact">📞 0507-1318-5018</p>
+                        <p class="links">
+                            🔗 <a
+                                href="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%EC%B9%B4%ED%8E%98%EC%9C%A0%EB%A1%9C%EC%B9%B4"
+                                target="_blank">네이버 링크</a><br>
+                        </p>
+                        <div class="menu">
+                            <ol>
+                                <p>🚩메뉴 리스트</p>
+                                <li> 오리지널 쇼콜라 케이크</li>
+                                <li> 떠먹는 케이크</li>
+                                <li> 바닐라빈 라떼</li>
+                            </ol>
+                            <div class="image-section">
+                                <img src="/images/menu/ff5321f6-b201-4055-89b3-c28e48e83d7e.jpg" alt="카페 이미지">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

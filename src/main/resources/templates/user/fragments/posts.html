@@ -1,0 +1,43 @@
+<th:block th:fragment="postTable">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>제목</th>
+      <th>작성 날짜</th>
+      <th>상세보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board, iterStat : ${myBoardPage.content}">
+      <td th:text="${iterStat.index + 1 + (myBoardPage.number * myBoardPage.size)}"></td>
+      <td th:text="${board.boardTitle}"></td>
+      <td th:text="${#temporals.format(board.boardCreateDt, 'yyyy-MM-dd HH:mm')}"></td>
+      <td>
+        <a th:href="@{/board/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary">보기</a>
+        <a th:href="@{/board/edit/{id}(id=${board.boardId})}" class="btn btn-sm btn-primary me-2">수정</a>
+        <a th:href="@{/board/delete/{id}(id=${board.boardId})}" class="btn btn-sm btn-danger">삭제</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- 게시글 페이징 -->
+  <nav>
+    <ul class="pagination">
+      <!-- 이전 버튼 -->
+      <li class="page-item" th:classappend="${myBoardPage.hasPrevious()} ? '' : 'disabled'">
+        <a class="page-link" href="#" onclick="loadPage(${myBoardPage.number - 1})" aria-label="Previous">이전</a>
+      </li>
+      <!-- 페이지 번호 -->
+      <li class="page-item" th:each="i : ${#numbers.sequence(0, myBoardPage.totalPages - 1)}"
+          th:classappend="${i == myBoardPage.number} ? 'active'">
+        <a class="page-link" href="#" onclick="loadPage(${i})" th:text="${i + 1}"></a>
+      </li>
+      <!-- 다음 버튼 -->
+      <li class="page-item" th:classappend="${myBoardPage.hasNext()} ? '' : 'disabled'">
+        <a class="page-link" href="#" onclick="loadPage(${myBoardPage.number + 1})" aria-label="Next">다음</a>
+      </li>
+    </ul>
+  </nav>
+</th:block>

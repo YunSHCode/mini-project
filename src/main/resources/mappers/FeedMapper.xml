@@ -4,23 +4,46 @@
 
 <mapper namespace="com.playdata.miniproject.feed.mapper.FeedMapper">
 
-    <!-- 모든 Feed 조회 -->
-    <select id="getAllFeeds" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
-        SELECT * FROM feed
-        ORDER BY feed_create_dt desc
+    <!-- Feed 조회 -->
+    <!-- 모든 피드 조회하기 -->
+    <select id="getAllFeeds" resultType="com.playdata.miniproject.feed.dto.FeedListDTO">
+        SELECT f.*, u.user_nickname, u.user_vegan_type
+        FROM feed f
+                 JOIN users u ON f.user_key = u.user_key
+        ORDER BY feed_create_dt desc;
     </select>
 
+
+    <select id="getFeedById" resultType="com.playdata.miniproject.feed.dto.FeedListDTO">
+        SELECT *
+        FROM feed f
+        WHERE feed_id = #{feedId}
+    </select>
+
+    <!-- 파일 조회하기 -->
     <select id="getFeedFiles" resultType="com.playdata.miniproject.feed.dto.FeedfileDTO">
         SELECT * FROM feed_files
         WHERE feed_id = #{feedID}
     </select>
 
-    <!-- 특정 유저의 Feed 조회 -->
-    <select id="getFeedsByUser" parameterType="int" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
-        SELECT * FROM feed f
-                          LEFT JOIN users u ON f.user_key = u.user_key
-        WHERE user_key = #{userKey}
+    <!-- 나의 피드 갖고오기 -->
+    <select id="getFeedsByUser" parameterType="int" resultType="feedList">
+        SELECT f.*, u.user_nickname, u.user_vegan_type
+        FROM feed f
+                 LEFT JOIN users u ON f.user_key = u.user_key
+        WHERE f.user_key = #{userKey}
+        ORDER BY feed_create_dt desc;
     </select>
+
+    <!-- 나의 피드 갯수 조회하기 -->
+    <select id="myFeedCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) AS feedCount
+        FROM feed f
+                 LEFT JOIN users u ON f.user_key = u.user_key
+        WHERE f.user_key = #{userKey}
+    </select>
+
+
 
     <!-- 특정 태그로 Feed 조회 -->
     <select id="getFeedsByTag" parameterType="String" resultType="com.playdata.miniproject.feed.dto.FeedDTO">
@@ -32,29 +55,19 @@
     <insert id="insertFeed" parameterType="com.playdata.miniproject.feed.dto.FeedDTO" useGeneratedKeys="true" keyProperty="feedId">
         INSERT INTO feed
         (
-            <!-- feed_id, -->
             user_key,
-            <!-- feed_comment_id, -->
-            <!-- feed_file_id, -->
             feed_content,
             feed_create_dt,
             feed_update_dt,
             feed_tag
         )
         VALUES
-        (
-            <!-- #{feedId}, -->
-        #{userKey},
-        <!-- <if test="feedCommentId != null">#{feedCommentId}</if> -->
-        <!-- <if test="feedCommentId == null">NULL</if>, -->
-        <!-- #{feedFileId}, -->
-        #{feedContent},
-        NOW(),
-        NOW(),
-        <!-- #{feedCreateDt},
-        <if test="feedUpdateDt != null">#{feedUpdateDt}</if>
-        <if test="feedUpdateDt == null">NULL</if>, -->
-        #{feedTag})
+            (
+                #{userKey},
+                #{feedContent},
+                NOW(),
+                NOW(),
+                #{feedTag})
     </insert>
 
     <!-- Feed 수정 -->
@@ -72,6 +85,11 @@
         WHERE feed_id = #{feedId}
     </delete>
 
+<!--    <delete id="deleteFeedCommentByFeedId" parameterType="int">-->
+<!--        DELETE FROM feed_comments-->
+<!--        WHERE feed_id = #{feedId}-->
+<!--    </delete>-->
+
     <!-- Feed 파일 등록 -->
     <insert id="insertFeedFiles" parameterType="java.util.List">
         <!-- INSERT INTO feed_file -->
@@ -87,5 +105,9 @@
             #{file.feedId})
         </foreach>
     </insert>
+
+
+
+
 
 </mapper>

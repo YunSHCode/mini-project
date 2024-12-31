@@ -84,4 +84,8 @@
         r.reservation_pickup_time DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
+    <delete id="cancelReservation" parameterType="int">
+        DELETE FROM reservation
+        WHERE reservation_id = #{reservationId}
+    </delete>
 </mapper>

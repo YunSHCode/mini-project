@@ -18,7 +18,7 @@
     <!-- ID로 게시글 조회 -->
     <select id="readBoardById" parameterType="int" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_nickname
+            b.*, u.user_nickname, u.user_profile_picture_generated
         FROM board b
                  LEFT JOIN users u ON b.user_key = u.user_key
         WHERE board_id = #{id}
@@ -27,7 +27,7 @@
     <!-- 게시판 조회 -->
     <select id="getBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_nickname
+            b.*, u.user_nickname, u.user_profile_picture_generated
         FROM board b
                  LEFT JOIN users u ON b.user_key = u.user_key
         ORDER BY b.board_id DESC
@@ -37,7 +37,7 @@
     <!-- 검색 게시판 조회 -->
     <select id="searchBoards" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_nickname
+            b.*, u.user_nickname, u.user_profile_picture_generated
         FROM board b
                  LEFT JOIN users u ON b.user_key = u.user_key
         WHERE ${category} LIKE CONCAT('%', #{keyword}, '%')
@@ -87,7 +87,7 @@
     <!-- 게시글 목록 조회 쿼리 -->
     <select id="getBoardByUser" resultType="com.playdata.miniproject.board.dto.BoardWithUserDTO">
         SELECT
-            b.*, u.user_nickname
+            b.*, u.user_nickname, u.user_profile_picture_generated
         FROM board b
                  JOIN users u ON b.user_key = u.user_key
         WHERE b.user_key = #{userKey}

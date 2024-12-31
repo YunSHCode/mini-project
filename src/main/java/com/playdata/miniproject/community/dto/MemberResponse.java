@@ -11,4 +11,6 @@ public class MemberResponse {
     int userKey;       // 멤버 ID
     String userNickname;  // 멤버 닉네임
     String userProfilePictureGenerated; // 멤버 사진
+    String userPhoneNumber;
+    String memberStatus;
 }

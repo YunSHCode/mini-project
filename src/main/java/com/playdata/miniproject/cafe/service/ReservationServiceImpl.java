@@ -65,4 +65,9 @@ public class ReservationServiceImpl implements ReservationService{
         int total = reservationDAO.countReservationByUser(userKey);
         return new PageImpl<>(reservations, PageRequest.of(page,size), total);
     }
+
+    @Override
+    public void cancelReservation(int reservationId) {
+        reservationDAO.cancelReservation(reservationId);
+    }
 }

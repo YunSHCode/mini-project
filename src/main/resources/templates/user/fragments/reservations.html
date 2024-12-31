@@ -1,0 +1,43 @@
+<th:block th:fragment="reservationTable">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>카페 이름</th>
+      <th>픽업 시간</th>
+      <th>상세 보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation, iterStat : ${myReservationsPage.content}">
+      <td th:text="${iterStat.index + 1 + (myReservationsPage.number * myReservationsPage.size)}"></td>
+      <td th:text="${reservation.cafeName}"></td>
+      <td th:text="${#temporals.format(reservation.reservationPickupTime, 'yyyy-MM-dd HH:mm')}"></td>
+      <td>
+        <button class="btn btn-sm btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#reservationModal"
+                th:attr="data-reservation-id=${reservation.reservationId}">
+          상세보기
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- 예약 페이징 -->
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" th:classappend="${myReservationsPage.hasPrevious()} ? '' : 'disabled'">
+        <a class="page-link" th:href="@{/user/mypage/reservations(page=${myReservationsPage.number - 1})}" aria-label="Previous">이전</a>
+      </li>
+      <li class="page-item" th:each="i : ${#numbers.sequence((myReservationsPage.number / 10) * 10, ((myReservationsPage.number / 10) * 10) + 9)}"
+          th:classappend="${i == myReservationsPage.number} ? 'active'" th:if="${i < myReservationsPage.totalPages}">
+        <a class="page-link" th:href="@{/user/mypage/reservations(page=${i})}" th:text="${i + 1}"></a>
+      </li>
+      <li class="page-item" th:classappend="${myReservationsPage.hasNext()} ? '' : 'disabled'">
+        <a class="page-link" th:href="@{/user/mypage/reservations(page=${myReservationsPage.number + 1})}" aria-label="Next">다음</a>
+      </li>
+    </ul>
+  </nav>
+</th:block>

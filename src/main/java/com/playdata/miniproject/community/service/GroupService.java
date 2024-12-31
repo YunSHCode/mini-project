@@ -20,4 +20,18 @@ public interface GroupService {
     boolean isMemberAlreadyRequested(int userKey, int communityId);
 
     void requestToJoin(int userKey, int communityId);
+
+    Page<GroupListResponse> findMyCreatedGroups(int userKey, int groupPage, int groupSize);
+
+    void updateCommunity(GroupRequest groupRequest, String oldFileName);
+
+    void deleteCommunity(int id);
+
+    List<MemberResponse> getPendingMembers(int groupId);
+
+    void approveMember(int communityId, int userKey);
+
+    void removeMember(int communityId, int userKey, boolean isExpelled);
+
+    Page<GroupListResponse> findMyGroups(int userKey, String memberStatus, int groupPage, int groupSize);
 }

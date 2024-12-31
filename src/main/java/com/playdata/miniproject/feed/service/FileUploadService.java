@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 public class FileUploadService {
-    @Value("${file.dir}")
+    @Value("${file.feed.dir}")
     private String uploadpath; //file.dir=C:/fullstack7/upload/
 
     // 파일명을 전달 받아서 업로드 폴더 경로와 파일명을 연결해서 실제 어느 위치에 어떤 파일로 처리될지 full path를 만들어서 리턴하는 메소드

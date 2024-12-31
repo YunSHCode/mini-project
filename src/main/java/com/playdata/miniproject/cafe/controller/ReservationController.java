@@ -4,10 +4,7 @@ import com.playdata.miniproject.cafe.dto.ReservationRequest;
 import com.playdata.miniproject.cafe.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,5 +33,10 @@ public class ReservationController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/cancelReservation/{reservationId}")
+    public ResponseEntity<Void> cancelReservation(@PathVariable() int reservationId) {
+        reservationService.cancelReservation(reservationId); // 예약 취소 비즈니스 로직
+        return ResponseEntity.ok().build();
+    }
 
 }
