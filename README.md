@@ -78,14 +78,14 @@
 
 <details>
   <summary>Feed Page</summary>    
-<img src="/images/Feed_page_1"/>    
-  <img src="/images/Feed_page_2"/>    
-  <img src="/images/Feed_page_3"/>    
-  <img src="/images/Feed_page_4"/>    
-  <img src="/images/Feed_page_5"/>    
-  <img src="/images/Feed_page_6"/>    
-  <img src="/images/Feed_page_7"/>    
-  <img src="/images/Feed_page_8"/>    
+<img src="/images/Feed_page_1.jpg"/>    
+  <img src="/images/Feed_page_2.jpg"/>    
+  <img src="/images/Feed_page_3.jpg"/>    
+  <img src="/images/Feed_page_4.jpg"/>    
+  <img src="/images/Feed_page_5.jpg"/>    
+  <img src="/images/Feed_page_6.jpg"/>    
+  <img src="/images/Feed_page_7.jpg"/>    
+  <img src="/images/Feed_page_8.jpg"/>    
 </details>
 
 <details>
